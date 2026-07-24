@@ -1005,6 +1005,17 @@ h1,
   color: var(--gold);
 }
 
+.article-card {
+  align-content: start;
+}
+
+.article-meta {
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 .form-shell {
   padding: 28px;
   border: 1px solid var(--line);
@@ -1583,6 +1594,11 @@ const DATA = {
           ["Вебінари", "webinars.html"],
           ["Програми підвищення кваліфікації", "education.html#programs"]
         ]
+      },
+      {
+        label: "Новини",
+        href: "news.html",
+        children: []
       }
     ],
     homePage: {
@@ -1662,7 +1678,7 @@ const DATA = {
       submit: "Надіслати запит",
       thanks: "Дякуємо. Форму можна підключити до CRM або поштового сервісу."
     },
-    contacts: [["Email", "iacpp.info@gmail.com"], ["Телефон", "+380 99 537 2866"], ["Телефон", "+380 67 408 15 80"], ["Адреса", "м. Суми, вул. Атаманюка Романа, буд. 53, кв. 15"]],
+    contacts: [["Email", "iacpp.info@gmail.com"], ["Телефон", "+380 99 537 28 66"], ["Телефон", "+380 67 408 15 80"], ["Адреса", "м. Суми, вул. Атаманюка Романа, буд. 53, кв. 15"]],
     pages: {}
   },
   en: {
@@ -1744,6 +1760,11 @@ const DATA = {
           ["Webinars", "webinars.html"],
           ["Continuing education programs", "education.html#programs"]
         ]
+      },
+      {
+        label: "News",
+        href: "news.html",
+        children: []
       }
     ],
     homePage: {
@@ -1823,7 +1844,7 @@ const DATA = {
       submit: "Send request",
       thanks: "Thank you. The form can be connected to a CRM or email service."
     },
-    contacts: [["Email", "iacpp.info@gmail.com"], ["Phone", "+380 99 537 2866"], ["Phone", "+380 67 408 15 80"], ["Address", "53 Romana Atamaniuka St., apt. 15, Sumy, Ukraine"]],
+    contacts: [["Email", "iacpp.info@gmail.com"], ["Phone", "+380 99 537 28 66"], ["Phone", "+380 67 408 15 80"], ["Address", "53 Romana Atamaniuka St., apt. 15, Sumy, Ukraine"]],
     pages: {}
   }
 };
@@ -1943,6 +1964,13 @@ DATA.ua.pages = {
     sections: [
       ["courses", [["Травмаінформована комунікація", "90 хв", "Дата: буде оголошено"], ["Етика онлайн-консультування", "120 хв", "Формат: лекція та відповіді"], ["Професійне вигорання фахівців", "90 хв", "Для психологів і команд допомоги"]]],
       ["documents", [["Архів презентацій", "PDF, місце для матеріалів після подій"], ["Записи вебінарів", "Місце для посилань на відео"]]]
+    ]
+  },
+  news: {
+    title: "Новини",
+    lead: "Тут ми будемо публікувати новини асоціації, статті, анонси подій та корисні матеріали для фахівців.",
+    sections: [
+      ["articles", "Останні публікації", [["Стаття в підготовці", "Незабаром", "Місце для першої новини або статті МАКПП."], ["Анонси подій", "Незабаром", "Тут можна буде розміщувати інформацію про курси, вебінари та професійні зустрічі."], ["Корисні матеріали", "Незабаром", "Добірки, коментарі експертів та матеріали для професійної спільноти."]]]
     ]
   },
   partnership: {
@@ -2072,6 +2100,13 @@ DATA.en.pages = {
       ["documents", [["Presentation archive", "PDF, space for post-event materials"], ["Webinar recordings", "Space for video links"]]]
     ]
   },
+  news: {
+    title: "News",
+    lead: "Here we will publish association news, articles, event announcements and useful materials for specialists.",
+    sections: [
+      ["articles", "Latest publications", [["Article in preparation", "Coming soon", "Space for the first IACPP news item or article."], ["Event announcements", "Coming soon", "Information about courses, webinars and professional meetings can be published here."], ["Useful materials", "Coming soon", "Selections, expert commentary and materials for the professional community."]]]
+    ]
+  },
   partnership: {
     title: "Partnership",
     lead: "IACPP is open to cooperation with NGOs, international partners, foundations, donors, educational and medical institutions.",
@@ -2189,10 +2224,11 @@ function renderFooter(data) {
   const email = data.contacts.find(item => item[0] === "Email")?.[1] || "iacpp.info@gmail.com";
   const phones = data.contacts.filter(item => item[0] === "Телефон" || item[0] === "Phone").map(item => item[1]);
   const address = data.contacts.find(item => item[0] === "Адреса" || item[0] === "Address")?.[1] || "";
+  const quickLinks = data.nav.map(item => `<a href="${localizedHref(item.href, getLanguage())}">${item.label}</a>`).join("");
   document.querySelector("[data-footer]").innerHTML = `
     <div class="container footer-main">
       <div><div class="footer-title">${footer.title}</div><p>${footer.description}</p></div>
-      <div><div class="footer-title">${footer.quickLinks}</div><div class="footer-links"><a href="${localizedHref("about.html", getLanguage())}">${data.nav[0].label}</a><a href="${localizedHref("projects.html", getLanguage())}">${data.nav[1].label}</a><a href="${localizedHref("psychologists.html", getLanguage())}">${data.nav[2].label}</a><a href="${localizedHref("education.html", getLanguage())}">${data.nav[3].label}</a></div></div>
+      <div><div class="footer-title">${footer.quickLinks}</div><div class="footer-links">${quickLinks}</div></div>
       <div><div class="footer-title">${footer.contacts}</div><div class="footer-links"><a href="mailto:${email}">${email}</a>${phones.map(phone => `<a href="tel:+${phone.replace(/\D/g, "")}">${phone}</a>`).join("")}${address ? `<span>${address}</span>` : ""}</div></div>
       <div><div class="footer-title">${footer.socials}</div><p>${footer.socialsText}</p><div class="socials"><a href="https://www.facebook.com/share/1945fZi6ND/" target="_blank" rel="noopener" aria-label="Facebook">Fb</a></div></div>
     </div>
@@ -2261,6 +2297,7 @@ function renderSection(section, data) {
   }
   if (type === "projects") return projectsBlock(section[1], section[2], data);
   if (type === "linkCards") return linkCardsBlock(section[1], data[section[2]], section[3], data, "", false);
+  if (type === "articles") return articlesBlock(section[1], section[2]);
   if (type === "courses") return coursesBlock(section[1], data);
   return "";
 }
@@ -2333,6 +2370,11 @@ function contactCard(item) {
 
 function projectsBlock(id, title, data) {
   return `<section id="${id}" class="content-panel reveal"><h2 class="section-title">${title}</h2><div class="grid grid-3">${data.projects.map(project => projectCard(project, data)).join("")}</div></section>`;
+}
+
+function articlesBlock(title, items) {
+  const articles = items.map(item => `<article class="card article-card"><div class="article-meta">${item[1]}</div><h3>${item[0]}</h3><p>${item[2]}</p></article>`).join("");
+  return `<section class="content-panel reveal"><h2 class="section-title">${title}</h2><div class="grid grid-3">${articles}</div></section>`;
 }
 
 function projectCard(project, data) {
@@ -2424,7 +2466,7 @@ function scrollToPageAnchor() {
   requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" }));
 }
 
-const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","partnership.html":"partnership"};
+const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","news.html":"news","partnership.html":"partnership"};
 const STANDALONE_FILES=Object.fromEntries(Object.entries(STANDALONE_ROUTES).map(([file,page])=>[page,file]));
 function standaloneRouteFromHash(){const raw=decodeURIComponent(window.location.hash.replace(/^#/,""));const[page="home",anchor=""]=raw.split(":");return{page:page||"home",anchor};}
 currentFile=function(){const route=standaloneRouteFromHash();return STANDALONE_FILES[route.page]||"index.html";};
