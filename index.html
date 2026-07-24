@@ -1998,7 +1998,7 @@ DATA.ua.pages = {
   },
   news: {
     title: "Новини",
-    lead: "Тут ми будемо публікувати новини асоціації, статті, анонси подій та корисні матеріали для фахівців.",
+    lead: "",
     sections: [
       ["articles", "Останні публікації", [["Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", "Покроковий алгоритм для клінічних психологів: як використати сезонне уповільнення для аудиту практики, супервізії та профілактики виснаження."]]],
       ["article", "Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", [
@@ -2161,7 +2161,7 @@ DATA.en.pages = {
   },
   news: {
     title: "News",
-    lead: "Association news, articles, event announcements and useful materials for specialists.",
+    lead: "",
     sections: [
       ["articles", "Latest publications", [["Professional reset in July: private practice audit, supervision and prevention", "Article in Ukrainian", "The full article is available in the Ukrainian version of the website."]]]
     ]
@@ -2323,7 +2323,7 @@ function renderPage(data, pageKey) {
       <div class="container">
         <nav class="breadcrumbs" aria-label="${data.breadcrumbsLabel}"><a href="index.html${langQuery(getLanguage())}">${data.home}</a><span>/</span><span>${page.title}</span></nav>
         <h1 class="page-title">${page.title}</h1>
-        <p class="lead">${page.lead}</p>
+        ${page.lead ? `<p class="lead">${page.lead}</p>` : ""}
       </div>
     </section>
     <section class="section">
