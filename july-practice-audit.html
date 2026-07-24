@@ -145,10 +145,16 @@
       padding-left: 24px;
     }
 
-    [data-lang-content] {
+    html[data-lang="en"] [data-lang-content="ua"],
+    html[data-lang="ua"] [data-lang-content="en"] {
       display: none;
     }
 
+    html:not([data-lang]) [data-lang-content="en"] {
+      display: none;
+    }
+
+    html:not([data-lang]) [data-lang-content="ua"],
     html[data-lang="ua"] [data-lang-content="ua"],
     html[data-lang="en"] [data-lang-content="en"] {
       display: grid;

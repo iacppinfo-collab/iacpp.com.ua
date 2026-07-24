@@ -1032,6 +1032,18 @@ a.article-card:focus-visible {
   gap: 18px;
 }
 
+.article-page-section {
+  padding-top: 28px;
+}
+
+.article-page-layout {
+  display: block;
+}
+
+.article-page-layout .article-full {
+  max-width: 880px;
+}
+
 .article-full h2 {
   margin-bottom: 2px;
 }
@@ -2370,6 +2382,8 @@ function renderHome(data) {
 
 function renderPage(data, pageKey) {
   const page = data.pages[pageKey] || data.pages.about;
+  const renderedSections = page.sections.map(section => renderSection(section, data)).join("");
+  const isArticlePage = page.sections.length === 1 && page.sections[0][0] === "article";
   document.getElementById("main").innerHTML = `
     <section class="page-hero">
       <div class="container">
@@ -2378,9 +2392,9 @@ function renderPage(data, pageKey) {
         ${page.lead ? `<p class="lead">${page.lead}</p>` : ""}
       </div>
     </section>
-    <section class="section">
-      <div class="container page-layout">
-        <div class="content-panel">${page.sections.map(section => renderSection(section, data)).join("")}</div>
+    <section class="section${isArticlePage ? " article-page-section" : ""}">
+      <div class="container ${isArticlePage ? "article-page-layout" : "page-layout"}">
+        ${isArticlePage ? renderedSections : `<div class="content-panel">${renderedSections}</div>`}
       </div>
     </section>`;
 }
