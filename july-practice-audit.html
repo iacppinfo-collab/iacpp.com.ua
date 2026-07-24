@@ -3,14 +3,331 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Професійне перезавантаження в липні</title>
-  <meta http-equiv="refresh" content="0; url=index.html#july-practice-audit">
-  <script>
-    const query = window.location.search || "";
-    window.location.replace(`index.html${query}#july-practice-audit`);
-  </script>
+  <title>Професійне перезавантаження в липні | МАКПП</title>
+  <style>
+    :root {
+      --navy: #0d2b4d;
+      --gold: #b98a2d;
+      --ink: #1f2d3d;
+      --muted: #647084;
+      --line: #e3e8ef;
+      --soft: #f6f8fb;
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang,
+    .back {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lang.is-active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .hero {
+      padding: 54px 0 26px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2rem, 6vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    main {
+      padding: 42px 0 70px;
+    }
+
+    article {
+      display: grid;
+      gap: 18px;
+      max-width: 880px;
+    }
+
+    .meta {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 12px 0 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    p,
+    li {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.78;
+    }
+
+    ul,
+    ol {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    [data-lang-content] {
+      display: none;
+    }
+
+    html[data-lang="ua"] [data-lang-content="ua"],
+    html[data-lang="en"] [data-lang-content="en"] {
+      display: grid;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 0.9rem;
+      }
+
+      .back {
+        display: none;
+      }
+
+      .hero {
+        padding: 38px 0 20px;
+      }
+
+      main {
+        padding: 30px 0 54px;
+      }
+
+      p,
+      li {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <p><a href="index.html#july-practice-audit">Відкрити статтю</a></p>
+  <header class="header">
+    <div class="container topbar">
+      <a class="brand" href="index.html#home">МАКПП</a>
+      <div class="actions">
+        <a class="back" href="index.html#news" data-label-ua="До новин" data-label-en="Back to news">До новин</a>
+        <button class="lang is-active" type="button" data-lang-button="ua">UA</button>
+        <button class="lang" type="button" data-lang-button="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html#home" data-label-ua="Головна" data-label-en="Home">Головна</a><span>/</span><a href="index.html#news" data-label-ua="Новини" data-label-en="News">Новини</a></div>
+      <h1 data-title-ua="Професійне перезавантаження в липні" data-title-en="Professional reset in July">Професійне перезавантаження в липні</h1>
+    </div>
+  </section>
+
+  <main class="container">
+    <article data-lang-content="ua">
+      <div class="meta">Стаття</div>
+      <h2>Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика</h2>
+      <p>Середина літа традиційно супроводжується спадом клієнтської активності. Для більшості клінічних психологів, психотерапевтів та фахівців із кризового консультування липень стає періодом сезонної паузи: частина клієнтів іде у відпустки, інтенсивність сімейних та індивідуальних запитів тимчасово знижується, а щоденний графік вивільняє додаткові години.</p>
+      <p>Однак для професійного психолога липень - це не просто часове вікно між сесіями, а стратегічно важливий ресурс. Працюючи в умовах тривалого суспільного стресу, високої інтенсивності клінічних випадків та емоційного навантаження, фахівець ризикує непомітно увійти в стан вторинної травматизації або хронічного виснаження. Перебування в постійній позиції «тримати простір для інших» вимагає від нас періодичного повернення до власної опори.</p>
+      <p>Сезонне уповільнення в липні пропонує ідеальний контекст для системного «перезавантаження». Це час для проведення клінічного самоскринінгу, глибокої ревізії складних кейсів, оцінки ефективності приватної практики та формування навчального маршруту на наступний терапевтичний рік. Дана стаття покликана надати клінічним психологам структурований покроковий алгоритм аудиту власної діяльності та профілактики емоційного вигорання.</p>
+      <h2>Вторинний травматичний стрес і втома від співчуття</h2>
+      <p>Вторинний травматичний стрес та «втома від співчуття» - це професійні ризики, з якими щодня зіштовхується клінічний психолог. На відміну від класичного синдрому емоційного вигорання, яке розвивається поступово через організаційні чинники та рутину, втома від співчуття може виникати гостро як результат систематичного занурення в травматичний досвід клієнтів.</p>
+      <p>Для системного оцінювання стану терапевта під час літнього аудиту практики потрібен глибокий диференційований підхід, що спирається на триваюче спостереження за трьома ключовими вимірами.</p>
+      <p>Першою сигналізує тілесна сфера: емоційне виснаження буквально матеріалізується через дисомнію - від виснажливої пресомнічної румінації до поверхневого сну й хронічного постсомнічного дефіциту. Тіло реагує формуванням щільного соматотонічного панцира - це біологічний механізм замикання емоцій у тілі. Коли людина пригнічує плач, гнів або страх, тіло стискає відповідні групи м'язів, щоб стримати афект. З часом цей тимчасовий захист стає хронічним фоновим тонусом.</p>
+      <p>Афективно-когнітивний шар розгортається не менш виразно: терапевт видобуває захисну деперсоналізацію через емоційне капсулювання, те саме відчуття «кам'яної стіни», та легкий цинізм. Паралельно падає здатність контейнувати складні афекти клієнтів, з'являється дисфорійний фон, тане відчуття власної професійної самоефективності, а когнітивний фокус розмивається - стає важче утримувати увагу, оперативну пам'ять та проводити гнучку концептуалізацію кейсу тут і зараз.</p>
+      <p>Зрештою, ці процеси проявляються на поведінковому рівні. Дезадаптація проростає пасивним опором - від прокрастинації з документацією до систематичних запізнень і навіть скасувань сесій, поступовою ерозією терапевтичних меж - від розмивання сеттінгу до надмірної позасесійної комунікації - та вторинною десоціалізацією з виразним прагненням до самоізоляції. Системна фіксація цієї тріади - це не просто спостереження, а єдиний надійний спосіб відрізнити накопичувальну професійну деструкцію від звичайної сезонної втоми.</p>
+      <h2>Аудит клінічного портфоліо</h2>
+      <p>Липень - оптимальний час для того, щоб підбити проміжні підсумки терапевтичної роботи з клієнтами та провести аналіз власного клінічного портфоліо.</p>
+      <p>По-перше, проаналізуйте свою практику та виділіть кейси, де відчувається стагнація або опір:</p>
+      <ul>
+        <li>З якими клієнтами динаміка просування зупинилася?</li>
+        <li>Де ви відчуваєте контртрансферентний тиск, наприклад надмірне бажання «врятувати» або, навпаки, бажання завершити терапію?</li>
+        <li>Які етичні або клінічні дилеми залишилися неопрацьованими протягом весняного сезону?</li>
+      </ul>
+      <p>По-друге, сформуйте перелік випадків для індивідуальної або групової супервізії на початок осені. Оформити супервізійний запит варто вже зараз, деталізувавши:</p>
+      <ol>
+        <li>Клінічний гіпотетичний портрет клієнта та структуру його особистості.</li>
+        <li>Точку, в якій виникає контртрансфер або відчуття глухого кута.</li>
+        <li>Чітке запитання до супервізора щодо стратегії, техніки чи особистої позиції терапевта.</li>
+      </ol>
+      <h2>Організаційний аудит приватної практики</h2>
+      <p>Клінічна практика - це не лише терапевтичний простір, а й організаційна система, яка вимагає прозорості, впорядкованості та фінансової екологічності.</p>
+      <h2>Фінансовий аналіз та сеттінг</h2>
+      <ul>
+        <li>Оцінка сітки розкладу: яка оптимальна кількість сесій на тиждень дозволяє вам зберігати високу якість роботи без шкоди для здоров'я?</li>
+        <li>Перегляд вартості консультацій: липень - сприятливий час для перерахунку вартості послуг на новий сезон із урахуванням інфляції, професійного зростання та підвищення кваліфікації.</li>
+        <li>Аналіз політики скасувань: перевірте, чи чітко працює ваш сеттінг щодо оплати пропущених сесій та пізніх скасувань.</li>
+      </ul>
+      <h2>Впорядкування документації та робочого простору</h2>
+      <ul>
+        <li>Впорядкуйте клінічні картки, протоколи та записи сесій з дотриманням правил конфіденційності та законодавства про захист персональних даних.</li>
+        <li>Оновіть інформовану згоду для нових клієнтів, включивши туди уточнені пункти про правила зв'язку між сесіями, форс-мажори та роботу під час повітряних тривог, відключень світла та інші важливі умови.</li>
+      </ul>
+      <h2>Планування професійного розвитку</h2>
+      <p>Безперервний професійний розвиток має бути системним, а не хаотичним. Вибір навчальних програм на осінь варто робити на основі аналізу власної практики, а не під впливом маркетингових трендів.</p>
+      <ol>
+        <li>Аналіз дефіциту компетенцій: подивіться на структуру вашої клієнтської бази та нові запити, з якими ви зіштовхнулися за останній рік.</li>
+        <li>Баланс між теорією та практикою: заплануйте навчання, яке поєднує фундаментальні методологічні блоки з відпрацюванням практичних навичок та інтервізіями.</li>
+        <li>Інтеграція суміжних дисциплін: розгляньте можливість поглиблення знань у психофармакології, нейробіології стресу, тілесно-орієнтованих методах або клінічній психодіагностиці.</li>
+      </ol>
+      <h2>Практичні рекомендації для липневого перезавантаження</h2>
+      <ol>
+        <li>Встановіть «інформаційний та клінічний детокс»: заплануйте щонайменше 10-14 днів повністю без прийому клієнтів, професійної літератури та тематичних чатів.</li>
+        <li>Зафіксуйте нові межі сеттінгу: визначте чіткий ліміт робочих годин на тиждень та дні, недоступні для запису клієнтів.</li>
+        <li>Запровадьте щоденні практики заземлення та релаксації: соматичні практики, дихальні вправи, прогулянки на природі.</li>
+        <li>Сформуйте графік супервізій на рік наперед.</li>
+        <li>Складіть індивідуальний план навчання: виберіть не більше 1-2 фокусних освітніх програм на осінь.</li>
+      </ol>
+      <p>Таким чином, професійне перезавантаження в липні - це необхідний елемент турботи про власну терапевтичну позицію та стійкість приватної практики. Піклування про власний стан є етичним обов'язком клінічного психолога перед своїми клієнтами.</p>
+    </article>
+
+    <article data-lang-content="en">
+      <div class="meta">Article</div>
+      <h2>Professional reset in July: private practice audit, supervision and prevention</h2>
+      <p>Mid-summer is traditionally accompanied by a decline in client activity. For most clinical psychologists, psychotherapists and crisis counselling specialists, July becomes a period of seasonal pause: some clients go on vacation, the intensity of family and individual requests temporarily decreases, and the daily schedule frees up additional hours.</p>
+      <p>For a professional psychologist, however, July is not simply a time window between sessions, but a strategically important resource. Working under prolonged social stress, high clinical intensity and emotional load, a specialist may gradually enter a state of secondary traumatization or chronic exhaustion without noticing it.</p>
+      <p>The seasonal slowdown in July offers an ideal context for a systematic reset. It is a time for clinical self-screening, deeper review of complex cases, assessment of private practice effectiveness and formation of a learning route for the next therapeutic year.</p>
+      <h2>Secondary traumatic stress and compassion fatigue</h2>
+      <p>Secondary traumatic stress and compassion fatigue are professional risks that clinical psychologists face every day. Unlike classic burnout, which develops gradually through organizational factors and routine, compassion fatigue may arise acutely as a result of systematic immersion in clients' traumatic experience.</p>
+      <p>A systematic assessment of the therapist's condition during a summer practice audit requires ongoing observation of three key dimensions: bodily signals, affective-cognitive changes and behavioral manifestations.</p>
+      <p>The bodily sphere is often the first to signal distress: emotional exhaustion may appear through dyssomnia, shallow sleep, chronic postsleep deficit and a dense somatotonic armor. Over time, temporary bodily defenses can become a chronic background tone.</p>
+      <p>The affective-cognitive layer may include emotional encapsulation, mild cynicism, reduced ability to contain complex affects, dysphoric mood, decreased professional self-efficacy and blurred cognitive focus.</p>
+      <p>At the behavioral level, maladaptation may appear as procrastination with documentation, lateness, session cancellations, erosion of therapeutic boundaries and a tendency toward self-isolation.</p>
+      <h2>Audit of the clinical portfolio</h2>
+      <p>July is an optimal time to summarize interim results of therapeutic work with clients and analyze one's clinical portfolio.</p>
+      <ul>
+        <li>With which clients has the dynamic of progress stopped?</li>
+        <li>Where do you feel countertransference pressure, such as an excessive wish to save the client or a wish to end therapy?</li>
+        <li>Which ethical or clinical dilemmas remained unprocessed during the spring season?</li>
+      </ul>
+      <p>It is also worth preparing cases for individual or group supervision at the beginning of autumn by clarifying the clinical picture, the point of difficulty and a specific question for the supervisor.</p>
+      <h2>Organizational audit of private practice</h2>
+      <p>Clinical practice is not only a therapeutic space, but also an organizational system that requires transparency, order and financial ecology.</p>
+      <h2>Financial analysis and setting</h2>
+      <ul>
+        <li>Assess your schedule: what number of sessions per week allows you to maintain quality without harming your health?</li>
+        <li>Review consultation fees for the new season, taking inflation, professional growth and continuing education into account.</li>
+        <li>Check whether your cancellation policy works clearly for missed sessions and late cancellations.</li>
+      </ul>
+      <h2>Documentation and workspace</h2>
+      <ul>
+        <li>Organize clinical cards, protocols and session notes while observing confidentiality and personal data protection rules.</li>
+        <li>Update informed consent for new clients, including communication rules, force majeure and work during air raid alerts or power outages.</li>
+      </ul>
+      <h2>Planning professional development</h2>
+      <p>Continuing professional development should be systematic, not chaotic. The choice of educational programs for autumn should be based on analysis of one's own practice, not on marketing trends.</p>
+      <ol>
+        <li>Analyze competency gaps in relation to the structure of your client base.</li>
+        <li>Choose training that balances theory with practical skill development and intervision.</li>
+        <li>Consider related areas such as psychopharmacology, stress neurobiology, body-oriented methods or clinical psychodiagnostics.</li>
+      </ol>
+      <h2>Practical recommendations for a July reset</h2>
+      <ol>
+        <li>Plan at least 10-14 days without client appointments, professional literature or thematic chats.</li>
+        <li>Define a clear limit of working hours and unavailable days for the autumn season.</li>
+        <li>Introduce daily grounding and relaxation practices.</li>
+        <li>Plan supervision for the year ahead.</li>
+        <li>Choose no more than 1-2 focused educational programs for autumn.</li>
+      </ol>
+      <p>A professional reset in July is a necessary element of caring for one's therapeutic position and the resilience of private practice. Caring for one's own condition is an ethical duty of a clinical psychologist toward their clients.</p>
+    </article>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const saved = (() => {
+      try { return localStorage.getItem("iacpp-language"); } catch (_error) { return ""; }
+    })();
+    const initial = params.get("lang") || saved || "ua";
+    const setLang = lang => {
+      const next = lang === "en" ? "en" : "ua";
+      document.documentElement.dataset.lang = next;
+      document.documentElement.lang = next === "en" ? "en" : "uk";
+      document.querySelectorAll("[data-lang-button]").forEach(button => button.classList.toggle("is-active", button.dataset.langButton === next));
+      document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
+      document.querySelector("h1").textContent = document.querySelector("h1").dataset[next === "en" ? "titleEn" : "titleUa"];
+      try { localStorage.setItem("iacpp-language", next); } catch (_error) {}
+    };
+    document.querySelectorAll("[data-lang-button]").forEach(button => button.addEventListener("click", () => setLang(button.dataset.langButton)));
+    setLang(initial);
+  </script>
 </body>
 </html>

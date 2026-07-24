@@ -2011,7 +2011,7 @@ DATA.ua.pages = {
     title: "Новини",
     lead: "",
     sections: [
-      ["articles", "Останні публікації", [["Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", "Покроковий алгоритм для клінічних психологів: як використати сезонне уповільнення для аудиту практики, супервізії та профілактики виснаження.", "#july-practice-audit"]]]
+      ["articles", "Останні публікації", [["Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", "Покроковий алгоритм для клінічних психологів: як використати сезонне уповільнення для аудиту практики, супервізії та профілактики виснаження.", "july-practice-audit.html"]]]
     ]
   },
   "july-practice-audit": {
@@ -2180,7 +2180,7 @@ DATA.en.pages = {
     title: "News",
     lead: "",
     sections: [
-      ["articles", "Latest publications", [["Professional reset in July: private practice audit, supervision and prevention", "Article", "A step-by-step guide for clinical psychologists on using the summer slowdown for practice audit, supervision and burnout prevention.", "#july-practice-audit"]]]
+      ["articles", "Latest publications", [["Professional reset in July: private practice audit, supervision and prevention", "Article", "A step-by-step guide for clinical psychologists on using the summer slowdown for practice audit, supervision and burnout prevention.", "july-practice-audit.html"]]]
     ]
   },
   "july-practice-audit": {
@@ -2487,8 +2487,10 @@ function projectsBlock(id, title, data) {
 function articlesBlock(title, items, data) {
   const articles = items.map(item => {
     const content = `<div class="article-meta">${item[1]}</div><h3>${item[0]}</h3><p>${item[2]}</p>${item[3] ? `<span class="card-link">${data.goTo}</span>` : ""}`;
+    const direct = item[3] && item[3].includes(".html");
+    const href = direct ? `${item[3]}${langQuery(getLanguage())}` : localizedHref(item[3], getLanguage());
     return item[3]
-      ? `<a class="card article-card" href="${localizedHref(item[3], getLanguage())}">${content}</a>`
+      ? `<a class="card article-card" ${direct ? 'data-direct="true"' : ""} href="${href}">${content}</a>`
       : `<article class="card article-card">${content}</article>`;
   }).join("");
   return `<section class="content-panel reveal"><h2 class="section-title">${title}</h2><div class="grid grid-3">${articles}</div></section>`;
@@ -2501,7 +2503,7 @@ function articleBlock(title, meta, blocks) {
     if (block[0] === "ol") return `<ol>${block[1].map(item => `<li>${item}</li>`).join("")}</ol>`;
     return `<p>${block[1]}</p>`;
   }).join("");
-  return `<article class="content-panel article-full reveal"><div class="article-meta">${meta}</div><h2 class="section-title">${title}</h2>${body}</article>`;
+  return `<article class="content-panel article-full"><div class="article-meta">${meta}</div><h2 class="section-title">${title}</h2>${body}</article>`;
 }
 
 function projectCard(project, data) {
@@ -2601,7 +2603,7 @@ currentPageKey=function(){return standaloneRouteFromHash().page;};
 localizedHref=function(href){if(href.startsWith("#"))return href;const[path,anchor=""]=href.split("#");const page=STANDALONE_ROUTES[path]||"home";return`#${page}${anchor?`:${anchor}`:""}`;};
 setLanguage=function(lang){try{localStorage.setItem(LANG_KEY,lang);}catch(_error){}const route=standaloneRouteFromHash();const query=lang===DEFAULT_LANG?"":`?lang=${lang}`;try{if(["file:","http:","https:"].includes(window.location.protocol))window.history.replaceState({},"",`${window.location.pathname}${query}#${route.page}${route.anchor?`:${route.anchor}`:""}`);}catch(_error){}renderSite(lang);};
 function renderStandalone(){const route=standaloneRouteFromHash();document.documentElement.dataset.page=route.page;renderSite(getLanguage());if(route.anchor)requestAnimationFrame(()=>document.getElementById(route.anchor)?.scrollIntoView({behavior:"smooth",block:"start"}));else requestAnimationFrame(()=>window.scrollTo({top:0,behavior:"smooth"}));}
-document.addEventListener("click",event=>{const link=event.target.closest("a[href]");if(!link)return;const href=link.getAttribute("href");if(!href||!href.includes(".html"))return;event.preventDefault();const hash=localizedHref(href);if(window.location.hash===hash)renderStandalone();else window.location.hash=hash;});
+document.addEventListener("click",event=>{const link=event.target.closest("a[href]");if(!link||link.dataset.direct)return;const href=link.getAttribute("href");if(!href||!href.includes(".html"))return;event.preventDefault();const hash=localizedHref(href);if(window.location.hash===hash)renderStandalone();else window.location.hash=hash;});
 window.addEventListener("hashchange",renderStandalone);if(!window.location.hash){try{if(["file:","http:","https:"].includes(window.location.protocol))window.history.replaceState({},"",`${window.location.pathname}${window.location.search}#home`);else window.location.hash="home";}catch(_error){window.location.hash="home";}}
 renderStandalone();
 </script>
