@@ -1069,6 +1069,19 @@ a.article-card:focus-visible {
   padding-left: 22px;
 }
 
+.article-figure {
+  margin: 10px 0 6px;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
 .form-shell {
   padding: 28px;
   border: 1px solid var(--line);
@@ -2079,6 +2092,11 @@ DATA.ua.pages = {
             "Запрошуємо вас приділити декілька хвилин, щоб налагодити зв'язок із собою за допомогою інтерактивного Кола Емоцій."
           ],
           [
+            "image",
+            "assets/emotion-wheel.png",
+            "Коло Емоцій"
+          ],
+          [
             "h",
             "Що таке Коло Емоцій?"
           ],
@@ -2375,6 +2393,11 @@ DATA.en.pages = {
           [
             "p",
             "We invite you to take a few minutes to reconnect with yourself through the interactive Wheel of Emotions."
+          ],
+          [
+            "image",
+            "assets/emotion-wheel.png",
+            "Wheel of Emotions"
           ],
           [
             "h",
@@ -2771,6 +2794,7 @@ function articlesBlock(title, items, data) {
 function articleBlock(title, meta, blocks) {
   const body = blocks.map(block => {
     if (block[0] === "h") return `<h3>${block[1]}</h3>`;
+    if (block[0] === "image") return `<figure class="article-figure"><img src="${block[1]}" alt="${block[2] || ""}" loading="lazy"></figure>`;
     if (block[0] === "ul") return `<ul>${block[1].map(item => `<li>${item}</li>`).join("")}</ul>`;
     if (block[0] === "ol") return `<ol>${block[1].map(item => `<li>${item}</li>`).join("")}</ol>`;
     return `<p>${block[1]}</p>`;
