@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Інтерактивне Коло Емоцій | МАКПП</title>
+  <style>
+    :root {
+      --navy: #0d2b4d;
+      --gold: #b98a2d;
+      --ink: #1f2d3d;
+      --muted: #647084;
+      --line: #e3e8ef;
+      --soft: #f6f8fb;
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang,
+    .back {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lang.is-active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .hero {
+      padding: 54px 0 26px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2rem, 6vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    main {
+      padding: 42px 0 70px;
+    }
+
+    article {
+      display: grid;
+      gap: 18px;
+      max-width: 880px;
+    }
+
+    .meta {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 12px 0 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    p,
+    li {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.78;
+    }
+
+    ul,
+    ol {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    html[data-lang="en"] [data-lang-content="ua"],
+    html[data-lang="ua"] [data-lang-content="en"] {
+      display: none;
+    }
+
+    html:not([data-lang]) [data-lang-content="en"] {
+      display: none;
+    }
+
+    html:not([data-lang]) [data-lang-content="ua"],
+    html[data-lang="ua"] [data-lang-content="ua"],
+    html[data-lang="en"] [data-lang-content="en"] {
+      display: grid;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 0.9rem;
+      }
+
+      .back {
+        display: none;
+      }
+
+      .hero {
+        padding: 38px 0 20px;
+      }
+
+      main {
+        padding: 30px 0 54px;
+      }
+
+      p,
+      li {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container topbar">
+      <a class="brand" href="index.html#home">МАКПП</a>
+      <div class="actions">
+        <a class="back" href="index.html#news" data-label-ua="До новин" data-label-en="Back to news">До новин</a>
+        <button class="lang is-active" type="button" data-lang-button="ua">UA</button>
+        <button class="lang" type="button" data-lang-button="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html#home" data-label-ua="Головна" data-label-en="Home">Головна</a><span>/</span><a href="index.html#news" data-label-ua="Новини" data-label-en="News">Новини</a></div>
+      <h1 data-title-ua="Інтерактивне Коло Емоцій" data-title-en="Interactive Wheel of Emotions">Інтерактивне Коло Емоцій</h1>
+    </div>
+  </section>
+
+  <main class="container">
+    <article data-lang-content="ua">
+      <div class="meta">Стаття</div>
+      <h2>Інтерактивне Коло Емоцій: інструмент для поглиблення самосвідомості та психотерапевтичної практики</h2>
+      <p>Розуміння та точна ідентифікація власних емоцій - це основа емоційної регуляції, відновлення стійкості та ефективної роботи з травмою. Для багатьох клієнтів, і навіть фахівців у моменти високого навантаження, виразити свій внутрішній стан словами буває непросто.</p>
+      <p>Запрошуємо вас приділити декілька хвилин, щоб налагодити зв'язок із собою за допомогою інтерактивного Кола Емоцій.</p>
+      <h2>Що таке Коло Емоцій?</h2>
+      <p>Коло Емоцій - це простий, але потужний інструмент для підтримки ментального здоров'я, розроблений для розширення емоційного лексикону та покращення самоусвідомлення. Структура колеса рухається від базових емоцій у центрі, таких як сум, страх, гнів, радість, до більш тонких, нюансованих переживань на зовнішніх колах.</p>
+      <h2>Чому це важливо для клієнтів?</h2>
+      <ul>
+        <li>Розвиток алекситимічної стійкості: допомагає перейти від узагальненого «мені погано» до точного «я відчуваю відчуженість, безпорадність або розчарування».</li>
+        <li>Зниження інтенсивності афекту: точне найменування емоції знижує реактивність мигдалеподібного тіла та задіює префронтальну кору, повертаючи відчуття контролю.</li>
+        <li>Навігація під час стресу: інструмент пропонує інсайти, які допомагають ефективно керувати стресом та розпізнавати тригери до того, як вони призведуть до емоційного затоплення чи дисоціації.</li>
+      </ul>
+      <h2>Чим це корисно для клінічних психологів та травматерапевтів?</h2>
+      <ul>
+        <li>Опора в експозиційній та соматичній роботі: полегшує процес локалізації та вербалізації емоцій під час опрацювання травматичних спогадів, зокрема у модальностях EMDR, ACT, TFACT чи КПТ.</li>
+        <li>Інструмент для заземлення та саморефлексії: може використовуватися як домашнє завдання для клієнтів між сесіями або як вправа для психотерапевта для профілактики втоми від співчуття та емоційного вигорання.</li>
+      </ul>
+      <h2>Як використовувати Коло Емоцій вже зараз?</h2>
+      <ol>
+        <li>Зробіть паузу та заземліться: зробіть глибокий вдих і зверніть увагу на фізичні відчуття у тілі.</li>
+        <li>Зверніться до центру колеса: визначте базову категорію переживання, яке найближче до вашого поточного стану.</li>
+        <li>Рухайтеся до зовнішніх країв: досліджуйте детальніші відтінки почуттів, поки не знайдете слово, яке максимально точно відгукується «тут і зараз».</li>
+        <li>Легітимізуйте свій досвід: нагадайте собі, що будь-яка виявлена емоція є валідною сигнальною системою вашої нервової системи.</li>
+      </ol>
+      <p>Спробуйте прямо зараз: надайте собі кілька хвилин спокою та дослідіть свій поточний стан за допомогою нашого інтерактивного Кола Емоцій.</p>
+      <p>Тож Коло Емоцій є високоефективним інструментом для подолання алекситимії та розвитку емоційної регуляції, який слугує містком між неусвідомленим соматичним дискомфортом і його чіткою вербалізацією. Завдяки нейробіологічному ефекту маркування емоцій точне найменування почуттів може допомагати знижувати реактивність мигдалеподібного тіла та активувати префронтальну кору, що дозволяє швидше опанувати афективний шторм, зменшити рівень тривоги та повернути відчуття суб'єктності.</p>
+      <p>У клінічній та психотерапевтичній практиці фахівцям рекомендується активно інтегрувати Коло Емоцій на етапі стабілізації та підготовки до опрацювання травматичного досвіду, поєднуючи пошук слів із соматичними маркерами та заземленням. Важливо навчати клієнтів нормалізувати та валідувати складні, суперечливі переживання з різних секторів колеса, спираючись на позицію допитливості замість уникнення.</p>
+      <p>Для клієнтів практична рекомендація полягає у дотриманні алгоритму «Пауза - Пошук - Прийняття»: під час емоційного напруження спочатку зробити заземлюючий вдих і видих, а потім рухатися від базових категорій у центрі до зовнішніх країв колеса для знаходження найбільш точного відтінку стану. Систематичне ведення щоденника самоспостереження за допомогою цього інструменту 1-2 рази на день допомагає помічати власні тригери, розвивати емоційну гнучкість і поступово виходити з режимів дисоціації чи експерієнційного уникнення.</p>
+      <h2>Пам'ятка: алгоритм «Пауза - Пошук - Прийняття»</h2>
+      <p>Швидка самодопомога та заземлення під час емоційного напруження.</p>
+      <p>Пам'ятайте: будь-яка емоція - це лише валідна сигнальна система вашої нервової системи. Вона має початок і кінець.</p>
+      <h2>1. Пауза: заземлення</h2>
+      <ul>
+        <li>Зробіть повільний вдих та подовжений видих.</li>
+        <li>Відчуйте опору: поверніть увагу до стоп на підлозі або до спинки крісла.</li>
+        <li>Зверніть увагу на тіло: де саме живе напруження прямо зараз?</li>
+      </ul>
+      <h2>2. Пошук: ідентифікація</h2>
+      <ul>
+        <li>Зверніться до Кола Емоцій: знайдіть базову емоцію в центрі - сум, страх, гнів, радість тощо.</li>
+        <li>Рухайтеся до зовнішнього краю: деталізуйте відтінок, наприклад не просто сум, а самотність або безпорадність.</li>
+        <li>Дайте цьому ім'я: «Я помічаю, що зараз відчуваю...».</li>
+      </ul>
+      <h2>3. Прийняття: валідація</h2>
+      <ul>
+        <li>Скажіть собі: «Це нормально та природно - відчувати це у моїй ситуації».</li>
+        <li>Змініть критику на допитливість: замість уникнення чи оцінки просто спостерігайте за почуттям, як за хвилею.</li>
+        <li>Дайте собі простір: «Я можу витримати цю емоцію без поспіху її прогнати».</li>
+      </ul>
+    </article>
+
+    <article data-lang-content="en">
+      <div class="meta">Article</div>
+      <h2>Interactive Wheel of Emotions: a tool for deepening self-awareness and psychotherapeutic practice</h2>
+      <p>Understanding and accurately identifying one's emotions is a foundation of emotional regulation, resilience restoration and effective trauma work. For many clients, and even for specialists during periods of high workload, it can be difficult to express an inner state in words.</p>
+      <p>We invite you to take a few minutes to reconnect with yourself through the interactive Wheel of Emotions.</p>
+      <h2>What is the Wheel of Emotions?</h2>
+      <p>The Wheel of Emotions is a simple yet powerful mental health tool designed to expand emotional vocabulary and improve self-awareness. Its structure moves from basic emotions in the center, such as sadness, fear, anger and joy, toward more subtle and nuanced experiences on the outer rings.</p>
+      <h2>Why is this important for clients?</h2>
+      <ul>
+        <li>Developing alexithymic resilience: it helps move from the generalized statement «I feel bad» to a more precise «I feel alienated, helpless or disappointed».</li>
+        <li>Reducing affect intensity: accurately naming an emotion may reduce amygdala reactivity and engage the prefrontal cortex, restoring a sense of control.</li>
+        <li>Navigation during stress: the tool offers insights that help manage stress and recognize triggers before they lead to emotional flooding or dissociation.</li>
+      </ul>
+      <h2>How is this useful for clinical psychologists and trauma therapists?</h2>
+      <ul>
+        <li>Support in exposure and somatic work: it facilitates the localization and verbalization of emotions during the processing of traumatic memories, including in modalities such as EMDR, ACT, TFACT and CBT.</li>
+        <li>A tool for grounding and self-reflection: it can be used as homework for clients between sessions or as an exercise for therapists to prevent compassion fatigue and emotional burnout.</li>
+      </ul>
+      <h2>How can you use the Wheel of Emotions right now?</h2>
+      <ol>
+        <li>Pause and ground yourself: take a deep breath and notice physical sensations in the body.</li>
+        <li>Turn to the center of the wheel: identify the basic category of experience closest to your current state.</li>
+        <li>Move toward the outer edges: explore more detailed shades of feeling until you find the word that resonates most accurately here and now.</li>
+        <li>Legitimize your experience: remind yourself that any emotion you identify is a valid signal from your nervous system.</li>
+      </ol>
+      <p>Try it now: give yourself a few quiet minutes and explore your current state with our interactive Wheel of Emotions.</p>
+      <p>The Wheel of Emotions is therefore a highly effective tool for overcoming alexithymia and developing emotional regulation. It creates a bridge between unconscious somatic discomfort and clear verbalization. Through the neurobiological effect of affect labeling, precise naming of feelings can help reduce amygdala reactivity and activate the prefrontal cortex, making it easier to master an affective storm, reduce anxiety and restore a sense of agency.</p>
+      <p>In clinical and psychotherapeutic practice, specialists are encouraged to integrate the Wheel of Emotions during stabilization and preparation for trauma processing, combining the search for words with somatic markers and grounding. It is important to teach clients to normalize and validate complex, contradictory experiences from different sectors of the wheel, relying on curiosity rather than avoidance.</p>
+      <p>For clients, the practical recommendation is to follow the algorithm «Pause - Search - Accept»: during emotional tension, first take a grounding inhale and exhale, then move from the basic categories in the center to the outer edges of the wheel to find the most accurate shade of the current state. Keeping a self-observation journal with this tool 1-2 times a day helps notice triggers, develop emotional flexibility and gradually move out of dissociation or experiential avoidance.</p>
+      <h2>Reminder: the «Pause - Search - Accept» algorithm</h2>
+      <p>Quick self-help and grounding during emotional tension.</p>
+      <p>Remember: every emotion is a valid signal from your nervous system. It has a beginning and an end.</p>
+      <h2>1. Pause: grounding</h2>
+      <ul>
+        <li>Take a slow inhale and an extended exhale.</li>
+        <li>Feel support: bring attention back to your feet on the floor or to the back of the chair.</li>
+        <li>Notice the body: where does the tension live right now?</li>
+      </ul>
+      <h2>2. Search: identification</h2>
+      <ul>
+        <li>Turn to the Wheel of Emotions: find the basic emotion in the center - sadness, fear, anger, joy and so on.</li>
+        <li>Move toward the outer edge: specify the shade, for example not just sadness, but loneliness or helplessness.</li>
+        <li>Give it a name: «I notice that right now I feel...».</li>
+      </ul>
+      <h2>3. Accept: validation</h2>
+      <ul>
+        <li>Tell yourself: «It is normal and natural to feel this in my situation».</li>
+        <li>Shift from criticism to curiosity: instead of avoidance or judgment, simply observe the feeling like a wave.</li>
+        <li>Give yourself space: «I can tolerate this emotion without rushing to push it away».</li>
+      </ul>
+    </article>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const saved = (() => {
+      try { return localStorage.getItem("iacpp-language"); } catch (_error) { return ""; }
+    })();
+    const initial = params.get("lang") || saved || "ua";
+    const setLang = lang => {
+      const next = lang === "en" ? "en" : "ua";
+      document.documentElement.dataset.lang = next;
+      document.documentElement.lang = next === "en" ? "en" : "uk";
+      document.querySelectorAll("[data-lang-button]").forEach(button => button.classList.toggle("is-active", button.dataset.langButton === next));
+      document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
+      document.querySelector("h1").textContent = document.querySelector("h1").dataset[next === "en" ? "titleEn" : "titleUa"];
+      try { localStorage.setItem("iacpp-language", next); } catch (_error) {}
+    };
+    document.querySelectorAll("[data-lang-button]").forEach(button => button.addEventListener("click", () => setLang(button.dataset.langButton)));
+    setLang(initial);
+  </script>
+</body>
+</html>
