@@ -2036,7 +2036,7 @@ DATA.ua.pages = {
     title: "Новини",
     lead: "",
     sections: [
-      ["articles", "Останні публікації", [["Інтерактивне Коло Емоцій: інструмент для поглиблення самосвідомості та психотерапевтичної практики", "Стаття", "Практичний інструмент для розвитку емоційного лексикону, заземлення, саморефлексії та роботи з травматичним досвідом.", "emotion-wheel.html"], ["Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", "Покроковий алгоритм для клінічних психологів: як використати сезонне уповільнення для аудиту практики, супервізії та профілактики виснаження.", "july-practice-audit.html"]]]
+      ["articles", "Останні публікації", [["Психологічна готовність дитини до змішаного або дистанційного навчання: поради батькам", "Стаття", "Професійні рекомендації для батьків: як організувати навчальний простір, режим, саморегуляцію та підтримку дитини під час змішаного або дистанційного навчання.", "child-learning-readiness.html"], ["Інтерактивне Коло Емоцій: інструмент для поглиблення самосвідомості та психотерапевтичної практики", "Стаття", "Практичний інструмент для розвитку емоційного лексикону, заземлення, саморефлексії та роботи з травматичним досвідом.", "emotion-wheel.html"], ["Професійне перезавантаження в липні: аудит приватної практики, супервізія та профілактика", "Стаття", "Покроковий алгоритм для клінічних психологів: як використати сезонне уповільнення для аудиту практики, супервізії та профілактики виснаження.", "july-practice-audit.html"]]]
     ]
   },
   "july-practice-audit": {
@@ -2339,7 +2339,7 @@ DATA.en.pages = {
     title: "News",
     lead: "",
     sections: [
-      ["articles", "Latest publications", [["Interactive Wheel of Emotions: a tool for deepening self-awareness and psychotherapeutic practice", "Article", "A practical tool for expanding emotional vocabulary, grounding, self-reflection and trauma-informed clinical work.", "emotion-wheel.html"], ["Professional reset in July: private practice audit, supervision and prevention", "Article", "A step-by-step guide for clinical psychologists on using the summer slowdown for practice audit, supervision and burnout prevention.", "july-practice-audit.html"]]]
+      ["articles", "Latest publications", [["A child's psychological readiness for blended or distance learning: advice for parents", "Article", "Professional recommendations for parents on organizing learning space, routine, self-regulation and support during blended or distance learning.", "child-learning-readiness.html"], ["Interactive Wheel of Emotions: a tool for deepening self-awareness and psychotherapeutic practice", "Article", "A practical tool for expanding emotional vocabulary, grounding, self-reflection and trauma-informed clinical work.", "emotion-wheel.html"], ["Professional reset in July: private practice audit, supervision and prevention", "Article", "A step-by-step guide for clinical psychologists on using the summer slowdown for practice audit, supervision and burnout prevention.", "july-practice-audit.html"]]]
     ]
   },
   "july-practice-audit": {
@@ -2891,7 +2891,7 @@ function scrollToPageAnchor() {
   requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" }));
 }
 
-const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","news.html":"news","july-practice-audit.html":"july-practice-audit","emotion-wheel.html":"emotion-wheel","partnership.html":"partnership"};
+const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","news.html":"news","july-practice-audit.html":"july-practice-audit","emotion-wheel.html":"emotion-wheel","child-learning-readiness.html":"child-learning-readiness","partnership.html":"partnership"};
 const STANDALONE_FILES=Object.fromEntries(Object.entries(STANDALONE_ROUTES).map(([file,page])=>[page,file]));
 function standaloneRouteFromHash(){const raw=decodeURIComponent(window.location.hash.replace(/^#/,""));const[page="home",anchor=""]=raw.split(":");return{page:page||"home",anchor};}
 currentFile=function(){const route=standaloneRouteFromHash();return STANDALONE_FILES[route.page]||"index.html";};

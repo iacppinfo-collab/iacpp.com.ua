@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Психологічна готовність дитини до навчання | МАКПП</title>
+  <style>
+    :root {
+      --navy: #0d2b4d;
+      --gold: #b98a2d;
+      --ink: #1f2d3d;
+      --muted: #647084;
+      --line: #e3e8ef;
+      --soft: #f6f8fb;
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang,
+    .back {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lang.is-active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .hero {
+      padding: 54px 0 26px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2rem, 6vw, 4.6rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    main {
+      padding: 42px 0 70px;
+    }
+
+    article {
+      display: grid;
+      gap: 18px;
+      max-width: 880px;
+    }
+
+    .meta {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 12px 0 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    p,
+    li {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.78;
+    }
+
+    ul,
+    ol {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    html[data-lang="en"] [data-lang-content="ua"],
+    html[data-lang="ua"] [data-lang-content="en"] {
+      display: none;
+    }
+
+    html:not([data-lang]) [data-lang-content="en"] {
+      display: none;
+    }
+
+    html:not([data-lang]) [data-lang-content="ua"],
+    html[data-lang="ua"] [data-lang-content="ua"],
+    html[data-lang="en"] [data-lang-content="en"] {
+      display: grid;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 0.9rem;
+      }
+
+      .back {
+        display: none;
+      }
+
+      .hero {
+        padding: 38px 0 20px;
+      }
+
+      h1 {
+        font-size: clamp(1.9rem, 10vw, 3.1rem);
+      }
+
+      main {
+        padding: 30px 0 54px;
+      }
+
+      p,
+      li {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container topbar">
+      <a class="brand" href="index.html#home">МАКПП</a>
+      <div class="actions">
+        <a class="back" href="index.html#news" data-label-ua="До новин" data-label-en="Back to news">До новин</a>
+        <button class="lang is-active" type="button" data-lang-button="ua">UA</button>
+        <button class="lang" type="button" data-lang-button="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="crumbs"><a href="index.html#home" data-label-ua="Головна" data-label-en="Home">Головна</a><span>/</span><a href="index.html#news" data-label-ua="Новини" data-label-en="News">Новини</a></div>
+      <h1 data-title-ua="Психологічна готовність дитини до навчання" data-title-en="A child's psychological readiness for learning">Психологічна готовність дитини до навчання</h1>
+    </div>
+  </section>
+
+  <main class="container">
+    <article data-lang-content="ua">
+      <div class="meta">Стаття</div>
+      <h2>Психологічна готовність дитини до змішаного або дистанційного навчання: поради батькам</h2>
+      <p>Сучасні освітні реалії вимагають від дітей та батьків високої гнучкості. Змішаний та дистанційний формати навчання - це не лише зміна технічного інструментарію, а й суттєве перебудування психоемоційного середовища дитини. Для родини це часто стає іспитом на самоорганізацію, саморегуляцію та збереження ментального здоров'я.</p>
+      <p>Тому сьогодні ми наведемо низку професійних рекомендацій від клінічних психологів та травматерапевтів, які допоможуть батькам створити надійне психологічне підґрунтя для успішного навчання дитини.</p>
+      <h2>Навчальна зона як сигнал безпеки</h2>
+      <p>Наш мозок постійно сканує простір навколо, наче чутливий локатор: найменший безлад чи шум миттєво змушують нервову систему стискатися й очікувати небезпеку. Коли дитина намагається вчитися в ліжку або серед розкиданих іграшок, її внутрішня «тривожна кнопка» - мигдалеподібне тіло, або амігдала - працює на повну потужність, забираючи сили, які мали б іти на концентрацію та пам'ять.</p>
+      <p>Чітке розмежування кімнати діє як перемикач: окремий робочий стіл надсилає мозку сигнал «час фокусуватися», а затишне ліжко - «можна розслабитися». Така передбачуваність дає дитині відчуття безпеки, знімає фоновий стрес і дозволяє вчитися легше, без роздратування та швидкої втоми.</p>
+      <p>Формування окремої навчальної зони передбачає облаштування постійного, стабільного робочого місця, звільненого від сторонніх подразників, гаджетів та побутового шуму. Це місце має викликати в дитини стійку асоціацію саме з академічною діяльністю та зібраністю, що мінімізує внутрішній опір перед початком виконання завдань.</p>
+      <p>Водночас зона сну та ігор повинна залишатися недоторканною для шкільних зошитів чи підручників. Спроби навчатися в ліжку дезорієнтують мозок, створюють суперечливі сигнали між потребою відпочити та необхідністю працювати, що зрештою може призводити до астенізації та порушень сну.</p>
+      <h2>Контроль сенсорного навантаження</h2>
+      <p>Сенсорне навантаження потребує ретельного контролю, адже надлишок візуального чи акустичного шуму швидко перевантажує нервову систему, провокуючи роздратування, апатію або емоційні спалахи.</p>
+      <p>Поле зору дитини під час навчання має бути максимально очищене від яскравих деталей і хаотичних предметів, які виснажують ресурс довільної уваги та змушують мозок витрачати додаткові сили на відфільтровування завад. Для захисту слухового аналізатора доцільно використовувати фоновий білий чи рожевий шум або якісні шумопоглинаючі навушники, які створюють акустичний купол і дають дитині відчуття психологічного захисту від зовнішнього середовища.</p>
+      <p>У разі підвищеної тривожності або ознак сенсорного перевантаження особливу увагу слід приділити якісному освітленню та пропріоцептивній підтримці. Оптимальним рішенням є м'яке, тепле та рівномірне світло без дратівливого мерехтіння, яке знижує напругу зорового нерва та запобігає передчасній втомі головного мозку.</p>
+      <p>Відчуття фізичного заземлення можна підсилити за допомогою стійкої опори під ногами або використання обтяженої подушки на колінах. Через глибоку стимуляцію пропріоцептивних рецепторів така підтримка активує парасимпатичну нервову систему та повертає дитині відчуття безпеки під час навчання.</p>
+      <h2>Режим дня та гігієна сну</h2>
+      <p>Втрата звичного шкільного розпорядку та постійна невизначеність різко підвищують рівень кортизолу в організмі дитини, тоді як передбачуваний режим дня діє як природний анестетик для тривожної нервової системи та створює базове відчуття безпеки.</p>
+      <p>Щоб зберегти когнітивний ресурс під час дистанційного навчання, важливо утримувати чіткі ранкові ритуали: підйом в один і той самий час, обов'язкову зміну піжами на повсякденний одяг та повноцінний сніданок. Ці прості щоденні дії надсилають мозку сигнал про початок активного дня та допомагають налаштуватися на робочий лад.</p>
+      <p>Оскільки тривале перебування перед екраном виснажує нервову систему набагато швидше за очне навчання, критично важливо правильно організувати перерви між уроками та дотримуватися гігієни сну. Замість перегляду соцмереж чи гаджетів під час відпочинку слід запровадити короткі динамічні паузи - 5-10 хвилин легкої рухової активності, розтяжки чи вправ для очей, що допомагають скинути фізичну напругу та відновити фокус.</p>
+      <p>Підґрунтям цієї системи є регулярний і якісний нічний сон, який виступає головним фактором нейропластичності, емоційної стійкості та здатності дитини засвоювати нову інформацію.</p>
+      <h2>Самоконтроль і техніки заземлення</h2>
+      <p>Дистанційний формат вимагає високого рівня самоконтролю, який у дітей та підлітків ще перебуває у стадії формування.</p>
+      <ul>
+        <li>Метод мікро-кроків: якщо дитині важко сконцентруватися, розбивайте завдання на короткі інтервали, наприклад 15-20 хвилин роботи та 5 хвилин відпочинку.</li>
+        <li>Вправа «5-4-3-2-1»: знайти очима 5 предметів, торкнутися 4 речей, почути 3 звуки, відчути 2 запахи, зробити 1 глибокий видих.</li>
+        <li>Дихання за квадратом: вдих - затримка - видих - затримка на 4 рахунки.</li>
+      </ul>
+      <h2>Соціальна взаємодія та емоційна підтримка</h2>
+      <p>Найбільшим дефіцитом дистанційного навчання є брак живого спілкування з однолітками, що негативно впливає на розвиток емоційного інтелекту дитини. Для компенсації цього фактора батькам важливо активно сприяти офлайн-взаємодії: організовувати зустрічі з друзями поза школою, підтримувати відвідування спортивних чи творчих секцій та спільні прогулянки.</p>
+      <p>Не менш критичним є створення безпечного домашнього середовища для екологічного вираження емоцій, де дитина може без остраху сказати: «Я втомився(лася)», «Мені страшно» або «Я не розумію матеріал». Завдання батьків - щиро валідувати ці почуття, даючи відчуття підтримки, замість їхнього знецінення.</p>
+      <h2>Роль батьків</h2>
+      <p>Яка ж роль батьків у готовності дитини до змішаного або дистанційного навчання, як знизити планку контролю та вчасно підтримати дитину? Надмірний гіперконтроль з боку батьків спричиняє опір та суттєво підвищує внутрішній супротив дитини до навчання, перетворюючи освітній процес на майданчик для конфліктів.</p>
+      <p>Щоб змінити цю динаміку, батькам важливо змістити фокус і стати для дитини підтримкою та партнером, а не контролером чи наглядачем. Замість звичних запитань про оцінки та виконані завдання варто цікавитися емоційним досвідом школяра: запитувати, що сьогодні було найцікавішим, що здивувало або які моменти викликали найбільші труднощі.</p>
+      <p>Невід'ємною складовою успішної підтримки є власна саморегуляція батьків, адже дитяча нервова система надзвичайно чутливо зчитує фоновий стан дорослих. Неопрацьована батьківська тривожність, страхи щодо успішності чи майбутнього дитини безпосередньо передаються їй, підсилюючи напругу та знижуючи мотивацію.</p>
+      <p>Саме тому свідома турбота про власний емоційний стан, вміння відновлювати власний ресурс та зберігати спокій є першим і найважливішим кроком до створення безпечного та гармонійного середовища для навчання дитини.</p>
+      <h2>Коли варто звернутися до фахівця?</h2>
+      <p>Якщо ви помічаєте у дитини тривалі порушення сну чи апетиту, виражену апатію, соматичні скарги, зокрема часті болі в животі чи голові без медичних причин, спалахи агресії або різке падіння інтересу до всього, варто звернутися по консультацію до дитячого або клінічного психолога.</p>
+    </article>
+
+    <article data-lang-content="en">
+      <div class="meta">Article</div>
+      <h2>A child's psychological readiness for blended or distance learning: advice for parents</h2>
+      <p>Modern educational realities require a high level of flexibility from both children and parents. Blended and distance learning formats are not only a change in technical tools, but also a significant restructuring of the child's psycho-emotional environment. For a family, this often becomes a test of self-organization, self-regulation and preservation of mental health.</p>
+      <p>Below are professional recommendations from clinical psychologists and trauma therapists that can help parents create a reliable psychological foundation for successful learning.</p>
+      <h2>The learning area as a signal of safety</h2>
+      <p>Our brain constantly scans the surrounding space like a sensitive locator: the slightest disorder or noise can make the nervous system tense and prepare for danger. When a child tries to study in bed or among scattered toys, the internal alarm button - the amygdala - works at full capacity, taking away energy that should support concentration and memory.</p>
+      <p>A clear division of the room works like a switch: a separate desk sends the brain a clear signal that it is time to focus, while a cozy bed signals that it is possible to relax. Such predictability gives the child a sense of safety, lowers background stress and makes learning easier, with less irritation and fatigue.</p>
+      <p>Creating a separate learning area means arranging a permanent, stable workplace that is free from unnecessary stimuli, gadgets and household noise. This place should form a steady association with academic activity and concentration, which helps reduce internal resistance before starting tasks.</p>
+      <p>At the same time, the sleep and play areas should remain separate from school notebooks and textbooks. Studying in bed can disorient the brain and create conflicting signals between the need to rest and the need to work, which may eventually contribute to asthenia and sleep difficulties.</p>
+      <h2>Managing sensory load</h2>
+      <p>Sensory load requires careful regulation, because excess visual or acoustic noise can quickly overload the nervous system and provoke irritation, apathy or emotional outbursts.</p>
+      <p>The child's visual field during learning should be as clear as possible from bright details and chaotic objects that drain voluntary attention and force the brain to spend extra resources filtering distractions. To protect auditory processing, parents may use background white or pink noise or good noise-reducing headphones, which create an acoustic shield and give the child a feeling of psychological protection from the external environment.</p>
+      <p>If a child has increased anxiety or signs of sensory overload, special attention should be paid to quality lighting and proprioceptive support. A good option is soft, warm and even light without irritating flicker, which reduces strain on the visual system and helps prevent premature mental fatigue.</p>
+      <p>A sense of physical grounding can be strengthened with stable foot support or a weighted cushion on the lap. Through deep stimulation of proprioceptive receptors, this kind of support activates the parasympathetic nervous system and helps the child regain a sense of safety during learning.</p>
+      <h2>Daily routine and sleep hygiene</h2>
+      <p>The loss of a familiar school routine and constant uncertainty can sharply increase the child's cortisol level, while a predictable daily rhythm acts as a natural regulator for an anxious nervous system and creates a basic sense of safety.</p>
+      <p>To preserve cognitive resources during distance learning, it is important to maintain clear morning rituals: waking up at the same time, changing from pajamas into everyday clothes and having a proper breakfast. These simple daily actions send the brain a signal that the active day has begun and help the child enter a working mode.</p>
+      <p>Because prolonged screen time exhausts the nervous system much faster than in-person learning, it is essential to organize breaks between lessons properly and maintain sleep hygiene. Instead of scrolling social media or using gadgets during rest, introduce short dynamic pauses - 5-10 minutes of light movement, stretching or eye exercises that help release physical tension and restore focus.</p>
+      <p>The foundation of this system is regular, high-quality night sleep, which is a key factor in neuroplasticity, emotional resilience and the child's ability to absorb new information.</p>
+      <h2>Self-control and grounding techniques</h2>
+      <p>Distance learning requires a high level of self-control, which is still developing in children and adolescents.</p>
+      <ul>
+        <li>The micro-step method: if the child finds it hard to concentrate, divide tasks into short intervals, for example 15-20 minutes of work and 5 minutes of rest.</li>
+        <li>The «5-4-3-2-1» exercise: find 5 objects with the eyes, touch 4 things, hear 3 sounds, notice 2 smells and take 1 deep exhale.</li>
+        <li>Box breathing: inhale - hold - exhale - hold for 4 counts each.</li>
+      </ul>
+      <h2>Social interaction and emotional support</h2>
+      <p>The greatest deficit of distance learning is the lack of live communication with peers, which negatively affects the development of a child's emotional intelligence. To compensate for this factor, parents should actively support offline interaction: arrange meetings with friends outside school, encourage sports or creative groups and plan walks together.</p>
+      <p>It is equally important to create a safe home environment for healthy emotional expression, where the child can say without fear, «I am tired», «I am scared» or «I do not understand the material». The parents' task is to sincerely validate these feelings and offer support instead of dismissing them.</p>
+      <h2>The role of parents</h2>
+      <p>What is the role of parents in a child's readiness for blended or distance learning, and how can they lower the level of control while providing timely support? Excessive parental control causes resistance and significantly increases the child's inner opposition to learning, turning the educational process into a space for conflict.</p>
+      <p>To change this dynamic, parents need to shift focus and become a source of support and partnership, not controllers or supervisors. Instead of the usual questions about grades and completed tasks, it is better to ask about the child's emotional experience: what was most interesting today, what surprised them or which moments felt most difficult.</p>
+      <p>Parental self-regulation is also an essential part of effective support, because the child's nervous system is highly sensitive to the background state of adults. Unprocessed parental anxiety and fears about the child's performance or future are transmitted directly to the child, increasing tension and lowering motivation.</p>
+      <p>That is why conscious care for one's own emotional state, the ability to restore personal resources and remain calm is the first and most important step toward creating a safe and harmonious learning environment for the child.</p>
+      <h2>When should you consult a specialist?</h2>
+      <p>If you notice persistent sleep or appetite disturbances, pronounced apathy, somatic complaints such as frequent stomachaches or headaches without medical causes, aggressive outbursts or a sharp loss of interest in everything, it is worth consulting a child psychologist or clinical psychologist.</p>
+    </article>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const saved = (() => {
+      try { return localStorage.getItem("iacpp-language"); } catch (_error) { return ""; }
+    })();
+    const initial = params.get("lang") || saved || "ua";
+    const setLang = lang => {
+      const next = lang === "en" ? "en" : "ua";
+      document.documentElement.dataset.lang = next;
+      document.documentElement.lang = next === "en" ? "en" : "uk";
+      document.querySelectorAll("[data-lang-button]").forEach(button => button.classList.toggle("is-active", button.dataset.langButton === next));
+      document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
+      document.querySelector("h1").textContent = document.querySelector("h1").dataset[next === "en" ? "titleEn" : "titleUa"];
+      try { localStorage.setItem("iacpp-language", next); } catch (_error) {}
+    };
+    document.querySelectorAll("[data-lang-button]").forEach(button => button.addEventListener("click", () => setLang(button.dataset.langButton)));
+    setLang(initial);
+  </script>
+</body>
+</html>
