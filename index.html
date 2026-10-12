@@ -378,9 +378,23 @@ svg {
 .hero-inner {
   min-height: 520px;
   display: grid;
-  grid-template-columns: minmax(0, 880px);
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+  gap: 32px;
   align-items: center;
   padding: 74px 0 68px;
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.hero-logo {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  justify-self: end;
 }
 
 .eyebrow {
@@ -1381,10 +1395,6 @@ select:focus {
     background: var(--soft);
   }
 
-  .hero-inner {
-    grid-template-columns: 1fr;
-  }
-
   .section-head,
   .page-layout {
     grid-template-columns: 1fr;
@@ -1409,6 +1419,18 @@ select:focus {
 
   .footer-main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .hero-logo {
+    width: 160px;
+    justify-self: center;
   }
 }
 
@@ -2689,12 +2711,13 @@ function renderHome(data) {
   document.getElementById("main").innerHTML = `
     <section class="hero">
       <div class="container hero-inner">
-        <div class="reveal">
+        <div class="hero-copy reveal">
           <p class="eyebrow">${h.eyebrow}</p>
           <h1>${h.title}</h1>
           <p class="lead">${h.lead}</p>
           <div class="hero-actions"><a class="btn btn-gold" href="${localizedHref("membership.html#join-form", getLanguage())}">${data.join}</a><a class="btn btn-outline" href="about.html${langQuery(getLanguage())}">${data.learnMore}</a></div>
         </div>
+        <img class="hero-logo" src="assets/makpp-hero-logo.svg" alt="${data.lang === "uk" ? "Логотип МАКПП" : "IACPP logo"}" width="360" height="360" decoding="async">
       </div>
     </section>
     <section class="section reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.aboutKicker}</p><h2 class="section-title">${h.aboutTitle}</h2><a class="btn btn-outline section-head-btn" href="about.html${langQuery(getLanguage())}">${h.aboutButton}</a></div><p class="section-copy">${h.aboutText}</p></div></div></section>
