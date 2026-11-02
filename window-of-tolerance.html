@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Розширення вікна толерантності | МАКПП</title>
+  <meta name="description" content="Як повернути контроль над власною нервовою системою: вікно толерантності, ознаки гіперзбудження та гіпозбудження, заземлення і відновлення саморегуляції.">
+  <style>
+    :root {
+      --navy: #0d2b4d;
+      --gold: #b98a2d;
+      --ink: #1f2d3d;
+      --muted: #647084;
+      --line: #e3e8ef;
+      --soft: #f6f8fb;
+      --max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; }
+
+    .header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang,
+    .back {
+      min-height: 44px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lang.is-active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    .hero {
+      padding: 54px 0 26px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .crumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    h1, h2, h3 { font-weight: 500; }
+    strong, b { font-weight: 600; }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      color: var(--navy);
+      font-size: 3rem;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    main { padding: 42px 0 70px; }
+
+    article {
+      display: grid;
+      gap: 18px;
+      max-width: 880px;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .meta {
+      color: var(--gold);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 12px 0 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+      line-height: 1.3;
+    }
+
+    h3 {
+      margin: 8px 0 0;
+      color: var(--navy);
+      font-size: 1.15rem;
+      line-height: 1.4;
+    }
+
+    p, li {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.78;
+    }
+
+    ul, ol {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    .article-figure { margin: 10px 0 6px; }
+
+    .article-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    html[data-lang="en"] [data-lang-content="ua"],
+    html:not([data-lang="en"]) [data-lang-content="en"] {
+      display: none;
+    }
+
+    @media (max-width: 720px) {
+      .topbar { min-height: 68px; }
+      .brand { font-size: 0.9rem; }
+      .back { display: none; }
+      .hero { padding: 38px 0 20px; }
+      h1 { font-size: 2rem; }
+      main { padding: 30px 0 54px; }
+      p, li { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container topbar">
+      <a class="brand" href="index.html#home">МАКПП</a>
+      <div class="actions">
+        <a class="back" href="index.html#news" data-label-ua="До новин" data-label-en="Back to news">До новин</a>
+        <button class="lang is-active" type="button" data-lang-button="ua" aria-pressed="true">UA</button>
+        <button class="lang" type="button" data-lang-button="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <nav class="crumbs" aria-label="Навігація" data-aria-ua="Навігація" data-aria-en="Breadcrumbs"><a href="index.html#home" data-label-ua="Головна" data-label-en="Home">Головна</a><span aria-hidden="true">/</span><a href="index.html#news" data-label-ua="Новини" data-label-en="News">Новини</a></nav>
+      <h1 data-title-ua="Розширення вікна толерантності" data-title-en="Expanding the window of tolerance">Розширення вікна толерантності</h1>
+    </div>
+  </section>
+
+  <main class="container">
+    <article data-lang-content="ua">
+      <div class="meta">Стаття</div>
+      <h2>Як повернути контроль над власною нервовою системою: розширення вікна толерантності</h2>
+      <p>У часи тривалого стресу, кризових подій та травматичного досвіду чимало людей відчувають, що втрачають контроль над власними емоційними та тілесними реакціями. Звичні життєві ситуації, які раніше сприймалися легко або вирішувалися автоматично, раптом починають викликати надмірну тривогу, неконтрольовані спалахи гніву або, навпаки, занурюють у стан глибокого емоційного оніміння, безперервної втоми та апатії. Людина опиняється в пастці власних відчуттів, де навіть найпростіші щоденні завдання вимагають колосальних зусиль, а внутрішній ресурс тане з кожним днем.</p>
+      <figure class="article-figure"><img src="assets/window-of-tolerance.png" alt="Вікно толерантності: оптимальний діапазон між гіперзбудженням і гіпозбудженням нервової системи" width="1802" height="873" loading="lazy" decoding="async"></figure>
+      <p>Така дезорганізація виникає через те, що людська нервова система під загрозою переходить у режим безперервного виживання. Мигдалеподібне тіло мозку, відповідальне за розпізнавання небезпеки, починає працювати на надвисоких обертах і зчитує будь-який подразник як потенційну загрозу життю. У результаті тіло реагує швидше, ніж включається раціональна кора головного мозку: прискорюється пульс, виникають м'язові затиски, збивається дихання або ж виникає відчуття повної відстороненості від власного тіла та навколишньої реальності.</p>
+      <p>Усвідомлення того, що ці реакції є нормальними відповідями психіки на ненормальні обставини, стає першим і найважливішим кроком до відновлення саморегуляції. Замість того щоб звинувачувати себе у слабкості чи безпорадності, важливо навчитися розпізнавати моменти, коли нервова система залишає свій природний простір рівноваги. Саме через соматичне заземлення, турботу про базові потреби та поступове відновлення внутрішньої безпеки ми отримуємо можливість знову повернути контроль над власними емоціями, відновлюючи стійкість та якість життя.</p>
+      <p>У клінічній психології та психотерапії травми для пояснення цих процесів використовується концепція «Вікна толерантності», яку розробив доктор Деніел Сігел. Розуміння цього механізму є першим кроком до відновлення саморегуляції та повернення відчуття безпеки.</p>
+
+      <h2>Що таке «Вікно толерантності»?</h2>
+      <p>Вікно толерантності — це оптимальний діапазон збудження нервової системи, у якому людина здатна ефективно сприймати інформацію, рефлексувати, приймати зважені рішення та екологічно проживати свої емоції.</p>
+      <p>Коли ви перебуваєте всередині свого вікна толерантності, ви можете відчувати сум, тривогу чи радість, але ці емоції не затоплюють вас і не вимикають ваше раціональне мислення.</p>
+      <p>Тож, поняття «вікно толерантності» описує ідеальний баланс нервової системи, коли людина залишається гнучкою, легко керує своїми емоціями та відчуває міцний зв'язок із навколишнім світом. Щойно емоційне або фізичне навантаження стає надто важким, цей внутрішній ресурс виснажується: психіка або зривається в крайність надмірного збудження із тривогою, люттю і панікою, або ж падає в глибоке гальмування, викликаючи байдужість, оніміння та повну втому.</p>
+      <p>Таким чином, під впливом хронічного стресу або воєнної травми це «вікно» звужується. Людина починає легко вилітати за його межі у два крайніх стани нервової системи:</p>
+
+      <h3>1. Зона гіперзбудження</h3>
+      <p>Це реакція симпатичної нервової системи («бий або біжи»).</p>
+      <ul><li><strong>Ознаки:</strong> панічні атаки, нав'язливі тривожні думки, спалахи дратівливості й гніву, м'язове напруження, прискорене серцебиття, гіперконтроль, відчуття постійної загрози.</li></ul>
+
+      <h3>2. Зона гіпозбудження</h3>
+      <p>Це реакція парасимпатичної нервової системи, зокрема її дорсальної вагусної гілки («завмри або вдай мертвого»).</p>
+      <ul><li><strong>Ознаки:</strong> емоційне оніміння, дисоціація (відчуття відстороненості від тіла чи реальності), хронічна втома, депресивні стани, відчуття безпорадності та опущених рук.</li></ul>
+
+      <h2>Тож, чому вікно звужується?</h2>
+      <p>Нервова система адаптується до умов тривалої небезпеки. Якщо людина тривалий час перебуває в режимі виживання, її мозок переходить у стан підвищеної пильності (гіпервігілянтності). Те, що раніше сприймалося як дрібний стрес (наприклад, гучний звук чи запізнення), починає зчитуватися мигдалеподібним тілом (амигдалою) як реальна загроза життю, що миттєво викидає людину з вікна толерантності.</p>
+      <p>Розширення вікна толерантності не означає, що ви перестанете відчувати стрес. Це означає, що ваша нервова система стане більш гнучкою (резилієнтною), і ви зможете швидше повертатися до стану рівноваги.</p>
+
+      <h2>З чого почати</h2>
+      <h3>Крок 1. Соматична стабілізація та заземлення</h3>
+      <p>Спроби заспокоїти себе лише за допомогою думок під час паніки чи дисоціації часто неефективні, оскільки когнітивна кора мозку в цей момент пригнічена. Роботу слід починати через тіло:</p>
+      <ul>
+        <li><strong>Техніка заземлення «5-4-3-2-1»:</strong> повертає мозок у момент «тут і зараз» через відчуття органів чуття.</li>
+        <li><strong>Спеціальні дихальні практики:</strong> подовжений видих (наприклад, вдих на 4 рахунки, видих на 6 або 8) активує блукаючий нерв і знижує частоту серцевих скорочень.</li>
+      </ul>
+
+      <h3>Крок 2. Відстеження сигналів-тригерів (нейроцепція)</h3>
+      <p>Навчіться помічати перші тілесні маркери наближення до меж вікна. Наприклад: «Коли я починаю стискати щелепи й прискорювати подих — це знак, що я виходжу в гіперзбудження». Вчасне усвідомлення дозволяє застосувати техніку саморегуляції до того, як відбудеться повна емоційна дисрегуляція.</p>
+
+      <h3>Крок 3. Дозований контакт із труднощами (титрування)</h3>
+      <p>У терапевтичній практиці опрацювання складних спогадів або емоцій відбувається невеликими «порціями» (титрування). Людина торкається важкого досвіду, а потім одразу повертається до ресурсного, безпечного стану. Це навчає нервову систему тому, що стрес є посильним і тимчасовим.</p>
+
+      <h3>Крок 4. Залучення внутрішніх та зовнішніх ресурсів</h3>
+      <ul>
+        <li><strong>Зовнішні опори:</strong> безпечні люди, підтримуючі спільноти, передбачувані щоденні рутини та ритуали.</li>
+        <li><strong>Внутрішні опори:</strong> навички самоспівчуття, усвідомлення власних цінностей та сильних сторін.</li>
+      </ul>
+      <p>Таким чином, реалізація цих чотирьох послідовних кроків дозволяє не лише купірувати гострі реакції стресу, а й поступово відновлювати гнучкість усієї нервової системи. Поєднуючи тілесне заземлення, відстеження ранніх сигналів тривоги, дозоване опрацювання важкого досвіду та опору на внутрішні й зовнішні ресурси, людина повертає собі агентність та здатність залишатися у власному «вікні толерантності» навіть серед життєвих штормів.</p>
+      <p>Тож, відновлення контролю над власною нервовою системою — це не одноразова дія, а систематичний процес тренування гнучкості вашої психіки. Повернення у вікно толерантності дає змогу не просто виживати в умовах кризи, а відновлювати якість життя, будувати глибші стосунки та зберігати ментальне здоров'я.</p>
+      <p>Якщо ви відчуваєте, що тривалий час перебуваєте в стані постійної тривоги або виснаження і не можете впоратися самостійно, звернення до фахівця з клінічної психології та психотерапії травми допоможе безпечно розширити ваші внутрішні ресурси.</p>
+    </article>
+
+    <article data-lang-content="en">
+      <div class="meta">Article</div>
+      <h2>How to regain control of your nervous system: expanding the window of tolerance</h2>
+      <p>During prolonged stress, crises and traumatic experiences, many people feel they are losing control of their emotional and bodily reactions. Familiar situations that once felt manageable or were dealt with automatically suddenly begin to trigger excessive anxiety and uncontrollable outbursts of anger, or, conversely, plunge people into deep emotional numbness, persistent fatigue and apathy. People become trapped in their own sensations, with even the simplest everyday tasks requiring enormous effort while their inner resources diminish day by day.</p>
+      <figure class="article-figure"><img src="assets/window-of-tolerance.png" alt="Diagram of the window of tolerance between hyperarousal and hypoarousal, with Ukrainian labels" width="1802" height="873" loading="lazy" decoding="async"></figure>
+      <p>This disorganisation occurs because the human nervous system shifts into a continuous survival mode when under threat. The amygdala, the part of the brain responsible for recognising danger, begins working at an exceptionally high level and interprets any stimulus as a potential threat to life. As a result, the body reacts before the rational cerebral cortex engages: the pulse accelerates, muscles tighten, breathing becomes irregular, or a feeling of complete detachment from one's own body and the surrounding reality emerges.</p>
+      <p>Recognising that these reactions are normal responses of the psyche to abnormal circumstances is the first and most important step towards restoring self-regulation. Instead of blaming yourself for weakness or helplessness, it is important to learn to recognise the moments when your nervous system leaves its natural space of balance. Through somatic grounding, attention to basic needs and the gradual restoration of inner safety, we gain the opportunity to regain control of our emotions, rebuilding resilience and quality of life.</p>
+      <p>In clinical psychology and trauma psychotherapy, these processes are explained using the concept of the window of tolerance, developed by Dr Daniel Siegel. Understanding this mechanism is the first step towards restoring self-regulation and a sense of safety.</p>
+
+      <h2>What is the window of tolerance?</h2>
+      <p>The window of tolerance is the optimal range of nervous system arousal within which a person can process information effectively, reflect, make considered decisions and experience emotions in a healthy way.</p>
+      <p>When you are within your window of tolerance, you may feel sadness, anxiety or joy, but these emotions do not overwhelm you or shut down your rational thinking.</p>
+      <p>The concept of the window of tolerance therefore describes an ideal balance in the nervous system: a person remains flexible, manages emotions with ease and feels a strong connection to the world around them. As soon as emotional or physical demands become too great, this inner resource is depleted. The psyche either tips into excessive arousal, with anxiety, rage and panic, or drops into profound inhibition, causing indifference, numbness and complete exhaustion.</p>
+      <p>Under the influence of chronic stress or war trauma, this window narrows. A person begins to move beyond its boundaries easily, into two extreme nervous system states:</p>
+
+      <h3>1. The hyperarousal zone</h3>
+      <p>This is the response of the sympathetic nervous system: fight or flight.</p>
+      <ul><li><strong>Signs:</strong> panic attacks, intrusive anxious thoughts, outbursts of irritability and anger, muscle tension, a rapid heartbeat, an excessive need for control and a constant sense of threat.</li></ul>
+
+      <h3>2. The hypoarousal zone</h3>
+      <p>This is the response of the parasympathetic nervous system, particularly its dorsal vagal branch: freeze or feign death.</p>
+      <ul><li><strong>Signs:</strong> emotional numbness, dissociation (a sense of detachment from the body or reality), chronic fatigue, depressive states, helplessness and a feeling of giving up.</li></ul>
+
+      <h2>Why does the window narrow?</h2>
+      <p>The nervous system adapts to conditions of prolonged danger. If a person remains in survival mode for a long time, their brain shifts into a state of heightened vigilance, or hypervigilance. Something previously perceived as a minor stressor, such as a loud sound or being late, begins to be interpreted by the amygdala as a genuine threat to life, instantly pushing the person outside their window of tolerance.</p>
+      <p>Expanding the window of tolerance does not mean that you will stop experiencing stress. It means that your nervous system will become more flexible and resilient, allowing you to return to a state of balance more quickly.</p>
+
+      <h2>Where to begin</h2>
+      <h3>Step 1. Somatic stabilisation and grounding</h3>
+      <p>Trying to calm yourself through thoughts alone during panic or dissociation is often ineffective because the brain's cognitive cortex is suppressed at that moment. The work should begin through the body:</p>
+      <ul>
+        <li><strong>The 5-4-3-2-1 grounding technique:</strong> brings the brain back to the here and now through sensory experiences.</li>
+        <li><strong>Specific breathing practices:</strong> a longer exhalation, for example breathing in for a count of 4 and out for 6 or 8, activates the vagus nerve and lowers the heart rate.</li>
+      </ul>
+
+      <h3>Step 2. Tracking trigger signals (neuroception)</h3>
+      <p>Learn to notice the first bodily signs that you are approaching the edges of your window. For example: "When I start clenching my jaw and breathing faster, it is a sign that I am moving into hyperarousal." Timely awareness allows you to use a self-regulation technique before full emotional dysregulation occurs.</p>
+
+      <h3>Step 3. Gradual contact with difficulties (titration)</h3>
+      <p>In therapeutic practice, difficult memories or emotions are processed in small portions, known as titration. A person briefly touches on a difficult experience and then immediately returns to a resourceful, safe state. This teaches the nervous system that stress is manageable and temporary.</p>
+
+      <h3>Step 4. Drawing on internal and external resources</h3>
+      <ul>
+        <li><strong>External sources of support:</strong> safe people, supportive communities, and predictable daily routines and rituals.</li>
+        <li><strong>Internal sources of support:</strong> self-compassion skills and awareness of your own values and strengths.</li>
+      </ul>
+      <p>Putting these four consecutive steps into practice helps not only to alleviate acute stress reactions but also to gradually restore the flexibility of the entire nervous system. By combining bodily grounding, awareness of early anxiety signals, gradual processing of difficult experiences and reliance on internal and external resources, people regain their sense of agency and their ability to remain within their window of tolerance even amid life's storms.</p>
+      <p>Regaining control of your nervous system is therefore not a one-off action, but a systematic process of training psychological flexibility. Returning to your window of tolerance enables you not merely to survive a crisis, but to restore quality of life, build deeper relationships and preserve mental health.</p>
+      <p>If you feel that you have been in a state of constant anxiety or exhaustion for a long time and cannot cope on your own, seeking help from a specialist in clinical psychology and trauma psychotherapy can help you safely expand your inner resources.</p>
+    </article>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const saved = (() => {
+      try { return localStorage.getItem("iacpp-language"); } catch (_error) { return ""; }
+    })();
+    const initial = params.get("lang") || saved || "ua";
+    const setLang = lang => {
+      const next = lang === "en" ? "en" : "ua";
+      document.documentElement.dataset.lang = next;
+      document.documentElement.lang = next === "en" ? "en" : "uk";
+      document.querySelectorAll("[data-lang-button]").forEach(button => {
+        const active = button.dataset.langButton === next;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
+      document.querySelectorAll("[data-aria-ua]").forEach(item => item.setAttribute("aria-label", item.dataset[next === "en" ? "ariaEn" : "ariaUa"]));
+      const heading = document.querySelector("h1");
+      heading.textContent = heading.dataset[next === "en" ? "titleEn" : "titleUa"];
+      document.title = `${heading.textContent} | ${next === "en" ? "IACPP" : "МАКПП"}`;
+      document.querySelector('meta[name="description"]').content = next === "en"
+        ? "How to regain control of your nervous system: the window of tolerance, signs of hyperarousal and hypoarousal, grounding and restoring self-regulation."
+        : "Як повернути контроль над власною нервовою системою: вікно толерантності, ознаки гіперзбудження та гіпозбудження, заземлення і відновлення саморегуляції.";
+      document.querySelectorAll('a[href^="index.html"]').forEach(link => {
+        const hash = link.getAttribute("href").split("#")[1] || "home";
+        link.setAttribute("href", `index.html?lang=${next}#${hash}`);
+      });
+      try { localStorage.setItem("iacpp-language", next); } catch (_error) {}
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", next);
+        window.history.replaceState({}, "", url);
+      } catch (_error) {}
+    };
+    document.querySelectorAll("[data-lang-button]").forEach(button => button.addEventListener("click", () => setLang(button.dataset.langButton)));
+    setLang(initial);
+  </script>
+</body>
+</html>
