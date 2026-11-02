@@ -179,7 +179,8 @@ svg {
 
 .nav-link:hover,
 .nav-button:hover,
-.nav-link[aria-current="page"] {
+.nav-link[aria-current="page"],
+.nav-button[aria-current="page"] {
   color: var(--gold);
 }
 
@@ -817,6 +818,90 @@ h1,
 .content-panel {
   display: grid;
   gap: 22px;
+}
+
+.membership-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.membership-table th,
+.membership-table td {
+  padding: 18px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.membership-table thead th {
+  color: var(--navy);
+  background: var(--soft);
+  font-weight: 600;
+}
+
+.membership-table thead th:first-child { width: 24%; }
+
+.membership-table tbody th {
+  color: var(--navy);
+  font-weight: 500;
+}
+
+.membership-table tbody tr:nth-child(even) { background: #fafbfc; }
+
+.benefit-value {
+  display: grid;
+  gap: 6px;
+  color: var(--graphite);
+}
+
+.benefit-value strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.benefit-label { display: none; }
+
+@media (max-width: 900px) {
+  .membership-table,
+  .membership-table tbody,
+  .membership-table tr {
+    display: block;
+  }
+
+  .membership-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .membership-table tbody tr { margin-bottom: 28px; }
+  .membership-table tbody tr:nth-child(even) { background: transparent; }
+
+  .membership-table tbody th {
+    display: block;
+    width: 100%;
+    padding: 16px 12px;
+    background: var(--soft);
+    font-size: 1rem;
+  }
+
+  .membership-table tbody td {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 14px;
+    padding: 14px 12px;
+  }
+
+  .benefit-label {
+    display: block;
+    color: var(--muted);
+  }
 }
 
 .side-panel {
@@ -1714,40 +1799,27 @@ const DATA = {
     nav: [
       {
         label: "Про нас",
-        href: "about.html",
+        href: "idea-history.html",
         children: [
           ["Про нас", "idea-history.html"],
-          ["Правління", "board.html"],
-          ["Структура", "structure.html"],
           ["Нормативні документи", "documents.html"],
           ["Контактна інформація", "contacts.html"]
-        ]
-      },
-      {
-        label: "Проєкти та ініціативи",
-        href: "projects.html",
-        children: [
-          ["Активні проєкти", "projects.html#active"]
-        ]
-      },
-      {
-        label: "Психологам",
-        href: "psychologists.html",
-        children: [
-          ["Членство", "membership.html"],
-          ["Законодавство", "legislation.html"],
-          ["Сертифікація", "certification.html"],
-          ["Професійні стандарти", "psychologists.html#standards"],
-          ["Корисні матеріали", "psychologists.html#materials"]
         ]
       },
       {
         label: "Навчання",
         href: "education.html",
         children: [
-          ["Курси", "courses.html"],
-          ["Вебінари", "webinars.html"],
-          ["Програми підвищення кваліфікації", "education.html#programs"]
+          ["Навчання", "education.html"],
+          ["Сертифікація", "certification.html"]
+        ]
+      },
+      {
+        label: "Членство",
+        href: "membership.html",
+        children: [
+          ["Членство (рівні членства)", "membership.html"],
+          ["Законодавство", "legislation.html"]
         ]
       },
       {
@@ -1880,40 +1952,27 @@ const DATA = {
     nav: [
       {
         label: "About us",
-        href: "about.html",
+        href: "idea-history.html",
         children: [
           ["About us", "idea-history.html"],
-          ["Board of Directors", "board.html"],
-          ["Structure", "structure.html"],
           ["Regulatory documents", "documents.html"],
           ["Contact information", "contacts.html"]
-        ]
-      },
-      {
-        label: "Projects and initiatives",
-        href: "projects.html",
-        children: [
-          ["Active projects", "projects.html#active"]
-        ]
-      },
-      {
-        label: "For psychologists",
-        href: "psychologists.html",
-        children: [
-          ["Membership", "membership.html"],
-          ["Legislation", "legislation.html"],
-          ["Certification", "certification.html"],
-          ["Professional standards", "psychologists.html#standards"],
-          ["Useful materials", "psychologists.html#materials"]
         ]
       },
       {
         label: "Education",
         href: "education.html",
         children: [
-          ["Courses", "courses.html"],
-          ["Webinars", "webinars.html"],
-          ["Continuing education programs", "education.html#programs"]
+          ["Education", "education.html"],
+          ["Certification", "certification.html"]
+        ]
+      },
+      {
+        label: "Membership",
+        href: "membership.html",
+        children: [
+          ["Membership levels", "membership.html"],
+          ["Legislation", "legislation.html"]
         ]
       },
       {
@@ -2077,7 +2136,21 @@ DATA.ua.pages = {
     title: "Членство",
     lead: "Членство в МАКПП відкриває доступ до професійної спільноти, навчання, супервізій, робочих груп і партнерських програм.",
     sections: [
-      ["cards", "Переваги членства", [["Спільнота", "Професійне середовище для обміну досвідом, взаємної підтримки та розвитку."], ["Навчання", "Пріоритетний доступ до курсів, вебінарів, супервізій і спеціальних подій."], ["Участь у рішеннях", "Можливість долучатися до робочих груп, обговорення стандартів і проєктних напрямів."]], 3],
+      ["cards", "Категорії членства", [
+        ["Початковий / Базовий (Асоційований)", "Студенти старших курсів бакалаврату, молоді фахівці та зовнішні психологи."],
+        ["Професійний", "Студенти та випускники МІПО."],
+        ["Експертний", "Викладачі та супервізори: щонайменше 5 років досвіду в МІПО та 2 спеціалізації."],
+        ["Почесний", "Окрема категорія для визнаних експертів та партнерів."]
+      ], 2, false, "membership-levels"],
+      ["membershipBenefits", "Переваги членства", ["Заходи та можливості", "Зовнішні учасники (не члени)", "Початковий / Базовий", "Професійний", "Експертний", "Почесний"], [
+        ["Заходи підвищення кваліфікації (ЄКТС)", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник / тренер", "Знижка 20%"], ["Учасник / тренер", "Знижка 20%"], ["", "Безкоштовна участь"]]],
+        ["Заходи підвищення кваліфікації (БПР)", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник / тренер", "Знижка 20%"], ["Учасник / тренер", "Знижка 20%"], ["", "Безкоштовна участь"]]],
+        ["Інтервізії", [["Учасник", "Повна вартість"], ["Учасник", "Повна вартість"], ["Учасник", "Знижка 20%"], ["Учасник", "Знижка 20%"], ["", "Безкоштовна участь"]]],
+        ["Супервізії", [["", "Участь не передбачена"], ["Учасник за умови проходження курсів із навичок ведення клінічної документації", "Повна вартість"], ["Учасник", "Знижка 20%"], ["Учасник", "Знижка 20%"], ["", "Безкоштовна участь"]]],
+        ["Конференції / форуми", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник", "Знижка 20%"], ["Можливість виступу", "Знижка 50%"], ["", "Безкоштовна участь"]]],
+        ["Проєкти Асоціації: консультації, тренінги, ретрити тощо", [["", "Участь не передбачена"], ["", "Участь не передбачена"], ["Асистент", "Безоплатно"], ["Тренер", "За домовленістю"], ["Тренер", ""]]],
+        ["Дослідження Асоціації", [["Учасник", ""], ["Учасник", "Доступ до результатів дослідження"], ["Учасник, дослідник", "Доступ до результатів дослідження"], ["Головний дослідник, автор наукових статей, дослідник", "Доступ до результатів дослідження"], ["Головний дослідник, автор наукових статей, дослідник", ""]]]
+      ]],
       ["form", "membership", "join-form"]
     ]
   },
@@ -2387,7 +2460,21 @@ DATA.en.pages = {
     title: "Membership",
     lead: "Membership in IACPP provides access to a professional community, training, supervision, working groups and partnership programs.",
     sections: [
-      ["cards", "Membership benefits", [["Community", "A professional environment for experience exchange, mutual support and development."], ["Education", "Priority access to courses, webinars, supervision and special events."], ["Participation in decisions", "An opportunity to join working groups and discuss standards and project areas."]], 3],
+      ["cards", "Membership categories", [
+        ["Entry / Basic (Associate)", "Senior undergraduate students, early-career practitioners and external psychologists."],
+        ["Professional", "MIPO students and graduates."],
+        ["Expert", "Lecturers and supervisors with at least 5 years of experience at MIPO and 2 specialisations."],
+        ["Honorary", "A separate category for recognised experts and partners."]
+      ], 2, false, "membership-levels"],
+      ["membershipBenefits", "Membership benefits", ["Events and opportunities", "External participants (non-members)", "Entry / Basic", "Professional", "Expert", "Honorary"], [
+        ["Continuing education events (ECTS)", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant / trainer", "20% discount"], ["Participant / trainer", "20% discount"], ["", "Free participation"]]],
+        ["Continuing professional development events (CPD)", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant / trainer", "20% discount"], ["Participant / trainer", "20% discount"], ["", "Free participation"]]],
+        ["Peer supervision", [["Participant", "Full price"], ["Participant", "Full price"], ["Participant", "20% discount"], ["Participant", "20% discount"], ["", "Free participation"]]],
+        ["Supervision", [["", "Participation not available"], ["Participant, subject to completing courses in clinical documentation skills", "Full price"], ["Participant", "20% discount"], ["Participant", "20% discount"], ["", "Free participation"]]],
+        ["Conferences / forums", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant", "20% discount"], ["Opportunity to speak", "50% discount"], ["", "Free participation"]]],
+        ["Association projects: consultations, training, retreats and more", [["", "Participation not available"], ["", "Participation not available"], ["Assistant", "Unpaid"], ["Trainer", "By agreement"], ["Trainer", ""]]],
+        ["Association research", [["Participant", ""], ["Participant", "Access to research findings"], ["Participant, researcher", "Access to research findings"], ["Principal investigator, author of scientific articles, researcher", "Access to research findings"], ["Principal investigator, author of scientific articles, researcher", ""]]]
+      ]],
       ["form", "membership", "join-form"]
     ]
   },
@@ -2696,7 +2783,7 @@ function renderHeader(data, lang) {
     </div>
     <div class="mobile-panel" id="mobile-menu">
       <nav class="mobile-nav" aria-label="${data.mobileNavLabel}">
-        ${data.nav.map(item => mobileItem(item, data, lang)).join("")}
+        ${data.nav.map(item => mobileItem(item, lang)).join("")}
         <a class="btn btn-gold" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>
       </nav>
     </div>`;
@@ -2710,11 +2797,11 @@ function desktopItem(item, file, lang) {
   return `<div class="nav-item"><a class="nav-button" ${active ? 'aria-current="page"' : ""} href="${localizedHref(item.href, lang)}">${item.label}<span class="chevron" aria-hidden="true"></span></a><div class="dropdown">${item.children.map(child => `<a href="${localizedHref(child[1], lang)}" ${child[1].split("#")[0] === file ? 'aria-current="page"' : ""}>${child[0]}</a>`).join("")}</div></div>`;
 }
 
-function mobileItem(item, data, lang) {
+function mobileItem(item, lang) {
   if (!item.children.length) {
     return `<a class="mobile-link" href="${localizedHref(item.href, lang)}">${item.label}</a>`;
   }
-  return `<div class="mobile-group"><button class="mobile-summary" type="button">${item.label}<span class="chevron" aria-hidden="true"></span></button><div class="mobile-children"><a href="${localizedHref(item.href, lang)}">${data.sectionOverview}</a>${item.children.map(child => `<a href="${localizedHref(child[1], lang)}">${child[0]}</a>`).join("")}</div></div>`;
+  return `<div class="mobile-group"><button class="mobile-summary" type="button" aria-expanded="false">${item.label}<span class="chevron" aria-hidden="true"></span></button><div class="mobile-children">${item.children.map(child => `<a href="${localizedHref(child[1], lang)}">${child[0]}</a>`).join("")}</div></div>`;
 }
 
 function languageSwitch(data, lang) {
@@ -2796,6 +2883,7 @@ function renderSection(section, data) {
   const type = section[0];
   if (type === "text") return textBlock(section[1], section[2], section[3] || "");
   if (type === "cards") return cardsBlock(section[1], section[2], section[3], data, section[5] || "", "", section[4]);
+  if (type === "membershipBenefits") return membershipBenefitsBlock(section[1], section[2], section[3]);
   if (type === "photo") return `<section class="reveal"><div class="photo-placeholder">${section[1]}</div></section>`;
   if (type === "timeline") return timelineBlock(section[1], data);
   if (type === "list") return listBlock(section[1], section[2], section[3] || "");
@@ -2815,6 +2903,11 @@ function renderSection(section, data) {
 
 function textBlock(title, text, id = "") {
   return `<section ${idAttr(id)} class="content-panel reveal"><h2 class="section-title">${title}</h2><p class="text-block">${text}</p></section>`;
+}
+
+function membershipBenefitsBlock(title, headers, rows) {
+  const body = rows.map(([activity, benefits]) => `<tr role="row"><th scope="row" role="rowheader">${activity}</th>${benefits.map(([participation, terms], index) => `<td role="cell"><span class="benefit-label" aria-hidden="true">${headers[index + 1]}</span><span class="benefit-value">${terms ? `<strong>${terms}</strong>` : ""}${participation ? `<span>${participation}</span>` : ""}</span></td>`).join("")}</tr>`).join("");
+  return `<section class="content-panel membership-benefits" aria-labelledby="membership-benefits-title"><h2 class="section-title" id="membership-benefits-title">${title}</h2><table class="membership-table" role="table" aria-labelledby="membership-benefits-title"><thead role="rowgroup"><tr role="row">${headers.map(header => `<th scope="col" role="columnheader">${header}</th>`).join("")}</tr></thead><tbody role="rowgroup">${body}</tbody></table></section>`;
 }
 
 function cardsBlock(title, items, columns = 3, data, id = "", kicker = "", people = false) {
@@ -2949,7 +3042,10 @@ function bindInteractions(data, lang) {
   });
 
   document.querySelectorAll(".mobile-summary").forEach(button => {
-    button.addEventListener("click", () => button.closest(".mobile-group").classList.toggle("is-open"));
+    button.addEventListener("click", () => {
+      const open = button.closest(".mobile-group").classList.toggle("is-open");
+      button.setAttribute("aria-expanded", String(open));
+    });
   });
 
   document.querySelectorAll(".mobile-panel a").forEach(link => {
