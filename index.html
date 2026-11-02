@@ -820,88 +820,115 @@ h1,
   gap: 22px;
 }
 
-.membership-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 0.88rem;
-  line-height: 1.6;
+.membership-levels {
+  display: grid;
+  gap: 28px;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.membership-card {
+  --level-accent: #6b7a90;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--level-accent);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(13, 43, 77, 0.035);
   overflow-wrap: anywhere;
 }
 
-.membership-table th,
-.membership-table td {
-  padding: 18px 14px;
+.membership-card--professional { --level-accent: #287b71; }
+.membership-card--expert { --level-accent: #4268a2; }
+.membership-card--honorary { --level-accent: #a88237; }
+
+.membership-card-head {
+  padding-bottom: 22px;
   border-bottom: 1px solid var(--line);
-  text-align: left;
-  vertical-align: top;
 }
 
-.membership-table thead th {
-  color: var(--navy);
-  background: var(--soft);
+.membership-card-number {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--level-accent);
+  font-size: 0.82rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
-.membership-table thead th:first-child { width: 24%; }
-
-.membership-table tbody th {
+.membership-card h3 {
+  margin: 0 0 10px;
   color: var(--navy);
+  font-size: 1.5rem;
   font-weight: 500;
+  line-height: 1.3;
 }
 
-.membership-table tbody tr:nth-child(even) { background: #fafbfc; }
-
-.benefit-value {
-  display: grid;
-  gap: 6px;
+.membership-card-subtitle {
+  margin: 0;
   color: var(--graphite);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-.benefit-value strong {
+.membership-card-eligibility {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.membership-card-benefits {
+  display: grid;
+  gap: 22px;
+  padding: 24px 0 28px;
+}
+
+.membership-benefit-group h4 {
+  margin: 0 0 9px;
   color: var(--navy);
+  font-size: 0.94rem;
   font-weight: 600;
+  line-height: 1.4;
 }
 
-.benefit-label { display: none; }
+.membership-benefit-group ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 19px;
+  color: var(--graphite);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
 
-@media (max-width: 900px) {
-  .membership-table,
-  .membership-table tbody,
-  .membership-table tr {
-    display: block;
-  }
+.membership-benefit-group li::marker { color: var(--level-accent); }
+.membership-benefit-group strong { font-weight: 600; }
 
-  .membership-table thead {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
+.membership-card .membership-join {
+  width: 100%;
+  min-height: 48px;
+  margin-top: auto;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+}
 
-  .membership-table tbody tr { margin-bottom: 28px; }
-  .membership-table tbody tr:nth-child(even) { background: transparent; }
+#membership-levels,
+#join-form { scroll-margin-top: calc(var(--header-h) + 24px); }
 
-  .membership-table tbody th {
-    display: block;
-    width: 100%;
-    padding: 16px 12px;
-    background: var(--soft);
-    font-size: 1rem;
-  }
-
-  .membership-table tbody td {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: 14px;
-    padding: 14px 12px;
-  }
-
-  .benefit-label {
-    display: block;
-    color: var(--muted);
-  }
+@media (max-width: 720px) {
+  .membership-grid { grid-template-columns: minmax(0, 1fr); }
+  .membership-card { padding: 24px 20px; }
+  .membership-card h3 { font-size: 1.3rem; }
 }
 
 .side-panel {
@@ -1895,6 +1922,8 @@ const DATA = {
       title: "Написати нам",
       partnershipTitle: "Запит на партнерство",
       membershipTitle: "Заява на членство",
+      membershipLevel: "Рівень членства",
+      membershipLevelPlaceholder: "Оберіть рівень членства",
       name: "Ім'я",
       namePlaceholder: "Ваше ім'я",
       email: "Email",
@@ -2048,6 +2077,8 @@ const DATA = {
       title: "Write to us",
       partnershipTitle: "Partnership request",
       membershipTitle: "Membership application",
+      membershipLevel: "Membership level",
+      membershipLevelPlaceholder: "Choose a membership level",
       name: "Name",
       namePlaceholder: "Your name",
       email: "Email",
@@ -2136,20 +2167,58 @@ DATA.ua.pages = {
     title: "Членство",
     lead: "Членство в МАКПП відкриває доступ до професійної спільноти, навчання, супервізій, робочих груп і партнерських програм.",
     sections: [
-      ["cards", "Категорії членства", [
-        ["Початковий / Базовий (Асоційований)", "Студенти старших курсів бакалаврату, молоді фахівці та зовнішні психологи."],
-        ["Професійний", "Студенти та випускники МІПО."],
-        ["Експертний", "Викладачі та супервізори: щонайменше 5 років досвіду в МІПО та 2 спеціалізації."],
-        ["Почесний", "Окрема категорія для визнаних експертів та партнерів."]
-      ], 2, false, "membership-levels"],
-      ["membershipBenefits", "Переваги членства", ["Заходи та можливості", "Зовнішні учасники (не члени)", "Початковий / Базовий", "Професійний", "Експертний", "Почесний"], [
-        ["Заходи підвищення кваліфікації (ЄКТС)", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник / тренер", "Знижка 20%"], ["Учасник / тренер", "Знижка 20%"], ["", "Безкоштовна участь"]]],
-        ["Заходи підвищення кваліфікації (БПР)", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник / тренер", "Знижка 20%"], ["Учасник / тренер", "Знижка 20%"], ["", "Безкоштовна участь"]]],
-        ["Інтервізії", [["Учасник", "Повна вартість"], ["Учасник", "Повна вартість"], ["Учасник", "Знижка 20%"], ["Учасник", "Знижка 20%"], ["", "Безкоштовна участь"]]],
-        ["Супервізії", [["", "Участь не передбачена"], ["Учасник за умови проходження курсів із навичок ведення клінічної документації", "Повна вартість"], ["Учасник", "Знижка 20%"], ["Учасник", "Знижка 20%"], ["", "Безкоштовна участь"]]],
-        ["Конференції / форуми", [["Учасник", "Повна вартість"], ["Учасник", "Знижка 10%"], ["Учасник", "Знижка 20%"], ["Можливість виступу", "Знижка 50%"], ["", "Безкоштовна участь"]]],
-        ["Проєкти Асоціації: консультації, тренінги, ретрити тощо", [["", "Участь не передбачена"], ["", "Участь не передбачена"], ["Асистент", "Безоплатно"], ["Тренер", "За домовленістю"], ["Тренер", ""]]],
-        ["Дослідження Асоціації", [["Учасник", ""], ["Учасник", "Доступ до результатів дослідження"], ["Учасник, дослідник", "Доступ до результатів дослідження"], ["Головний дослідник, автор наукових статей, дослідник", "Доступ до результатів дослідження"], ["Головний дослідник, автор наукових статей, дослідник", ""]]]
+      ["membershipCards", "Рівні членства", "Стати членом МАКПП", [
+        {
+          id: "basic",
+          title: "Початковий / Базовий",
+          subtitle: "Професійний розвиток і нові можливості",
+          eligibility: "Асоційоване членство для студентів старших курсів бакалаврату, молодих фахівців та зовнішніх психологів.",
+          benefits: [
+            ["Навчання", ["Знижка <strong>10%</strong> на освітні програми (ЄКТС).", "Знижка <strong>10%</strong> на заходи БПР."]],
+            ["Інтервізії та супервізії", ["Участь в інтервізіях за стандартною вартістю.", "Участь у супервізіях за стандартною вартістю за умови проходження навчання з ведення клінічної документації."]],
+            ["Конференції", ["Знижка <strong>10%</strong> на конференції та форуми."]],
+            ["Наукова діяльність", ["Можливість участі в дослідженнях Асоціації.", "Доступ до результатів досліджень."]]
+          ]
+        },
+        {
+          id: "professional",
+          title: "Професійний",
+          subtitle: "Більше можливостей для професійної практики",
+          eligibility: "Для студентів та випускників МІПО.",
+          benefits: [
+            ["Навчання", ["Знижка <strong>20%</strong> на освітні програми (ЄКТС).", "Знижка <strong>20%</strong> на заходи БПР.", "Можливість долучатися до проведення навчання як тренер."]],
+            ["Інтервізії та супервізії", ["Знижка <strong>20%</strong> на інтервізії.", "Знижка <strong>20%</strong> на супервізії."]],
+            ["Конференції", ["Знижка <strong>20%</strong> на конференції та форуми."]],
+            ["Проєкти", ["Можливість безоплатно долучатися до проєктів Асоціації як асистент."]],
+            ["Наукова діяльність", ["Участь у дослідженнях.", "Доступ до результатів досліджень."]]
+          ]
+        },
+        {
+          id: "expert",
+          title: "Експертний",
+          subtitle: "Експертна діяльність і розвиток професійної спільноти",
+          eligibility: "Для викладачів та супервізорів із щонайменше 5 роками досвіду в МІПО та 2 спеціалізаціями.",
+          benefits: [
+            ["Навчання", ["Знижка <strong>20%</strong> на освітні програми (ЄКТС).", "Знижка <strong>20%</strong> на заходи БПР.", "Можливість проводити навчання як тренер."]],
+            ["Інтервізії та супервізії", ["Знижка <strong>20%</strong> на інтервізії.", "Знижка <strong>20%</strong> на супервізії."]],
+            ["Конференції", ["Знижка <strong>50%</strong> на конференції та форуми.", "Можливість виступати на професійних заходах."]],
+            ["Проєкти", ["Участь у проєктах Асоціації як тренер за домовленістю."]],
+            ["Наукова діяльність", ["Доступ до результатів досліджень.", "Можливість проводити дослідження як головний дослідник.", "Можливість бути автором наукових статей."]]
+          ]
+        },
+        {
+          id: "honorary",
+          title: "Почесний",
+          subtitle: "Особливий статус і розширені можливості",
+          eligibility: "Окрема категорія для визнаних експертів та партнерів.",
+          benefits: [
+            ["Навчання", ["Безоплатна участь в освітніх програмах (ЄКТС).", "Безоплатна участь у заходах БПР."]],
+            ["Інтервізії та супервізії", ["Безоплатна участь в інтервізіях.", "Безоплатна участь у супервізіях."]],
+            ["Конференції", ["Безоплатна участь у конференціях та форумах."]],
+            ["Проєкти", ["Участь у проєктах Асоціації як тренер."]],
+            ["Наукова діяльність", ["Можливість проводити дослідження як головний дослідник.", "Можливість бути автором наукових статей."]]
+          ]
+        }
       ]],
       ["form", "membership", "join-form"]
     ]
@@ -2460,20 +2529,58 @@ DATA.en.pages = {
     title: "Membership",
     lead: "Membership in IACPP provides access to a professional community, training, supervision, working groups and partnership programs.",
     sections: [
-      ["cards", "Membership categories", [
-        ["Entry / Basic (Associate)", "Senior undergraduate students, early-career practitioners and external psychologists."],
-        ["Professional", "MIPO students and graduates."],
-        ["Expert", "Lecturers and supervisors with at least 5 years of experience at MIPO and 2 specialisations."],
-        ["Honorary", "A separate category for recognised experts and partners."]
-      ], 2, false, "membership-levels"],
-      ["membershipBenefits", "Membership benefits", ["Events and opportunities", "External participants (non-members)", "Entry / Basic", "Professional", "Expert", "Honorary"], [
-        ["Continuing education events (ECTS)", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant / trainer", "20% discount"], ["Participant / trainer", "20% discount"], ["", "Free participation"]]],
-        ["Continuing professional development events (CPD)", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant / trainer", "20% discount"], ["Participant / trainer", "20% discount"], ["", "Free participation"]]],
-        ["Peer supervision", [["Participant", "Full price"], ["Participant", "Full price"], ["Participant", "20% discount"], ["Participant", "20% discount"], ["", "Free participation"]]],
-        ["Supervision", [["", "Participation not available"], ["Participant, subject to completing courses in clinical documentation skills", "Full price"], ["Participant", "20% discount"], ["Participant", "20% discount"], ["", "Free participation"]]],
-        ["Conferences / forums", [["Participant", "Full price"], ["Participant", "10% discount"], ["Participant", "20% discount"], ["Opportunity to speak", "50% discount"], ["", "Free participation"]]],
-        ["Association projects: consultations, training, retreats and more", [["", "Participation not available"], ["", "Participation not available"], ["Assistant", "Unpaid"], ["Trainer", "By agreement"], ["Trainer", ""]]],
-        ["Association research", [["Participant", ""], ["Participant", "Access to research findings"], ["Participant, researcher", "Access to research findings"], ["Principal investigator, author of scientific articles, researcher", "Access to research findings"], ["Principal investigator, author of scientific articles, researcher", ""]]]
+      ["membershipCards", "Membership levels", "Become an IACPP member", [
+        {
+          id: "basic",
+          title: "Entry / Basic",
+          subtitle: "Professional development and new opportunities",
+          eligibility: "Associate membership for senior undergraduate students, early-career practitioners and external psychologists.",
+          benefits: [
+            ["Education", ["<strong>10%</strong> discount on educational programmes (ECTS).", "<strong>10%</strong> discount on CPD events."]],
+            ["Peer supervision and supervision", ["Participation in peer supervision at the standard price.", "Participation in supervision at the standard price, subject to completing training in clinical documentation."]],
+            ["Conferences", ["<strong>10%</strong> discount on conferences and forums."]],
+            ["Research", ["Opportunity to participate in the Association's research.", "Access to research findings."]]
+          ]
+        },
+        {
+          id: "professional",
+          title: "Professional",
+          subtitle: "More opportunities for professional practice",
+          eligibility: "For MIPO students and graduates.",
+          benefits: [
+            ["Education", ["<strong>20%</strong> discount on educational programmes (ECTS).", "<strong>20%</strong> discount on CPD events.", "Opportunity to contribute to educational activities as a trainer."]],
+            ["Peer supervision and supervision", ["<strong>20%</strong> discount on peer supervision.", "<strong>20%</strong> discount on supervision."]],
+            ["Conferences", ["<strong>20%</strong> discount on conferences and forums."]],
+            ["Projects", ["Opportunity to join the Association's projects as an assistant on an unpaid basis."]],
+            ["Research", ["Participation in research.", "Access to research findings."]]
+          ]
+        },
+        {
+          id: "expert",
+          title: "Expert",
+          subtitle: "Expert practice and the development of the professional community",
+          eligibility: "For lecturers and supervisors with at least 5 years of experience at MIPO and 2 specialisations.",
+          benefits: [
+            ["Education", ["<strong>20%</strong> discount on educational programmes (ECTS).", "<strong>20%</strong> discount on CPD events.", "Opportunity to deliver educational activities as a trainer."]],
+            ["Peer supervision and supervision", ["<strong>20%</strong> discount on peer supervision.", "<strong>20%</strong> discount on supervision."]],
+            ["Conferences", ["<strong>50%</strong> discount on conferences and forums.", "Opportunity to speak at professional events."]],
+            ["Projects", ["Participation in the Association's projects as a trainer by agreement."]],
+            ["Research", ["Access to research findings.", "Opportunity to conduct research as a principal investigator.", "Opportunity to author scientific articles."]]
+          ]
+        },
+        {
+          id: "honorary",
+          title: "Honorary",
+          subtitle: "Special status and expanded opportunities",
+          eligibility: "A separate category for recognised experts and partners.",
+          benefits: [
+            ["Education", ["Free participation in educational programmes (ECTS).", "Free participation in CPD events."]],
+            ["Peer supervision and supervision", ["Free participation in peer supervision.", "Free participation in supervision."]],
+            ["Conferences", ["Free participation in conferences and forums."]],
+            ["Projects", ["Participation in the Association's projects as a trainer."]],
+            ["Research", ["Opportunity to conduct research as a principal investigator.", "Opportunity to author scientific articles."]]
+          ]
+        }
       ]],
       ["form", "membership", "join-form"]
     ]
@@ -2883,7 +2990,7 @@ function renderSection(section, data) {
   const type = section[0];
   if (type === "text") return textBlock(section[1], section[2], section[3] || "");
   if (type === "cards") return cardsBlock(section[1], section[2], section[3], data, section[5] || "", "", section[4]);
-  if (type === "membershipBenefits") return membershipBenefitsBlock(section[1], section[2], section[3]);
+  if (type === "membershipCards") return membershipCardsBlock(section[1], section[2], section[3]);
   if (type === "photo") return `<section class="reveal"><div class="photo-placeholder">${section[1]}</div></section>`;
   if (type === "timeline") return timelineBlock(section[1], data);
   if (type === "list") return listBlock(section[1], section[2], section[3] || "");
@@ -2905,9 +3012,12 @@ function textBlock(title, text, id = "") {
   return `<section ${idAttr(id)} class="content-panel reveal"><h2 class="section-title">${title}</h2><p class="text-block">${text}</p></section>`;
 }
 
-function membershipBenefitsBlock(title, headers, rows) {
-  const body = rows.map(([activity, benefits]) => `<tr role="row"><th scope="row" role="rowheader">${activity}</th>${benefits.map(([participation, terms], index) => `<td role="cell"><span class="benefit-label" aria-hidden="true">${headers[index + 1]}</span><span class="benefit-value">${terms ? `<strong>${terms}</strong>` : ""}${participation ? `<span>${participation}</span>` : ""}</span></td>`).join("")}</tr>`).join("");
-  return `<section class="content-panel membership-benefits" aria-labelledby="membership-benefits-title"><h2 class="section-title" id="membership-benefits-title">${title}</h2><table class="membership-table" role="table" aria-labelledby="membership-benefits-title"><thead role="rowgroup"><tr role="row">${headers.map(header => `<th scope="col" role="columnheader">${header}</th>`).join("")}</tr></thead><tbody role="rowgroup">${body}</tbody></table></section>`;
+function membershipCardsBlock(title, buttonLabel, levels) {
+  const cards = levels.map((level, index) => {
+    const benefits = level.benefits.map(([heading, items]) => `<div class="membership-benefit-group"><h4>${heading}</h4><ul>${items.map(item => `<li>${item}</li>`).join("")}</ul></div>`).join("");
+    return `<article class="membership-card membership-card--${level.id}" aria-labelledby="membership-${level.id}-title"><header class="membership-card-head"><span class="membership-card-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><h3 id="membership-${level.id}-title">${level.title}</h3><p class="membership-card-subtitle">${level.subtitle}</p><p class="membership-card-eligibility">${level.eligibility}</p></header><div class="membership-card-benefits">${benefits}</div><a class="btn btn-gold membership-join" href="${localizedHref("membership.html#join-form", getLanguage())}" data-membership-level="${level.id}" aria-label="${buttonLabel}: ${level.title}">${buttonLabel}</a></article>`;
+  }).join("");
+  return `<section class="membership-levels" id="membership-levels" aria-labelledby="membership-levels-title"><h2 class="section-title" id="membership-levels-title">${title}</h2><div class="membership-grid">${cards}</div></section>`;
 }
 
 function cardsBlock(title, items, columns = 3, data, id = "", kicker = "", people = false) {
@@ -3013,7 +3123,9 @@ function coursesBlock(items, data) {
 }
 
 function contactForm(data, title = data.form.title, id = "") {
-  return `<section ${idAttr(id)} class="form-shell reveal"><h2 class="section-title">${title}</h2><form class="form-grid"><div class="field"><label for="name">${data.form.name}</label><input id="name" name="name" type="text" placeholder="${data.form.namePlaceholder}"></div><div class="field"><label for="email">${data.form.email}</label><input id="email" name="email" type="email" placeholder="name@example.com"></div><div class="field field-full"><label for="topic">${data.form.topic}</label><select id="topic" name="topic">${data.form.options.map(option => `<option>${option}</option>`).join("")}</select></div><div class="field field-full"><label for="message">${data.form.message}</label><textarea id="message" name="message" placeholder="${data.form.messagePlaceholder}"></textarea></div><div class="field field-full"><button class="btn btn-primary" type="submit">${data.form.submit}</button></div></form></section>`;
+  const levels = id === "join-form" ? data.pages.membership.sections.find(section => section[0] === "membershipCards")[3] : [];
+  const levelField = levels.length ? `<div class="field field-full"><label for="membership-level">${data.form.membershipLevel}</label><select id="membership-level" name="membership-level"><option value="">${data.form.membershipLevelPlaceholder}</option>${levels.map(level => `<option value="${level.id}">${level.title}</option>`).join("")}</select></div>` : "";
+  return `<section ${idAttr(id)} class="form-shell reveal"><h2 class="section-title">${title}</h2><form class="form-grid"><div class="field"><label for="name">${data.form.name}</label><input id="name" name="name" type="text" placeholder="${data.form.namePlaceholder}"></div><div class="field"><label for="email">${data.form.email}</label><input id="email" name="email" type="email" placeholder="name@example.com"></div>${levelField}<div class="field field-full"><label for="topic">${data.form.topic}</label><select id="topic" name="topic">${data.form.options.map(option => `<option>${option}</option>`).join("")}</select></div><div class="field field-full"><label for="message">${data.form.message}</label><textarea id="message" name="message" placeholder="${data.form.messagePlaceholder}"></textarea></div><div class="field field-full"><button class="btn btn-primary" type="submit">${data.form.submit}</button></div></form></section>`;
 }
 
 function idAttr(id) {
@@ -3061,6 +3173,18 @@ function bindInteractions(data, lang) {
     button.addEventListener("click", () => {
       const next = button.dataset.lang;
       if (next !== lang) setLanguage(next);
+    });
+  });
+
+  document.querySelectorAll("[data-membership-level]").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      const form = document.getElementById("join-form");
+      const select = document.getElementById("membership-level");
+      select.value = link.dataset.membershipLevel;
+      form.classList.add("is-visible");
+      form.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+      select.focus({ preventScroll: true });
     });
   });
 
