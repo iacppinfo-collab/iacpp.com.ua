@@ -1869,8 +1869,6 @@ const DATA = {
       goalText: "Мета організації представлена як система взаємопов'язаних напрямів, що посилюють фахівців, громади та якість психологічних послуг.",
       directionsKicker: "Напрями",
       directionsTitle: "Основні напрями",
-      projectsKicker: "Проєкти та ініціативи",
-      projectsTitle: "Практичні програми для фахівців і громад",
       psychologistsTitle: "Для психологів",
       educationTitle: "Навчання",
       partnershipKicker: "Партнерство",
@@ -2024,8 +2022,6 @@ const DATA = {
       goalText: "The association's purpose is presented as a system of connected priorities that strengthen specialists, communities and the quality of psychological services.",
       directionsKicker: "Areas",
       directionsTitle: "Main areas",
-      projectsKicker: "Projects and initiatives",
-      projectsTitle: "Practical programs for specialists and communities",
       psychologistsTitle: "For psychologists",
       educationTitle: "Education",
       partnershipKicker: "Partnership",
@@ -2953,7 +2949,6 @@ function renderHome(data) {
     <section class="section reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.aboutKicker}</p><h2 class="section-title">${h.aboutTitle}</h2><a class="btn btn-outline section-head-btn" href="about.html${langQuery(getLanguage())}">${h.aboutButton}</a></div><p class="section-copy">${h.aboutText}</p></div></div></section>
     <section class="section goal-section reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.goalKicker}</p><h2 class="section-title">${h.goalTitle}</h2></div><p class="section-copy">${h.goalText}</p></div>${goalMapBlock(data.goalItems)}</div></section>
     ${cardsBlock(h.directionsTitle, data.directions, 4, data, "", h.directionsKicker)}
-    <section class="section section-soft reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.projectsKicker}</p><h2 class="section-title">${h.projectsTitle}</h2></div><a class="btn btn-outline" href="projects.html${langQuery(getLanguage())}">${data.allProjects}</a></div><div class="grid grid-3">${data.projects.map(project => projectCard(project, data)).join("")}</div></div></section>
     ${linkCardsBlock(h.psychologistsTitle, data.psychologists, 3, data)}
     ${linkCardsBlock(h.educationTitle, data.educationCards, 4, data, "section-soft")}
     <section class="section section-gold reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.partnershipKicker}</p><h2 class="section-title">${h.partnershipTitle}</h2></div><p class="section-copy">${h.partnershipText}</p></div><div class="section-actions"><a class="btn btn-primary" href="partnership.html${langQuery(getLanguage())}">${data.becomePartner}</a><a class="btn btn-outline" href="contacts.html${langQuery(getLanguage())}">${data.contactUs}</a></div></div></section>`;
