@@ -6,6 +6,8 @@
   <title>Розширення вікна толерантності | МАКПП</title>
   <meta name="description" content="Як повернути контроль над власною нервовою системою: вікно толерантності, ознаки гіперзбудження та гіпозбудження, заземлення і відновлення саморегуляції.">
   <style>
+    :is(a, button):focus-visible { outline: 3px solid #31584c; outline-offset: 3px; }
+    .actions button.lang { min-width: 44px; min-height: 44px; }
     :root {
       --navy: #0d2b4d;
       --gold: #b98a2d;
@@ -315,6 +317,8 @@
         const active = button.dataset.langButton === next;
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-pressed", String(active));
+        button.setAttribute("lang", button.dataset.langButton === "ua" ? "uk" : "en");
+        button.setAttribute("aria-label", button.dataset.langButton === "ua" ? "Українська" : "English");
       });
       document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
       document.querySelectorAll("[data-aria-ua]").forEach(item => item.setAttribute("aria-label", item.dataset[next === "en" ? "ariaEn" : "ariaUa"]));

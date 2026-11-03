@@ -1772,11 +1772,13 @@ select:focus {
 }
 </style>
   <link rel="stylesheet" href="assets/home-page.css?v=20261102-1">
+  <link rel="stylesheet" href="assets/site-forms.css?v=20261103-1">
 </head>
 <body>
   <header class="site-header" data-header></header>
   <main id="main" tabindex="-1"></main>
   <footer class="site-footer" data-footer></footer>
+  <script src="assets/site-forms.js?v=20261103-1"></script>
   <script>
 // Content editing: change navigation, cards, pages, documents, courses, contacts and translations here.
 const LANG_KEY = "makpp-language";
@@ -1929,7 +1931,7 @@ const DATA = {
       message: "Повідомлення",
       messagePlaceholder: "Коротко опишіть запит",
       submit: "Надіслати запит",
-      thanks: "Дякуємо. Форму можна підключити до CRM або поштового сервісу."
+      languageLabel: "Мова сайту"
     },
     contacts: [["Email", "iacpp.info@gmail.com"], ["Телефон", "+380 99 537 28 66"], ["Телефон", "+380 67 408 15 80"], ["Адреса", "м. Суми, вул. Атаманюка Романа, буд. 53, кв. 15"]],
     pages: {}
@@ -2080,7 +2082,7 @@ const DATA = {
       message: "Message",
       messagePlaceholder: "Briefly describe your request",
       submit: "Send request",
-      thanks: "Thank you. The form can be connected to a CRM or email service."
+      languageLabel: "Website language"
     },
     contacts: [["Email", "iacpp.info@gmail.com"], ["Phone", "+380 99 537 28 66"], ["Phone", "+380 67 408 15 80"], ["Address", "53 Romana Atamaniuka St., apt. 15, Sumy, Ukraine"]],
     pages: {}
@@ -2244,7 +2246,7 @@ DATA.ua.pages = {
     lead: "Курси МАКПП створені для системного підвищення кваліфікації клінічних психологів, психотерапевтів та інших фахівців психічного здоров'я.",
     sections: [
       ["courses", [["Основи клінічного консультування", "8 модулів", "Старт набору: буде оголошено"], ["Травматерапія в кризових умовах", "10 модулів", "Формат: онлайн + супервізійні групи"], ["Психотерапевтична робота з втратою", "6 модулів", "Для практиків із досвідом консультування"]]],
-      ["text", "Місце для реєстрації", "До кожного курсу можна додати фото викладача, програму, PDF-опис, форму реєстрації та статус набору."]
+      ["text", "Інформація про набір", "Інформація про набір готується. Щоб уточнити її, зверніться до Асоціації."]
     ]
   },
   webinars: {
@@ -2252,7 +2254,7 @@ DATA.ua.pages = {
     lead: "Вебінари дають змогу швидко отримати прикладні знання, обговорити клінічні випадки та познайомитися з сучасними підходами.",
     sections: [
       ["courses", [["Травмаінформована комунікація", "90 хв", "Дата: буде оголошено"], ["Етика онлайн-консультування", "120 хв", "Формат: лекція та відповіді"], ["Професійне вигорання фахівців", "90 хв", "Для психологів і команд допомоги"]]],
-      ["documents", [["Архів презентацій", "PDF, місце для матеріалів після подій"], ["Записи вебінарів", "Місце для посилань на відео"]]]
+      ["documents", [["Архів презентацій", "Матеріали до цього розділу готуються."], ["Записи вебінарів", "Матеріали до цього розділу готуються."]]]
     ]
   },
   news: {
@@ -2605,7 +2607,7 @@ DATA.en.pages = {
     lead: "IACPP courses are designed for systematic professional development of clinical psychologists, psychotherapists and other mental health specialists.",
     sections: [
       ["courses", [["Fundamentals of clinical counselling", "8 modules", "Enrollment start: to be announced"], ["Trauma therapy in crisis conditions", "10 modules", "Format: online + supervision groups"], ["Psychotherapeutic work with grief", "6 modules", "For practitioners with counselling experience"]]],
-      ["text", "Registration space", "Each course can include a teacher photo, program, PDF description, registration form and enrollment status."]
+      ["text", "Enrollment information", "Enrollment information is being prepared. Contact the Association for details."]
     ]
   },
   webinars: {
@@ -2613,7 +2615,7 @@ DATA.en.pages = {
     lead: "Webinars help specialists quickly gain applied knowledge, discuss clinical cases and become familiar with modern approaches.",
     sections: [
       ["courses", [["Trauma-informed communication", "90 min", "Date: to be announced"], ["Ethics of online counselling", "120 min", "Format: lecture and Q&A"], ["Professional burnout of specialists", "90 min", "For psychologists and care teams"]]],
-      ["documents", [["Presentation archive", "PDF, space for post-event materials"], ["Webinar recordings", "Space for video links"]]]
+      ["documents", [["Presentation archive", "Materials for this section are being prepared."], ["Webinar recordings", "Materials for this section are being prepared."]]]
     ]
   },
   news: {
@@ -2813,11 +2815,17 @@ function getLanguage() {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("lang");
   if (DATA[fromUrl]) return fromUrl;
-  const saved = localStorage.getItem(LANG_KEY);
-  return DATA[saved] ? saved : DEFAULT_LANG;
+  if (DATA[window.history.state?.siteLanguage]) return window.history.state.siteLanguage;
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    return DATA[saved] ? saved : DEFAULT_LANG;
+  } catch (_error) {
+    return DEFAULT_LANG;
+  }
 }
 
 function setLanguage(lang) {
+  if (!DATA[lang]) return;
   try {
     localStorage.setItem(LANG_KEY, lang);
   } catch (_error) {
@@ -2827,26 +2835,30 @@ function setLanguage(lang) {
     const url = new URL(window.location.href);
     if (["file:", "http:", "https:"].includes(url.protocol)) {
       url.searchParams.set("lang", lang);
-      window.history.replaceState({}, "", url);
+      window.history.replaceState({ ...history.state, siteLanguage: lang }, "", url);
     }
   } catch (_error) {
     // content:// viewers on Android often block history changes.
   }
-  renderSite(lang);
+  renderStandalone(true, lang);
+  document.querySelector(`[data-lang="${lang}"]`)?.focus({ preventScroll: true });
 }
 
 function currentFile() {
-  const path = window.location.pathname.split("/").pop();
-  return path || "index.html";
+  return STANDALONE_FILES[standaloneRouteFromHash().page] || "index.html";
 }
 
 function currentPageKey() {
-  return document.documentElement.dataset.page || "home";
+  return standaloneRouteFromHash().page;
 }
 
 function renderSite(lang = getLanguage()) {
+  rememberFormDrafts();
   const data = DATA[lang];
   document.documentElement.lang = data.lang;
+  document.documentElement.dataset.page = currentPageKey();
+  try { history.replaceState({ ...history.state, siteLanguage: lang }, ""); } catch (_error) {}
+  updatePageMetadata(data);
   document.body.classList.remove("menu-open");
   renderHeader(data, lang);
   renderFooter(data);
@@ -2857,7 +2869,6 @@ function renderSite(lang = getLanguage()) {
   }
   bindInteractions(data, lang);
   revealOnScroll();
-  scrollToPageAnchor();
 }
 
 function renderHeader(data, lang) {
@@ -2879,7 +2890,7 @@ function renderHeader(data, lang) {
       </div>
       <button class="menu-toggle" type="button" aria-label="${data.openMenu}" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
     </div>
-    <div class="mobile-panel" id="mobile-menu">
+    <div class="mobile-panel" id="mobile-menu" inert aria-hidden="true">
       <nav class="mobile-nav" aria-label="${data.mobileNavLabel}">
         ${data.nav.map(item => mobileItem(item, lang)).join("")}
         <a class="btn btn-gold" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>
@@ -2903,11 +2914,9 @@ function mobileItem(item, lang) {
 }
 
 function languageSwitch(data, lang) {
-  const other = data.otherLang;
-  return `<div class="language-switch" aria-label="Language switcher">
-    <button type="button" class="lang-option ${lang === "ua" ? "is-active" : ""}" data-lang="ua" aria-pressed="${lang === "ua"}">UA</button>
-    <button type="button" class="lang-option ${lang === "en" ? "is-active" : ""}" data-lang="en" aria-pressed="${lang === "en"}">EN</button>
-    <span class="visually-hidden">${other}</span>
+  return `<div class="language-switch" role="group" aria-label="${data.form.languageLabel}">
+    <button type="button" class="lang-option ${lang === "ua" ? "is-active" : ""}" data-lang="ua" lang="uk" aria-label="Українська" aria-pressed="${lang === "ua"}">UA</button>
+    <button type="button" class="lang-option ${lang === "en" ? "is-active" : ""}" data-lang="en" lang="en" aria-label="English" aria-pressed="${lang === "en"}">EN</button>
   </div>`;
 }
 
@@ -2997,7 +3006,7 @@ function renderSection(section, data) {
   const type = section[0];
   if (type === "text") return textBlock(section[1], section[2], section[3] || "");
   if (type === "cards") return cardsBlock(section[1], section[2], section[3], data, section[5] || "", "", section[4]);
-  if (type === "membershipCards") return membershipCardsBlock(section[1], section[2], section[3]);
+  if (type === "membershipCards") return membershipComparisonBlock(section[3], data) + membershipCardsBlock(section[1], section[2], section[3]);
   if (type === "photo") return `<section class="reveal"><div class="photo-placeholder">${section[1]}</div></section>`;
   if (type === "timeline") return timelineBlock(section[1], data);
   if (type === "list") return listBlock(section[1], section[2], section[3] || "");
@@ -3022,7 +3031,7 @@ function textBlock(title, text, id = "") {
 function membershipCardsBlock(title, buttonLabel, levels) {
   const cards = levels.map((level, index) => {
     const benefits = level.benefits.map(([heading, items]) => `<div class="membership-benefit-group"><h4>${heading}</h4><ul>${items.map(item => `<li>${item}</li>`).join("")}</ul></div>`).join("");
-    return `<article class="membership-card membership-card--${level.id}" aria-labelledby="membership-${level.id}-title"><header class="membership-card-head"><span class="membership-card-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><h3 id="membership-${level.id}-title">${level.title}</h3><p class="membership-card-subtitle">${level.subtitle}</p><p class="membership-card-eligibility">${level.eligibility}</p></header><div class="membership-card-benefits">${benefits}</div><a class="btn btn-gold membership-join" href="${localizedHref("membership.html#join-form", getLanguage())}" data-membership-level="${level.id}" aria-label="${buttonLabel}: ${level.title}">${buttonLabel}</a></article>`;
+    return `<article class="membership-card membership-card--${level.id}" aria-labelledby="membership-${level.id}-title"><header class="membership-card-head"><span class="membership-card-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><h3 id="membership-${level.id}-title">${level.title}</h3><p class="membership-card-subtitle">${level.subtitle}</p><p class="membership-card-eligibility">${level.eligibility}</p><p class="membership-price">${membershipPrice(DATA[getLanguage()])}</p></header><div class="membership-card-benefits">${benefits}</div><a class="btn btn-gold membership-join" href="${localizedHref("membership.html#join-form", getLanguage())}" data-membership-level="${level.id}" aria-label="${buttonLabel}: ${level.title}">${buttonLabel}</a></article>`;
   }).join("");
   return `<section class="membership-levels" id="membership-levels" aria-labelledby="membership-levels-title"><h2 class="section-title" id="membership-levels-title">${title}</h2><div class="membership-grid">${cards}</div></section>`;
 }
@@ -3126,13 +3135,12 @@ function projectCard(project, data) {
 }
 
 function coursesBlock(items, data) {
-  return `<section class="content-panel reveal"><h2 class="section-title">${data.currentPrograms}</h2><div class="grid grid-3">${items.map((item, index) => `<article class="card"><div class="card-icon">${String(index + 1).padStart(2, "0")}</div><h3>${item[0]}</h3><p><strong>${item[1]}</strong><br>${item[2]}</p><a class="card-link" href="#">${data.register}</a></article>`).join("")}</div></section>`;
+  const label = data.lang === "uk" ? "Дізнатися про набір" : "Ask about enrollment";
+  return `<section class="content-panel reveal"><h2 class="section-title">${data.currentPrograms}</h2><div class="grid grid-3">${items.map((item, index) => `<article class="card"><div class="card-icon">${String(index + 1).padStart(2, "0")}</div><h3>${item[0]}</h3><p><strong>${item[1]}</strong><br>${item[2]}</p><a class="card-link course-inquiry" href="#contacts:contact-form" data-course-page="${currentPageKey()}" data-course-index="${index}" aria-label="${label}: ${escapeHTML(item[0])}">${label}</a></article>`).join("")}</div></section>`;
 }
 
 function contactForm(data, title = data.form.title, id = "") {
-  const levels = id === "join-form" ? data.pages.membership.sections.find(section => section[0] === "membershipCards")[3] : [];
-  const levelField = levels.length ? `<div class="field field-full"><label for="membership-level">${data.form.membershipLevel}</label><select id="membership-level" name="membership-level"><option value="">${data.form.membershipLevelPlaceholder}</option>${levels.map(level => `<option value="${level.id}">${level.title}</option>`).join("")}</select></div>` : "";
-  return `<section ${idAttr(id)} class="form-shell reveal"><h2 class="section-title">${title}</h2><form class="form-grid"><div class="field"><label for="name">${data.form.name}</label><input id="name" name="name" type="text" placeholder="${data.form.namePlaceholder}"></div><div class="field"><label for="email">${data.form.email}</label><input id="email" name="email" type="email" placeholder="name@example.com"></div>${levelField}<div class="field field-full"><label for="topic">${data.form.topic}</label><select id="topic" name="topic">${data.form.options.map(option => `<option>${option}</option>`).join("")}</select></div><div class="field field-full"><label for="message">${data.form.message}</label><textarea id="message" name="message" placeholder="${data.form.messagePlaceholder}"></textarea></div><div class="field field-full"><button class="btn btn-primary" type="submit">${data.form.submit}</button></div></form></section>`;
+  return accessibleContactForm(data, title, id);
 }
 
 function idAttr(id) {
@@ -3140,25 +3148,50 @@ function idAttr(id) {
 }
 
 function langQuery(lang) {
-  return lang === DEFAULT_LANG ? "" : `?lang=${lang}`;
+  return `?lang=${lang}`;
 }
 
 function localizedHref(href, lang) {
-  const [path, hash = ""] = href.split("#");
-  const query = langQuery(lang);
-  return `${path}${query}${hash ? `#${hash}` : ""}`;
+  if (href.startsWith("#")) return href;
+  const url = new URL(href, window.location.href);
+  if (url.origin !== window.location.origin) return href;
+  const page = STANDALONE_ROUTES[url.pathname.split("/").pop()];
+  return page ? `#${page}${url.hash ? `:${url.hash.slice(1)}` : ""}` : href;
 }
 
 function bindInteractions(data, lang) {
   const toggle = document.querySelector(".menu-toggle");
   const panel = document.querySelector(".mobile-panel");
+  const setMenu = open => {
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? data.closeMenu : data.openMenu);
+    panel.classList.toggle("is-open", open);
+    panel.inert = !open;
+    panel.setAttribute("aria-hidden", String(!open));
+    document.body.classList.toggle("menu-open", open);
+    document.getElementById("main").inert = open;
+    document.querySelector("[data-footer]").inert = open;
+  };
+  setMenu(false);
   toggle.addEventListener("click", () => {
     const open = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", String(!open));
-    toggle.setAttribute("aria-label", open ? data.openMenu : data.closeMenu);
-    panel.classList.toggle("is-open", !open);
-    document.body.classList.toggle("menu-open", !open);
+    setMenu(!open);
   });
+  document.querySelector("[data-header]").onkeydown = event => {
+    if (toggle.getAttribute("aria-expanded") !== "true") return;
+    if (event.key === "Escape") {
+      setMenu(false);
+      toggle.focus();
+    } else if (event.key === "Tab") {
+      const focusable = [...document.querySelectorAll('[data-header] a[href], [data-header] button')].filter(el => el.getClientRects().length && !el.closest("[inert]"));
+      const edge = event.shiftKey ? focusable[0] : focusable.at(-1);
+      if (document.activeElement === edge) {
+        event.preventDefault();
+        (event.shiftKey ? focusable.at(-1) : focusable[0]).focus();
+      }
+    }
+  };
+  window.onresize = () => { if (window.innerWidth > 1240) setMenu(false); };
 
   document.querySelectorAll(".mobile-summary").forEach(button => {
     button.addEventListener("click", () => {
@@ -3169,10 +3202,7 @@ function bindInteractions(data, lang) {
 
   document.querySelectorAll(".mobile-panel a").forEach(link => {
     link.addEventListener("click", () => {
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", data.openMenu);
-      panel.classList.remove("is-open");
-      document.body.classList.remove("menu-open");
+      setMenu(false);
     });
   });
 
@@ -3183,24 +3213,7 @@ function bindInteractions(data, lang) {
     });
   });
 
-  document.querySelectorAll("[data-membership-level]").forEach(link => {
-    link.addEventListener("click", event => {
-      event.preventDefault();
-      const form = document.getElementById("join-form");
-      const select = document.getElementById("membership-level");
-      select.value = link.dataset.membershipLevel;
-      form.classList.add("is-visible");
-      form.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
-      select.focus({ preventScroll: true });
-    });
-  });
-
-  document.querySelectorAll("form").forEach(form => {
-    form.addEventListener("submit", event => {
-      event.preventDefault();
-      alert(data.form.thanks);
-    });
-  });
+  bindInquiryForms(data);
 }
 
 function revealOnScroll() {
@@ -3216,26 +3229,60 @@ function revealOnScroll() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0 });
   items.forEach(item => observer.observe(item));
-}
-
-function scrollToPageAnchor() {
-  const hash = window.location.hash.replace(/^#/, "");
-  if (!hash || hash.includes(":")) return;
-  requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" }));
 }
 
 const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","news.html":"news","july-practice-audit.html":"july-practice-audit","emotion-wheel.html":"emotion-wheel","child-learning-readiness.html":"child-learning-readiness","partnership.html":"partnership"};
 const STANDALONE_FILES=Object.fromEntries(Object.entries(STANDALONE_ROUTES).map(([file,page])=>[page,file]));
-function standaloneRouteFromHash(){const raw=decodeURIComponent(window.location.hash.replace(/^#/,""));const[page="home",anchor=""]=raw.split(":");return{page:page||"home",anchor};}
-currentFile=function(){const route=standaloneRouteFromHash();return STANDALONE_FILES[route.page]||"index.html";};
-currentPageKey=function(){return standaloneRouteFromHash().page;};
-localizedHref=function(href){if(href.startsWith("#"))return href;const[path,anchor=""]=href.split("#");const page=STANDALONE_ROUTES[path]||"home";return`#${page}${anchor?`:${anchor}`:""}`;};
-setLanguage=function(lang){try{localStorage.setItem(LANG_KEY,lang);}catch(_error){}const route=standaloneRouteFromHash();const query=lang===DEFAULT_LANG?"":`?lang=${lang}`;try{if(["file:","http:","https:"].includes(window.location.protocol))window.history.replaceState({},"",`${window.location.pathname}${query}#${route.page}${route.anchor?`:${route.anchor}`:""}`);}catch(_error){}renderSite(lang);};
-function renderStandalone(){const route=standaloneRouteFromHash();document.documentElement.dataset.page=route.page;renderSite(getLanguage());if(route.anchor)requestAnimationFrame(()=>document.getElementById(route.anchor)?.scrollIntoView({behavior:"smooth",block:"start"}));else requestAnimationFrame(()=>window.scrollTo({top:0,behavior:"smooth"}));}
-document.addEventListener("click",event=>{const link=event.target.closest("a[href]");if(!link||link.dataset.direct)return;const href=link.getAttribute("href");if(!href||!href.includes(".html"))return;event.preventDefault();const hash=localizedHref(href);if(window.location.hash===hash)renderStandalone();else window.location.hash=hash;});
-window.addEventListener("hashchange",renderStandalone);if(!window.location.hash){try{if(["file:","http:","https:"].includes(window.location.protocol))window.history.replaceState({},"",`${window.location.pathname}${window.location.search}#home`);else window.location.hash="home";}catch(_error){window.location.hash="home";}}
+function standaloneRouteFromHash() {
+  let raw = window.location.hash.slice(1);
+  try { raw = decodeURIComponent(raw); } catch (_error) {}
+  const [page = "home", anchor = ""] = raw.split(":");
+  return { page: page || "home", anchor };
+}
+let renderedLocation = "";
+let routeFrame = 0;
+function renderStandalone(force = false, lang = getLanguage()) {
+  const key = `${window.location.href}|${lang}`;
+  if (!force && renderedLocation === key) return;
+  const route = standaloneRouteFromHash();
+  renderSite(lang);
+  renderedLocation = key;
+  cancelAnimationFrame(routeFrame);
+  routeFrame = requestAnimationFrame(() => {
+    if (route.anchor) focusPageSection(route.anchor, pendingFormFocus);
+    else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      const title = document.querySelector("main h1");
+      title?.setAttribute("tabindex", "-1");
+      title?.focus({ preventScroll: true });
+    }
+    pendingFormFocus = "";
+  });
+}
+document.addEventListener("click", event => {
+  if (!plainClick(event)) return;
+  const link = event.target.closest("a[href]");
+  if (!link || link.dataset.direct || link.target === "_blank" || link.hasAttribute("download")) return;
+  const href = link.getAttribute("href");
+  if (href === "#main") {
+    event.preventDefault();
+    focusPageSection("main");
+    return;
+  }
+  const destination = localizedHref(href);
+  if (!destination.startsWith("#") || destination === "#") return;
+  if (href === destination && window.location.hash !== destination) return;
+  event.preventDefault();
+  if (window.location.hash === destination) renderStandalone(true);
+  else window.location.hash = destination;
+});
+window.addEventListener("hashchange", () => renderStandalone());
+window.addEventListener("popstate", () => renderStandalone());
+if (!window.location.hash) {
+  try { history.replaceState(history.state, "", `${location.pathname}${location.search}#home`); } catch (_error) {}
+}
 renderStandalone();
 </script>
 </body>

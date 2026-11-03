@@ -1,0 +1,78 @@
+:root { --muted: #5e6978; }
+
+:is(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid #31584c;
+  outline-offset: 3px;
+}
+
+:is(h1, h2, section, main)[tabindex="-1"]:focus { outline: none; }
+
+:is(section[id], main[id], h1, h2, input, select, textarea) {
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
+.lang-option { min-width: 44px; min-height: 44px; }
+.course-inquiry { min-height: 44px; align-items: center; }
+.content-panel, .page-layout, .form-shell, .field { min-width: 0; }
+.content-panel, .form-shell { overflow-wrap: anywhere; }
+.content-panel .section-title { font-size: 30px; }
+.page-title { font-size: 46px; overflow-wrap: anywhere; }
+.card-link { color: var(--navy); }
+.nav-link:hover, .nav-button:hover, .nav-link[aria-current="page"], .nav-button[aria-current="page"], .section-kicker { color: #866421; }
+.membership-card-number { color: var(--navy); }
+.breadcrumbs { overflow-wrap: anywhere; }
+
+.membership-price {
+  margin: 18px 0 0;
+  color: var(--navy);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.membership-comparison { display: grid; gap: 24px; min-width: 0; }
+.comparison-scroll { overflow-x: auto; max-width: 100%; border: 1px solid var(--line); border-radius: 8px; }
+.comparison-scroll:focus-visible { outline-offset: -3px; }
+.comparison-table { width: 100%; min-width: 960px; table-layout: fixed; border-collapse: separate; border-spacing: 0; font-size: 13px; line-height: 1.6; }
+.comparison-table th, .comparison-table td { padding: 16px; vertical-align: top; text-align: left; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); overflow-wrap: anywhere; }
+.comparison-table thead th { color: var(--navy); background: #f2f5f7; font-weight: 600; }
+.comparison-table th:first-child { position: sticky; left: 0; z-index: 1; width: 150px; background: #f2f5f7; color: var(--navy); font-weight: 500; }
+.comparison-table td { background: #fff; color: var(--graphite); }
+.comparison-table .comparison-price { font-weight: 600; color: var(--navy); white-space: nowrap; }
+.comparison-table tr:last-child > * { border-bottom: 0; }
+.comparison-table tr > :last-child { border-right: 0; }
+
+.form-shell > .section-title { margin-bottom: 16px; }
+.form-required-note, .form-availability, .form-membership-price { font-size: 14px; line-height: 1.7; }
+.form-required-note { margin-bottom: 10px; color: var(--muted); }
+.form-availability { margin: 0 0 24px; color: var(--graphite); }
+.form-availability a, .form-email-action { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+.form-membership-price { color: var(--navy); margin: 0; }
+.required-mark, .field-error { color: #9b2839; }
+.field-error { font-size: 13px; line-height: 1.5; }
+.field-error:empty, .form-status:empty { display: none; }
+[aria-invalid="true"] { border-color: #9b2839; }
+.form-status { margin: 10px 0 0; color: #852b36; font-size: 14px; line-height: 1.7; }
+.form-email-action { min-height: 44px; align-items: center; padding-block: 8px; }
+.form-email-action:not([hidden]) { display: inline-flex; }
+[hidden] { display: none !important; }
+.form-grid button:disabled { opacity: 0.7; cursor: wait; }
+.form-grid input[readonly] { background: var(--soft); }
+.form-grid label { font-weight: 500; }
+
+@media (max-width: 1240px) {
+  .mobile-panel { width: 100%; transform: none; visibility: hidden; opacity: 0; transition: opacity 180ms ease, visibility 180ms ease; }
+  .mobile-panel.is-open { visibility: visible; opacity: 1; }
+  .mobile-children a { display: flex; align-items: center; min-height: 44px; }
+}
+
+@media (max-width: 720px) {
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .form-shell { padding: 22px 18px; }
+  .page-title { font-size: 32px; }
+  .content-panel .section-title { font-size: 25px; }
+  .comparison-table { min-width: 900px; }
+  .comparison-table th:first-child { width: 112px; }
+  .comparison-table th, .comparison-table td { padding: 12px; }
+  .header-inner { gap: 6px; }
+  .lang-option { min-width: 40px; min-height: 44px; }
+}

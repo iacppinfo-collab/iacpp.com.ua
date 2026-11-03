@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Інтерактивне Коло Емоцій | МАКПП</title>
+  <meta name="description" content="Коло Емоцій: розпізнавання почуттів, саморефлексія та використання у психотерапевтичній практиці.">
   <style>
+    :is(a, button):focus-visible { outline: 3px solid #31584c; outline-offset: 3px; }
+    .actions button.lang { min-width: 44px; min-height: 44px; }
     :root {
       --navy: #0d2b4d;
       --gold: #b98a2d;
@@ -346,9 +349,27 @@
       const next = lang === "en" ? "en" : "ua";
       document.documentElement.dataset.lang = next;
       document.documentElement.lang = next === "en" ? "en" : "uk";
-      document.querySelectorAll("[data-lang-button]").forEach(button => button.classList.toggle("is-active", button.dataset.langButton === next));
+      document.querySelectorAll("[data-lang-button]").forEach(button => {
+        const active = button.dataset.langButton === next;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+        button.setAttribute("lang", button.dataset.langButton === "ua" ? "uk" : "en");
+        button.setAttribute("aria-label", button.dataset.langButton === "ua" ? "Українська" : "English");
+      });
       document.querySelectorAll("[data-label-ua]").forEach(item => item.textContent = item.dataset[next === "en" ? "labelEn" : "labelUa"]);
       document.querySelector("h1").textContent = document.querySelector("h1").dataset[next === "en" ? "titleEn" : "titleUa"];
+      document.title = `${document.querySelector("h1").textContent} | ${next === "en" ? "IACPP" : "МАКПП"}`;
+      document.querySelector('meta[name="description"]').content = next === "en" ? "The Wheel of Emotions: identifying feelings, self-reflection and use in psychotherapeutic practice." : "Коло Емоцій: розпізнавання почуттів, саморефлексія та використання у психотерапевтичній практиці.";
+      document.querySelector(".brand").textContent = next === "en" ? "IACPP" : "МАКПП";
+      document.querySelectorAll('a[href^="index.html"]').forEach(link => {
+        const hash = link.getAttribute("href").split("#")[1] || "home";
+        link.setAttribute("href", `index.html?lang=${next}#${hash}`);
+      });
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", next);
+        window.history.replaceState({}, "", url);
+      } catch (_error) {}
       try { localStorage.setItem("iacpp-language", next); } catch (_error) {}
     };
     document.querySelectorAll("[data-lang-button]").forEach(button => button.addEventListener("click", () => setLang(button.dataset.langButton)));
