@@ -1771,6 +1771,7 @@ select:focus {
   }
 }
 </style>
+  <link rel="stylesheet" href="assets/home-page.css?v=20261102-1">
 </head>
 <body>
   <header class="site-header" data-header></header>
@@ -2928,22 +2929,41 @@ function renderFooter(data) {
 
 function renderHome(data) {
   const h = data.homePage;
+  const ua = data.lang === "uk";
+  const copy = ua ? {
+    aboutTitle: "Спільнота, що підтримує фахівців",
+    values: ["Професійна спільнота", "Етична практика", "Міжнародна співпраця"],
+    goalText: "Підтримуємо фахівців, розвиваємо якість психологічної допомоги та робимо її доступнішою для людей і громад.",
+    directionsText: "Від професійної підтримки до досліджень і міжнародної співпраці.",
+    partnershipNote: "Відкриті до співпраці"
+  } : {
+    aboutTitle: "A community that supports professionals",
+    values: ["Professional community", "Ethical practice", "International collaboration"],
+    goalText: "We support professionals, advance the quality of psychological care and make it more accessible to people and communities.",
+    directionsText: "From professional support to research and international collaboration.",
+    partnershipNote: "Open to collaboration"
+  };
+  const link = href => localizedHref(href, getLanguage());
+  const goals = data.goalItems.map((item, index) => `<details class="home-priority" ${index === 0 ? "open" : ""}><summary><span class="home-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><span>${item[0]}</span><span class="home-plus" aria-hidden="true"></span></summary><p>${item[1]}</p></details>`).join("");
+  const directions = data.directions.map((item, index) => `<article class="home-direction"><span class="home-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><div><h3>${item[0]}</h3><p>${item[1]}</p></div></article>`).join("");
   document.getElementById("main").innerHTML = `
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">${h.eyebrow}</p>
-          <h1>${h.title}</h1>
-          <p class="lead">${h.lead}</p>
-          <div class="hero-actions"><a class="btn btn-gold" href="${localizedHref("membership.html#join-form", getLanguage())}">${data.join}</a><a class="btn btn-outline" href="about.html${langQuery(getLanguage())}">${data.learnMore}</a></div>
+    <section class="home-hero" aria-labelledby="home-title">
+      <img class="home-hero-image" src="assets/home-therapy-space.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async">
+      <div class="container home-hero-inner">
+        <div class="home-hero-copy">
+          <p class="home-kicker">${h.eyebrow}</p>
+          <h1 id="home-title">${h.title}</h1>
+          <p class="home-lead">${h.lead}</p>
+          <div class="home-actions"><a class="btn home-button-primary" href="${link("membership.html#join-form")}">${data.join}</a><a class="home-text-link" href="${link("idea-history.html")}">${data.learnMore}<span aria-hidden="true">&#8599;</span></a></div>
         </div>
-        <img class="hero-logo" src="assets/makpp-hero-logo.svg" alt="${data.lang === "uk" ? "Логотип МАКПП" : "IACPP logo"}" width="360" height="360" decoding="async">
+        <div class="home-brand-visual"><img class="hero-logo" src="assets/makpp-hero-logo.svg" alt="${ua ? "Логотип МАКПП" : "IACPP logo"}" width="360" height="360" decoding="async"><span>${data.footer.title}</span></div>
       </div>
     </section>
-    <section class="section reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.aboutKicker}</p><h2 class="section-title">${h.aboutTitle}</h2><a class="btn btn-outline section-head-btn" href="about.html${langQuery(getLanguage())}">${h.aboutButton}</a></div><p class="section-copy">${h.aboutText}</p></div></div></section>
-    <section class="section goal-section reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.goalKicker}</p><h2 class="section-title">${h.goalTitle}</h2></div><p class="section-copy">${h.goalText}</p></div>${goalMapBlock(data.goalItems)}</div></section>
-    ${cardsBlock(h.directionsTitle, data.directions, 4, data, "", h.directionsKicker)}
-    <section class="section section-gold reveal"><div class="container"><div class="section-head"><div><p class="section-kicker">${h.partnershipKicker}</p><h2 class="section-title">${h.partnershipTitle}</h2></div><p class="section-copy">${h.partnershipText}</p></div><div class="section-actions"><a class="btn btn-primary" href="partnership.html${langQuery(getLanguage())}">${data.becomePartner}</a><a class="btn btn-outline" href="contacts.html${langQuery(getLanguage())}">${data.contactUs}</a></div></div></section>`;
+    <div class="home-values"><ul class="container">${copy.values.map(value => `<li>${value}</li>`).join("")}</ul></div>
+    <section class="home-section home-about" aria-labelledby="home-about-title"><div class="container home-two-column"><div><p class="home-kicker">${h.aboutKicker}</p><h2 id="home-about-title" class="home-heading">${copy.aboutTitle}</h2></div><div class="home-about-copy"><p>${h.aboutText}</p><a class="home-text-link" href="${link("idea-history.html")}">${h.aboutButton}<span aria-hidden="true">&#8599;</span></a></div></div></section>
+    <section class="home-section home-purpose" aria-labelledby="home-purpose-title"><div class="container home-two-column"><div class="home-purpose-intro"><p class="home-kicker">${h.goalKicker}</p><h2 id="home-purpose-title" class="home-heading">${h.goalTitle}</h2><p class="home-section-copy">${copy.goalText}</p></div><div class="home-priorities">${goals}</div></div></section>
+    <section class="home-section home-directions" aria-labelledby="home-directions-title"><div class="container"><div class="home-section-head"><div><p class="home-kicker">${h.directionsKicker}</p><h2 id="home-directions-title" class="home-heading">${h.directionsTitle}</h2></div><p class="home-section-copy">${copy.directionsText}</p></div><div class="home-direction-grid">${directions}</div></div></section>
+    <section class="home-section home-partnership" aria-labelledby="home-partnership-title"><div class="container home-two-column"><div><p class="home-kicker">${h.partnershipKicker}</p><h2 id="home-partnership-title" class="home-heading">${h.partnershipTitle}</h2><p class="home-partnership-note">${copy.partnershipNote}</p></div><div class="home-partnership-copy"><p>${h.partnershipText}</p><div class="home-actions"><a class="btn home-button-primary" href="${link("partnership.html")}">${data.becomePartner}</a><a class="home-text-link" href="${link("contacts.html")}">${data.contactUs}<span aria-hidden="true">&#8599;</span></a></div></div></div></section>`;
 }
 
 function renderPage(data, pageKey) {
