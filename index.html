@@ -1841,6 +1841,7 @@ const DATA = {
         href: "education.html",
         children: [
           ["Навчання", "education.html"],
+          ["Супервізії / інтервізії", "supervision.html"],
           ["Сертифікація", "certification.html"]
         ]
       },
@@ -1914,8 +1915,8 @@ const DATA = {
     educationCards: [
       ["Курси", "Сертифікатні освітні програми з клінічної психології, психотерапії та травматерапії для фахівців сфери психічного здоров'я.", "courses.html"],
       ["Вебінари", "Онлайн-заходи з актуальних професійних тем, практичними інструментами, клінічними кейсами та живим обговоренням.", "webinars.html"],
-      ["Програми підвищення кваліфікації", "Модульні програми підвищення кваліфікації з можливістю нарахування балів безперервного професійного розвитку (БПР).", "education.html#programs"],
-      ["Супервізії / інтервізії", "Професійний простір для обговорення практичних кейсів, підтримки етичних стандартів, якості роботи та стійкості фахівців.", "education.html#supervision"]
+      ["Програми підвищення кваліфікації", "Модульні програми підвищення кваліфікації з можливістю нарахування балів безперервного професійного розвитку (БПР).", "programs.html"],
+      ["Супервізії / інтервізії", "Професійний простір для обговорення практичних кейсів, підтримки етичних стандартів, якості роботи та стійкості фахівців.", "supervision.html"]
     ],
     form: {
       title: "Написати нам",
@@ -1992,6 +1993,7 @@ const DATA = {
         href: "education.html",
         children: [
           ["Education", "education.html"],
+          ["Supervision / intervision", "supervision.html"],
           ["Certification", "certification.html"]
         ]
       },
@@ -2065,8 +2067,8 @@ const DATA = {
     educationCards: [
       ["Courses", "Certificate educational programs in clinical psychology, psychotherapy and trauma therapy for mental health specialists.", "courses.html"],
       ["Webinars", "Online events on current professional topics with practical tools, clinical cases and live discussion.", "webinars.html"],
-      ["Continuing education programs", "Modular continuing education programs with the possibility of earning continuing professional development (CPD) credits.", "education.html#programs"],
-      ["Supervision / intervision", "A professional space for discussing practical cases, supporting ethical standards, quality of work and specialist resilience.", "education.html#supervision"]
+      ["Continuing education programs", "Modular continuing education programs with the possibility of earning continuing professional development (CPD) credits.", "programs.html"],
+      ["Supervision / intervision", "A professional space for discussing practical cases, supporting ethical standards, quality of work and specialist resilience.", "supervision.html"]
     ],
     form: {
       title: "Write to us",
@@ -2236,9 +2238,23 @@ DATA.ua.pages = {
     title: "Навчання",
     lead: "Навчальний напрям МАКПП поєднує курси, вебінари, супервізії та програми підвищення кваліфікації за міжнародними стандартами.",
     sections: [
-      ["linkCards", "Формати навчання", "educationCards", 4],
-      ["text", "Програми підвищення кваліфікації", "В розробці.", "programs"],
-      ["list", "Супервізії / інтервізії", ["Групові супервізії для практиків", "Інтервізійні зустрічі за напрямами", "Підтримка фахівців, які працюють із травмою"], "supervision"]
+      ["linkCards", "Формати навчання", "educationCards", 4]
+    ]
+  },
+  programs: {
+    title: "Програми підвищення кваліфікації",
+    parent: "education.html",
+    lead: "Модульні програми підвищення кваліфікації з можливістю нарахування балів безперервного професійного розвитку (БПР).",
+    sections: [
+      ["text", "Інформація про програми", "В розробці.", "programs-details"]
+    ]
+  },
+  supervision: {
+    title: "Супервізії / інтервізії",
+    parent: "education.html",
+    lead: "Професійний простір для обговорення практичних кейсів, підтримки етичних стандартів, якості роботи та стійкості фахівців.",
+    sections: [
+      ["list", "Супервізії / інтервізії", ["Групові супервізії для практиків", "Інтервізійні зустрічі за напрямами", "Підтримка фахівців, які працюють із травмою"], "supervision-details"]
     ]
   },
   courses: {
@@ -2597,9 +2613,23 @@ DATA.en.pages = {
     title: "Education",
     lead: "The IACPP education area combines courses, webinars, supervision and continuing education programs based on international standards.",
     sections: [
-      ["linkCards", "Training formats", "educationCards", 4],
-      ["text", "Continuing education programs", "In development.", "programs"],
-      ["list", "Supervision / intervision", ["Group supervision for practitioners", "Intervision meetings by topic", "Support for specialists working with trauma"], "supervision"]
+      ["linkCards", "Training formats", "educationCards", 4]
+    ]
+  },
+  programs: {
+    title: "Continuing education programs",
+    parent: "education.html",
+    lead: "Modular continuing education programs with the possibility of earning continuing professional development (CPD) credits.",
+    sections: [
+      ["text", "Program information", "In development.", "programs-details"]
+    ]
+  },
+  supervision: {
+    title: "Supervision / intervision",
+    parent: "education.html",
+    lead: "A professional space for discussing practical cases, supporting ethical standards, quality of work and specialist resilience.",
+    sections: [
+      ["list", "Supervision / intervision", ["Group supervision for practitioners", "Intervision meetings by topic", "Support for specialists working with trauma"], "supervision-details"]
     ]
   },
   courses: {
@@ -2899,11 +2929,15 @@ function renderHeader(data, lang) {
 }
 
 function desktopItem(item, file, lang) {
-  const active = item.href === file || item.children.some(child => child[1].split("#")[0] === file);
+  const active = item.href === file || item.children.some(child => child[1].split("#")[0] === file)
+    || DATA[lang].pages[currentPageKey()]?.parent === item.href;
+  const anchor = standaloneRouteFromHash().anchor;
+  const activeChild = item.children.find(child => child[1] === `${file}${anchor ? `#${anchor}` : ""}`)
+    || item.children.find(child => child[1] === file);
   if (!item.children.length) {
     return `<div class="nav-item"><a class="nav-link" ${active ? 'aria-current="page"' : ""} href="${localizedHref(item.href, lang)}">${item.label}</a></div>`;
   }
-  return `<div class="nav-item"><a class="nav-button" ${active ? 'aria-current="page"' : ""} href="${localizedHref(item.href, lang)}">${item.label}<span class="chevron" aria-hidden="true"></span></a><div class="dropdown">${item.children.map(child => `<a href="${localizedHref(child[1], lang)}" ${child[1].split("#")[0] === file ? 'aria-current="page"' : ""}>${child[0]}</a>`).join("")}</div></div>`;
+  return `<div class="nav-item"><a class="nav-button" ${active ? 'aria-current="page"' : ""} href="${localizedHref(item.href, lang)}">${item.label}<span class="chevron" aria-hidden="true"></span></a><div class="dropdown">${item.children.map(child => `<a href="${localizedHref(child[1], lang)}" ${child === activeChild ? 'aria-current="page"' : ""}>${child[0]}</a>`).join("")}</div></div>`;
 }
 
 function mobileItem(item, lang) {
@@ -3233,12 +3267,13 @@ function revealOnScroll() {
   items.forEach(item => observer.observe(item));
 }
 
-const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","courses.html":"courses","webinars.html":"webinars","news.html":"news","july-practice-audit.html":"july-practice-audit","emotion-wheel.html":"emotion-wheel","child-learning-readiness.html":"child-learning-readiness","partnership.html":"partnership"};
+const STANDALONE_ROUTES={"index.html":"home","about.html":"about","idea-history.html":"idea-history","board.html":"board","structure.html":"structure","documents.html":"documents","contacts.html":"contacts","projects.html":"projects","psychologists.html":"psychologists","membership.html":"membership","legislation.html":"legislation","certification.html":"certification","education.html":"education","programs.html":"programs","supervision.html":"supervision","courses.html":"courses","webinars.html":"webinars","news.html":"news","july-practice-audit.html":"july-practice-audit","emotion-wheel.html":"emotion-wheel","child-learning-readiness.html":"child-learning-readiness","partnership.html":"partnership"};
 const STANDALONE_FILES=Object.fromEntries(Object.entries(STANDALONE_ROUTES).map(([file,page])=>[page,file]));
 function standaloneRouteFromHash() {
   let raw = window.location.hash.slice(1);
   try { raw = decodeURIComponent(raw); } catch (_error) {}
   const [page = "home", anchor = ""] = raw.split(":");
+  if (page === "education" && ["programs", "supervision"].includes(anchor)) return { page: anchor, anchor: "" };
   return { page: page || "home", anchor };
 }
 let renderedLocation = "";

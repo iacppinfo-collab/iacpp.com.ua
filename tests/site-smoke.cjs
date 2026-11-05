@@ -28,7 +28,7 @@ assert.equal(documentRenderer(source), documentRenderer(original), 'Document mar
 for (const match of source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1]);
 new vm.Script(fs.readFileSync(path.join(root, 'assets/site-forms.js'), 'utf8'));
 
-const routes = ['home', 'about', 'idea-history', 'board', 'structure', 'projects', 'psychologists', 'membership', 'education', 'courses', 'webinars', 'contacts', 'documents', 'certification', 'legislation', 'news', 'partnership'];
+const routes = ['home', 'about', 'idea-history', 'board', 'structure', 'projects', 'psychologists', 'membership', 'education', 'programs', 'supervision', 'courses', 'webinars', 'contacts', 'documents', 'certification', 'legislation', 'news', 'partnership'];
 const articles = ['july-practice-audit', 'emotion-wheel', 'child-learning-readiness', 'autumn-adaptation', 'psychologist-supervision', 'window-of-tolerance'];
 const settled = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const go = async (page, route, lang = 'ua') => {
@@ -184,10 +184,49 @@ const visibleAnchor = async (page, id) => {
     await page.locator('.menu-toggle').focus();
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => !!document.activeElement.closest('.mobile-panel')), false);
-    await go(page, 'education:supervision');
-    await visibleAnchor(page, 'supervision');
-    await page.reload({ waitUntil: 'domcontentloaded' });
-    await visibleAnchor(page, 'supervision');
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const lang of ['ua', 'en']) {
+        await go(page, 'education', lang);
+        assert.deepEqual(await page.locator('main h2').allTextContents(), [lang === 'ua' ? 'Формати навчання' : 'Training formats']);
+        assert.equal(await page.locator('main .card').count(), 4);
+        const labels = lang === 'ua' ? ['Навчання', 'Супервізії / інтервізії', 'Сертифікація'] : ['Education', 'Supervision / intervision', 'Certification'];
+        const group = page.locator(width === 390 ? '.mobile-group' : '.desktop-nav .nav-item').nth(1);
+        if (width === 390) {
+          await page.locator('.menu-toggle').click();
+          await group.locator('.mobile-summary').click();
+        } else {
+          await group.locator('.nav-button').hover();
+        }
+        assert.deepEqual(await group.locator(width === 390 ? '.mobile-children a' : '.dropdown a').allTextContents(), labels);
+        await group.locator('a[href="#supervision"]').click();
+        await page.waitForURL('**#supervision');
+        await settled(page);
+        assert.equal(await page.locator('main h1').innerText(), labels[1]);
+        assert.equal(await page.locator('#supervision-details li').count(), 3);
+        assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'), 'false');
+        for (const target of ['courses', 'webinars', 'programs', 'supervision']) {
+          await go(page, 'education', lang);
+          await page.locator(`main a[href="#${target}"]`).click();
+          await page.waitForURL(`**#${target}`);
+          await page.reload({ waitUntil: 'domcontentloaded' });
+          await settled(page);
+          assert.equal(await page.locator('main h1').count(), 1);
+          assert.equal(await page.evaluate(() => document.querySelector('main h1').getBoundingClientRect().top >= document.querySelector('[data-header]').getBoundingClientRect().bottom), true);
+          await page.goBack();
+          await page.waitForURL('**#education');
+          await page.goForward();
+          await page.waitForURL(`**#${target}`);
+        }
+        for (const target of ['programs', 'supervision']) {
+          await go(page, `education:${target}`, lang);
+          await visibleAnchor(page, `${target}-details`);
+          await page.reload({ waitUntil: 'domcontentloaded' });
+          await visibleAnchor(page, `${target}-details`);
+        }
+      }
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
     await go(page, 'membership:join-form', 'en');
     await visibleAnchor(page, 'join-form');
 
