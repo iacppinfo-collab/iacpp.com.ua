@@ -52,6 +52,9 @@
 .field-error:empty, .form-status:empty { display: none; }
 [aria-invalid="true"] { border-color: #9b2839; }
 .form-status { margin: 10px 0 0; color: #852b36; font-size: 14px; line-height: 1.7; }
+.form-status[data-state="sending"] { color: var(--muted); }
+.form-status[data-state="sent"] { color: #256044; }
+.form-honeypot { display: none; }
 .form-email-action { min-height: 44px; align-items: center; padding-block: 8px; }
 .form-email-action:not([hidden]) { display: inline-flex; }
 [hidden] { display: none !important; }

@@ -45,6 +45,7 @@ const visibleAnchor = async (page, id) => {
 (async () => {
   const browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || 'msedge' });
   let postCount = 0;
+  let mockedDeliveries = 0;
   const errors = [];
   const unresolved = new Map();
   let screenChecks = 0;
@@ -52,6 +53,10 @@ const visibleAnchor = async (page, id) => {
     const context = await browser.newContext({ reducedMotion: 'reduce' });
     await context.route('**/*', route => {
       if (!['GET', 'HEAD'].includes(route.request().method())) {
+        if (route.request().url() === 'https://formsubmit.co/ajax/iacpp.info@gmail.com' && route.request().method() === 'POST') {
+          mockedDeliveries += 1;
+          return route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ success: false }) });
+        }
         postCount += 1;
         return route.abort();
       }
@@ -125,7 +130,7 @@ const visibleAnchor = async (page, id) => {
           if (!button.disabled) throw new Error('Submit button was not locked');
           button.click();
         });
-        await settled(page);
+        await page.locator('.form-status[data-state="failed"]').waitFor();
         assert.match(await page.locator('.form-status').innerText(), lang === 'ua' ? /не надіслано/ : /not been sent/);
         assert.equal(await page.locator('#name').inputValue(), 'Test <example>');
         assert.equal(await page.locator('#message').inputValue(), 'Local validation test. Do not send.');
@@ -252,8 +257,9 @@ const visibleAnchor = async (page, id) => {
     await go(blockedStorage, 'membership');
     assert.equal(await blockedStorage.locator('.membership-card').count(), 4);
     assert.equal(postCount, 0, 'Tests must never submit a real application');
+    assert.equal(mockedDeliveries, 4);
     assert.deepEqual(errors, []);
-    console.log(JSON.stringify({ screenChecks, formFlows: 'passed', courseFlows: 'passed', navigation: 'passed', protectedData: 'unchanged', postCount, unresolved: Object.fromEntries(unresolved) }, null, 2));
+    console.log(JSON.stringify({ screenChecks, formFlows: 'passed', courseFlows: 'passed', navigation: 'passed', protectedData: 'unchanged', postCount, mockedDeliveries, unresolved: Object.fromEntries(unresolved) }, null, 2));
   } finally {
     await browser.close();
   }

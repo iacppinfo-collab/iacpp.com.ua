@@ -1,6 +1,10 @@
 const MEMBERSHIP_ANNUAL_FEE = 800;
 const FORM_TOPICS = ["membership", "education", "partnership", "media"];
+const FORM_RECIPIENT = "iacpp.info@gmail.com";
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${FORM_RECIPIENT}`;
+const FORM_TIMEOUT_MS = 20000;
 const formDrafts = new Map();
+const formDeliveryStates = new Map();
 let pendingFormFocus = "";
 
 function escapeHTML(value) {
@@ -43,18 +47,26 @@ function membershipComparisonBlock(levels, data) {
 function formCopy(data) {
   return data.lang === "uk" ? {
     required: "Обов'язкове поле", note: "Поля з * обов'язкові.", course: "Курс / вебінар",
-    unavailable: "Надсилання через сайт наразі не підключене. Для зв'язку напишіть на",
+    delivery: "Ім'я, email і зміст звернення передаються через",
+    privacy: "Не додавайте медичні дані або конфіденційну інформацію про клієнтів.",
     missing: "Заповніть це обов'язкове поле.", email: "Вкажіть коректний email, наприклад name@example.com.",
     invalid: "Перевірте виділені поля. Звернення не надіслано.",
-    failed: "Звернення не надіслано: надсилання через сайт наразі недоступне. Дані залишилися у формі. Ви можете відкрити підготовлений лист у своїй поштовій програмі або написати нам напряму.",
-    emailAction: "Відкрити лист у поштовій програмі", checking: "Перевіряємо дані..."
+    failed: "Звернення не надіслано: сервіс надсилання наразі не прийняв запит. Дані залишилися у формі. Спробуйте пізніше або напишіть нам напряму.",
+    uncertain: "Не вдалося підтвердити надсилання через проблему зі з'єднанням. Дані залишилися у формі. Ви можете написати нам напряму; повторне надсилання може створити дублікат звернення.",
+    activation: "Отримання звернень через сайт ще потребує підтвердження пошти з боку Асоціації. Дані залишилися у формі. Поки що напишіть нам напряму.",
+    sent: "Звернення передано сервісу надсилання. Дякуємо!",
+    sending: "Надсилаємо звернення...", emailAction: "Відкрити лист у поштовій програмі"
   } : {
     required: "Required field", note: "Fields marked * are required.", course: "Course / webinar",
-    unavailable: "Website submission is not connected yet. Please email",
+    delivery: "Your name, email and request details are processed through",
+    privacy: "Do not include medical data or confidential information about clients.",
     missing: "Complete this required field.", email: "Enter a valid email, such as name@example.com.",
     invalid: "Check the highlighted fields. Your request has not been sent.",
-    failed: "Your request has not been sent: website submission is currently unavailable. Your information remains in the form. You can open a prepared email in your mail app or contact us directly.",
-    emailAction: "Open email in your mail app", checking: "Checking details..."
+    failed: "Your request has not been sent: the delivery service did not accept it. Your information remains in the form. Please try later or email us directly.",
+    uncertain: "We could not confirm submission because of a connection problem. Your information remains in the form. You can email us directly; submitting again may create a duplicate request.",
+    activation: "Website submissions still require email verification by the Association. Your information remains in the form. Please email us directly for now.",
+    sent: "Your request has been accepted by the delivery service. Thank you!",
+    sending: "Sending your request...", emailAction: "Open email in your mail app"
   };
 }
 
@@ -69,7 +81,56 @@ function accessibleContactForm(data, title, requestedId) {
   const attrs = name => `required aria-describedby="${id}-${name}-error"`;
   const levelField = levels.length ? `<div class="field field-full"><label for="membership-level">${f.membershipLevel} ${mark}</label><select id="membership-level" name="membership-level" ${attrs("level")}><option value="">${f.membershipLevelPlaceholder}</option>${levels.map(level => `<option value="${level.id}">${level.title}</option>`).join("")}</select>${error("level")}<p class="form-membership-price">${membershipPrice(data)}</p></div>` : "";
   const courseField = id === "contact-form" ? `<div class="field field-full course-field" hidden><label for="course">${c.course}</label><input id="course" name="course" type="text" readonly></div>` : "";
-  return `<section id="${id}" class="form-shell"><h2 class="section-title" id="${id}-title">${title}</h2><p class="form-required-note">${c.note}</p><p class="form-availability">${c.unavailable} <a href="mailto:${email}">${email}</a>.</p><form class="form-grid" data-inquiry-form="${id}" novalidate aria-labelledby="${id}-title"><div class="field"><label for="name">${f.name} ${mark}</label><input id="name" name="name" type="text" autocomplete="name" maxlength="200" placeholder="${f.namePlaceholder}" ${attrs("name")}>${error("name")}</div><div class="field"><label for="email">${f.email} ${mark}</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" ${attrs("email")}>${error("email")}</div>${levelField}<div class="field field-full"><label for="topic">${f.topic} ${mark}</label><select id="topic" name="topic" ${attrs("topic")}>${f.options.map((option, index) => `<option value="${FORM_TOPICS[index]}">${option}</option>`).join("")}</select>${error("topic")}</div>${courseField}<div class="field field-full"><label for="message">${f.message} ${mark}</label><textarea id="message" name="message" placeholder="${f.messagePlaceholder}" ${attrs("message")}></textarea>${error("message")}</div><div class="field field-full"><button class="btn btn-primary" type="submit">${f.submit}</button><p class="form-status" role="alert" aria-atomic="true"></p><a class="form-email-action" href="mailto:${email}" hidden>${c.emailAction}</a></div></form></section>`;
+  return `<section id="${id}" class="form-shell"><h2 class="section-title" id="${id}-title">${title}</h2><p class="form-required-note">${c.note}</p><p class="form-availability">${c.delivery} <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a>. ${c.privacy}</p><form class="form-grid" data-inquiry-form="${id}" novalidate aria-labelledby="${id}-title"><input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="field"><label for="name">${f.name} ${mark}</label><input id="name" name="name" type="text" autocomplete="name" maxlength="200" placeholder="${f.namePlaceholder}" ${attrs("name")}>${error("name")}</div><div class="field"><label for="email">${f.email} ${mark}</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" ${attrs("email")}>${error("email")}</div>${levelField}<div class="field field-full"><label for="topic">${f.topic} ${mark}</label><select id="topic" name="topic" ${attrs("topic")}>${f.options.map((option, index) => `<option value="${FORM_TOPICS[index]}">${option}</option>`).join("")}</select>${error("topic")}</div>${courseField}<div class="field field-full"><label for="message">${f.message} ${mark}</label><textarea id="message" name="message" maxlength="10000" placeholder="${f.messagePlaceholder}" ${attrs("message")}></textarea>${error("message")}</div><div class="field field-full"><button class="btn btn-primary" type="submit">${f.submit}</button><p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p><a class="form-email-action" href="mailto:${email}" hidden>${c.emailAction}</a></div></form></section>`;
+}
+
+function inquiryPayload(form, data) {
+  const topic = form.elements.topic.selectedOptions[0].textContent;
+  const level = form.elements.namedItem("membership-level")?.selectedOptions[0]?.textContent;
+  const course = form.elements.namedItem("course")?.value;
+  const url = new URL("https://makpp.com.ua/");
+  url.searchParams.set("lang", getLanguage());
+  url.hash = `${currentPageKey()}:${form.dataset.inquiryForm}`;
+  return {
+    name: form.elements.name.value.trim(), email: form.elements.email.value.trim(),
+    topic, message: form.elements.message.value.trim(),
+    form: document.getElementById(`${form.dataset.inquiryForm}-title`).textContent,
+    language: data.lang,
+    ...(level ? { membership_level: level, membership_fee: membershipPrice(data) } : {}),
+    ...(course ? { course } : {}),
+    _subject: `${data.footer.title}: ${topic}${course ? `: ${course}` : ""}`,
+    _replyto: form.elements.email.value.trim(), _template: "table", _honey: "", _url: url.href
+  };
+}
+
+function inquiryMailto(payload, data) {
+  const body = [
+    `${data.form.name}: ${payload.name}`, `${data.form.email}: ${payload.email}`,
+    payload.membership_level ? `${data.form.membershipLevel}: ${payload.membership_level} (${payload.membership_fee})` : "",
+    payload.course ? `${formCopy(data).course}: ${payload.course}` : "", payload.message
+  ].filter(Boolean).join("\n");
+  return `mailto:${FORM_RECIPIENT}?subject=${encodeURIComponent(payload._subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function renderFormDeliveryState(form, data) {
+  const state = formDeliveryStates.get(form.dataset.inquiryForm);
+  const c = formCopy(data);
+  const busy = state?.status === "sending";
+  const button = form.querySelector('[type="submit"]');
+  const status = form.querySelector(".form-status");
+  const mail = form.querySelector(".form-email-action");
+  form.setAttribute("aria-busy", String(busy));
+  button.disabled = busy;
+  button.textContent = busy ? c.sending : data.form.submit;
+  status.dataset.state = state?.status || "";
+  status.textContent = state ? c[state.status] : "";
+  mail.hidden = !state?.mailto || !["failed", "uncertain", "activation"].includes(state.status);
+  mail.href = state?.mailto || `mailto:${FORM_RECIPIENT}`;
+}
+
+function refreshFormDeliveryState(id) {
+  const form = document.querySelector(`[data-inquiry-form="${id}"]`);
+  if (form) renderFormDeliveryState(form, DATA[getLanguage()]);
 }
 
 // Drafts remain only in memory; no personal information is persisted to storage.
@@ -115,6 +176,7 @@ function bindInquiryForms(data) {
       form.querySelector(".course-field").hidden = !form.elements.course.value;
     }
     const c = formCopy(data);
+    renderFormDeliveryState(form, data);
     const fields = [...form.querySelectorAll("[required]")];
     const validate = field => {
       const value = field.value.trim();
@@ -127,46 +189,56 @@ function bindInquiryForms(data) {
       if (field.getAttribute("aria-invalid") === "true") validate(field);
     }));
     form.addEventListener("input", () => {
-      form.querySelector(".form-email-action").hidden = true;
-      form.querySelector(".form-status").textContent = "";
+      if (formDeliveryStates.get(id)?.status === "sending") return;
+      formDeliveryStates.delete(id);
+      renderFormDeliveryState(form, data);
     });
     form.addEventListener("submit", async event => {
       event.preventDefault();
-      if (form.getAttribute("aria-busy") === "true") return;
-      const button = form.querySelector('[type="submit"]');
+      if (formDeliveryStates.get(id)?.status === "sending") return;
       const status = form.querySelector(".form-status");
-      form.setAttribute("aria-busy", "true");
-      button.disabled = true;
-      button.textContent = c.checking;
+      const invalid = fields.filter(field => !validate(field));
+      if (invalid.length) {
+        formDeliveryStates.delete(id);
+        renderFormDeliveryState(form, data);
+        status.dataset.state = "invalid";
+        status.textContent = c.invalid;
+        invalid[0].focus();
+        return;
+      }
+      rememberFormDrafts();
+      const payload = inquiryPayload(form, data);
+      const state = { status: "sending", mailto: inquiryMailto(payload, data) };
+      formDeliveryStates.set(id, state);
+      if (form.elements.namedItem("_honey").value) {
+        state.status = "failed";
+        refreshFormDeliveryState(id);
+        return;
+      }
+      refreshFormDeliveryState(id);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), FORM_TIMEOUT_MS);
       try {
-        const invalid = fields.filter(field => !validate(field));
-        if (invalid.length) {
-          status.textContent = c.invalid;
-          invalid[0].focus();
+        const response = await fetch(FORM_ENDPOINT, {
+          method: "POST", credentials: "omit", signal: controller.signal,
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+          state.status = "failed";
           return;
         }
-        rememberFormDrafts();
-        await new Promise(resolve => requestAnimationFrame(resolve));
-        // No delivery service is configured. Never claim a request was sent.
-        const email = data.contacts.find(item => item[0] === "Email")[1];
-        const topic = form.elements.topic.selectedOptions[0].textContent;
-        const level = form.elements.namedItem("membership-level")?.selectedOptions[0]?.textContent;
-        const course = form.elements.namedItem("course")?.value;
-        const body = [
-          `${data.form.name}: ${form.elements.name.value}`,
-          `${data.form.email}: ${form.elements.email.value}`,
-          level ? `${data.form.membershipLevel}: ${level} (${membershipPrice(data)})` : "",
-          course ? `${c.course}: ${course}` : "",
-          "", form.elements.message.value
-        ].filter(line => line !== "").join("\n");
-        const mail = form.querySelector(".form-email-action");
-        mail.href = `mailto:${email}?subject=${encodeURIComponent(`${topic}${course ? `: ${course}` : ""}`)}&body=${encodeURIComponent(body)}`;
-        mail.hidden = false;
-        status.textContent = c.failed;
+        const result = await response.json();
+        // Acceptance by the service does not prove delivery to the recipient's inbox.
+        if (typeof result?.message === "string" && /activat|verif|confirm|check.{0,20}(email|inbox)/i.test(result.message)) state.status = "activation";
+        else if (result?.success === true || result?.success === "true") state.status = "sent";
+        else if (result?.success === false || result?.success === "false") state.status = "failed";
+        else state.status = "uncertain";
+      } catch (_error) {
+        state.status = "uncertain";
       } finally {
-        button.disabled = false;
-        button.textContent = data.form.submit;
-        form.setAttribute("aria-busy", "false");
+        clearTimeout(timeout);
+        refreshFormDeliveryState(id);
       }
     });
   });
