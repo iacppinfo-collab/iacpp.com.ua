@@ -1778,11 +1778,13 @@ select:focus {
   <header class="site-header" data-header></header>
   <main id="main" tabindex="-1"></main>
   <footer class="site-footer" data-footer></footer>
-<script src="assets/site-forms.js?v=20261109-1"></script>
+<script src="assets/site-forms.js?v=20261109-2"></script>
   <script>
 // Content editing: change navigation, cards, pages, documents, courses, contacts and translations here.
 const LANG_KEY = "makpp-language";
 const DEFAULT_LANG = "ua";
+// Set to true to restore membership pages, navigation, buttons and form topics.
+const MEMBERSHIP_ENABLED = false;
 
 const DATA = {
   ua: {
@@ -2905,6 +2907,7 @@ function renderSite(lang = getLanguage()) {
 
 function renderHeader(data, lang) {
   const file = currentFile();
+  const navigation = data.nav.filter(item => MEMBERSHIP_ENABLED || item.href !== "membership.html");
   const header = document.querySelector("[data-header]");
   header.innerHTML = `
     <a class="skip-link" href="#main">${data.skip}</a>
@@ -2915,17 +2918,17 @@ function renderHeader(data, lang) {
         </span>
         <span class="brand-text"><span class="brand-name">${data.footer.title}</span><span class="brand-sub">${data.brandSub}</span></span>
       </a>
-      <nav class="desktop-nav" aria-label="${data.navLabel}">${data.nav.map(item => desktopItem(item, file, lang)).join("")}</nav>
+      <nav class="desktop-nav" aria-label="${data.navLabel}">${navigation.map(item => desktopItem(item, file, lang)).join("")}</nav>
       <div class="header-actions">
         ${languageSwitch(data, lang)}
-        <a class="btn btn-gold header-cta" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>
+        ${MEMBERSHIP_ENABLED ? `<a class="btn btn-gold header-cta" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>` : ""}
       </div>
       <button class="menu-toggle" type="button" aria-label="${data.openMenu}" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
     </div>
     <div class="mobile-panel" id="mobile-menu" inert aria-hidden="true">
       <nav class="mobile-nav" aria-label="${data.mobileNavLabel}">
-        ${data.nav.map(item => mobileItem(item, lang)).join("")}
-        <a class="btn btn-gold" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>
+        ${navigation.map(item => mobileItem(item, lang)).join("")}
+        ${MEMBERSHIP_ENABLED ? `<a class="btn btn-gold" href="${localizedHref("membership.html#join-form", lang)}">${data.join}</a>` : ""}
       </nav>
     </div>`;
 }
@@ -2961,7 +2964,7 @@ function renderFooter(data) {
   const email = data.contacts.find(item => item[0] === "Email")?.[1] || "iacpp.info@gmail.com";
   const phones = data.contacts.filter(item => item[0] === "Телефон" || item[0] === "Phone").map(item => item[1]);
   const address = data.contacts.find(item => item[0] === "Адреса" || item[0] === "Address")?.[1] || "";
-  const quickLinks = data.nav.map(item => `<a href="${localizedHref(item.href, getLanguage())}">${item.label}</a>`).join("");
+  const quickLinks = data.nav.filter(item => MEMBERSHIP_ENABLED || item.href !== "membership.html").map(item => `<a href="${localizedHref(item.href, getLanguage())}">${item.label}</a>`).join("");
   document.querySelector("[data-footer]").innerHTML = `
     <div class="container footer-main">
       <div><div class="footer-title">${footer.title}</div><p>${footer.description}</p></div>
@@ -2999,7 +3002,7 @@ function renderHome(data) {
           <p class="home-kicker">${h.eyebrow}</p>
           <h1 id="home-title">${h.title}</h1>
           <p class="home-lead">${h.lead}</p>
-          <div class="home-actions"><a class="btn home-button-primary" href="${link("membership.html#join-form")}">${data.join}</a><a class="home-text-link" href="${link("idea-history.html")}">${data.learnMore}<span aria-hidden="true">&#8599;</span></a></div>
+          <div class="home-actions">${MEMBERSHIP_ENABLED ? `<a class="btn home-button-primary" href="${link("membership.html#join-form")}">${data.join}</a>` : ""}<a class="home-text-link" href="${link("idea-history.html")}">${data.learnMore}<span aria-hidden="true">&#8599;</span></a></div>
         </div>
         <div class="home-brand-visual"><img class="hero-logo" src="assets/makpp-hero-logo.svg" alt="${ua ? "Логотип МАКПП" : "IACPP logo"}" width="360" height="360" decoding="async"><span>${data.footer.title}</span></div>
       </div>
@@ -3087,6 +3090,7 @@ function cardsBlock(title, items, columns = 3, data, id = "", kicker = "", peopl
 }
 
 function linkCardsBlock(title, items, columns = 3, data, extraClass = "", band = true) {
+  items = items.filter(item => MEMBERSHIP_ENABLED || item[2]?.split("#")[0] !== "membership.html");
   const cards = items.map((item, index) => `<article class="card"><div class="card-icon">${String(index + 1).padStart(2, "0")}</div><h3>${item[0]}</h3><p>${item[1]}</p><a class="card-link" href="${localizedHref(item[2], getLanguage())}">${data.goTo}</a></article>`).join("");
   if (!band) {
     return `<section class="content-panel reveal"><h2 class="section-title">${title}</h2><div class="grid grid-${columns}">${cards}</div></section>`;
@@ -3275,15 +3279,19 @@ function standaloneRouteFromHash() {
   let raw = window.location.hash.slice(1);
   try { raw = decodeURIComponent(raw); } catch (_error) {}
   const [page = "home", anchor = ""] = raw.split(":");
+  if (!MEMBERSHIP_ENABLED && page === "membership") return { page: "home", anchor: "", redirected: true };
   if (page === "education" && ["programs", "supervision"].includes(anchor)) return { page: anchor, anchor: "" };
   return { page: page || "home", anchor };
 }
 let renderedLocation = "";
 let routeFrame = 0;
 function renderStandalone(force = false, lang = getLanguage()) {
+  const route = standaloneRouteFromHash();
+  if (route.redirected) {
+    try { history.replaceState(history.state, "", `${location.pathname}${location.search}#home`); } catch (_error) {}
+  }
   const key = `${window.location.href}|${lang}`;
   if (!force && renderedLocation === key) return;
-  const route = standaloneRouteFromHash();
   renderSite(lang);
   renderedLocation = key;
   cancelAnimationFrame(routeFrame);

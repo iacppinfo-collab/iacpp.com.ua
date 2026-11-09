@@ -72,6 +72,7 @@ function formCopy(data) {
 
 function accessibleContactForm(data, title, requestedId) {
   const id = requestedId || (currentPageKey() === "partnership" ? "partnership-form" : "contact-form");
+  if (!MEMBERSHIP_ENABLED && id === "join-form") return "";
   const f = data.form;
   const c = formCopy(data);
   const email = data.contacts.find(item => item[0] === "Email")[1];
@@ -81,7 +82,10 @@ function accessibleContactForm(data, title, requestedId) {
   const attrs = name => `required aria-describedby="${id}-${name}-error"`;
   const levelField = levels.length ? `<div class="field field-full"><label for="membership-level">${f.membershipLevel} ${mark}</label><select id="membership-level" name="membership-level" ${attrs("level")}><option value="">${f.membershipLevelPlaceholder}</option>${levels.map(level => `<option value="${level.id}">${level.title}</option>`).join("")}</select>${error("level")}<p class="form-membership-price">${membershipPrice(data)}</p></div>` : "";
   const courseField = id === "contact-form" ? `<div class="field field-full course-field" hidden><label for="course">${c.course}</label><input id="course" name="course" type="text" readonly></div>` : "";
-  return `<section id="${id}" class="form-shell"><h2 class="section-title" id="${id}-title">${title}</h2><p class="form-required-note">${c.note}</p><p class="form-availability">${c.delivery} <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a>. ${c.privacy}</p><form class="form-grid" data-inquiry-form="${id}" novalidate aria-labelledby="${id}-title"><input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="field"><label for="name">${f.name} ${mark}</label><input id="name" name="name" type="text" autocomplete="name" maxlength="200" placeholder="${f.namePlaceholder}" ${attrs("name")}>${error("name")}</div><div class="field"><label for="email">${f.email} ${mark}</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" ${attrs("email")}>${error("email")}</div>${levelField}<div class="field field-full"><label for="topic">${f.topic} ${mark}</label><select id="topic" name="topic" ${attrs("topic")}>${f.options.map((option, index) => `<option value="${FORM_TOPICS[index]}">${option}</option>`).join("")}</select>${error("topic")}</div>${courseField}<div class="field field-full"><label for="message">${f.message} ${mark}</label><textarea id="message" name="message" maxlength="10000" placeholder="${f.messagePlaceholder}" ${attrs("message")}></textarea>${error("message")}</div><div class="field field-full"><button class="btn btn-primary" type="submit">${f.submit}</button><p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p><a class="form-email-action" href="mailto:${email}" hidden>${c.emailAction}</a></div></form></section>`;
+  const topicOptions = f.options.map((label, index) => ({ label, value: FORM_TOPICS[index] }))
+    .filter(option => MEMBERSHIP_ENABLED || option.value !== "membership")
+    .map(option => `<option value="${option.value}">${option.label}</option>`).join("");
+  return `<section id="${id}" class="form-shell"><h2 class="section-title" id="${id}-title">${title}</h2><p class="form-required-note">${c.note}</p><p class="form-availability">${c.delivery} <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a>. ${c.privacy}</p><form class="form-grid" data-inquiry-form="${id}" novalidate aria-labelledby="${id}-title"><input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="field"><label for="name">${f.name} ${mark}</label><input id="name" name="name" type="text" autocomplete="name" maxlength="200" placeholder="${f.namePlaceholder}" ${attrs("name")}>${error("name")}</div><div class="field"><label for="email">${f.email} ${mark}</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" ${attrs("email")}>${error("email")}</div>${levelField}<div class="field field-full"><label for="topic">${f.topic} ${mark}</label><select id="topic" name="topic" ${attrs("topic")}>${topicOptions}</select>${error("topic")}</div>${courseField}<div class="field field-full"><label for="message">${f.message} ${mark}</label><textarea id="message" name="message" maxlength="10000" placeholder="${f.messagePlaceholder}" ${attrs("message")}></textarea>${error("message")}</div><div class="field field-full"><button class="btn btn-primary" type="submit">${f.submit}</button><p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p><a class="form-email-action" href="mailto:${email}" hidden>${c.emailAction}</a></div></form></section>`;
 }
 
 function inquiryPayload(form, data) {
@@ -169,8 +173,9 @@ function bindInquiryForms(data) {
       Object.entries(draft.values).forEach(([name, value]) => { if (form.elements.namedItem(name)) form.elements.namedItem(name).value = value; });
       form.dataset.courseKey = draft.courseKey;
     } else {
-      form.elements.topic.value = id === "partnership-form" ? "partnership" : "membership";
+      form.elements.topic.value = id === "partnership-form" ? "partnership" : MEMBERSHIP_ENABLED ? "membership" : "education";
     }
+    if (!form.elements.topic.value) form.elements.topic.selectedIndex = 0;
     if (form.dataset.courseKey && form.elements.course) {
       form.elements.course.value = courseTitle(form.dataset.courseKey, data);
       form.querySelector(".course-field").hidden = !form.elements.course.value;

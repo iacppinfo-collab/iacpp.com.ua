@@ -10,6 +10,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const root = path.resolve(__dirname, '..');
 const base = pathToFileURL(path.join(root, 'index.html')).href;
 const source = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const membershipEnabled = /const MEMBERSHIP_ENABLED = true;/.test(source);
 const original = execFileSync('git', ['show', 'HEAD:index.html'], { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 const inline = html => [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].find(match => match[1].includes('const DATA'))[1];
 const dataFrom = html => {
@@ -28,7 +29,7 @@ assert.equal(documentRenderer(source), documentRenderer(original), 'Document mar
 for (const match of source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) if (match[1].trim()) new vm.Script(match[1]);
 new vm.Script(fs.readFileSync(path.join(root, 'assets/site-forms.js'), 'utf8'));
 
-const routes = ['home', 'about', 'idea-history', 'board', 'structure', 'projects', 'psychologists', 'membership', 'education', 'programs', 'supervision', 'courses', 'webinars', 'contacts', 'documents', 'certification', 'legislation', 'news', 'partnership'];
+const routes = ['home', 'about', 'idea-history', 'board', 'structure', 'projects', 'psychologists', 'membership', 'education', 'programs', 'supervision', 'courses', 'webinars', 'contacts', 'documents', 'certification', 'legislation', 'news', 'partnership'].filter(route => membershipEnabled || route !== 'membership');
 const articles = ['july-practice-audit', 'emotion-wheel', 'child-learning-readiness', 'autumn-adaptation', 'psychologist-supervision', 'window-of-tolerance', 'life-on-hold'];
 const settled = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const go = async (page, route, lang = 'ua') => {
@@ -80,6 +81,9 @@ const visibleAnchor = async (page, id) => {
           }));
           assert.ok(state.scrollWidth <= state.width, `${route}/${lang}/${width} has horizontal page overflow: ${state.scrollWidth}`);
           assert.equal(state.lang, lang === 'ua' ? 'uk' : 'en');
+          if (!membershipEnabled) {
+            assert.equal(await page.locator('a[href*="membership"], [data-membership-level], #join-form, option[value="membership"]').count(), 0);
+          }
           assert.ok(state.title && state.description);
           assert.ok(!titles.has(state.title), `Duplicate title: ${state.title}`);
           assert.ok(!descriptions.has(state.description), `Duplicate description: ${state.description}`);
@@ -108,8 +112,8 @@ const visibleAnchor = async (page, id) => {
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       for (const lang of ['ua', 'en']) {
-        await go(page, 'membership', lang);
-        for (const level of ['basic', 'professional', 'expert', 'honorary']) {
+        await go(page, membershipEnabled ? 'membership' : 'contacts', lang);
+        for (const level of membershipEnabled ? ['basic', 'professional', 'expert', 'honorary'] : []) {
           await page.locator(`[data-membership-level="${level}"]`).click();
           await settled(page);
           assert.equal(await page.locator('#membership-level').inputValue(), level);
@@ -138,7 +142,7 @@ const visibleAnchor = async (page, id) => {
         assert.match(await page.locator('.form-email-action').getAttribute('href'), /^mailto:iacpp.info@gmail.com\?subject=/);
         await page.locator(`[data-lang="${lang === 'ua' ? 'en' : 'ua'}"]`).click();
         assert.equal(await page.locator('#name').inputValue(), 'Test <example>');
-        assert.equal(await page.locator('#membership-level').inputValue(), 'professional');
+        if (membershipEnabled) assert.equal(await page.locator('#membership-level').inputValue(), 'professional');
 
         for (const route of ['courses', 'webinars']) {
           for (let index = 0; index < 3; index += 1) {
@@ -233,7 +237,13 @@ const visibleAnchor = async (page, id) => {
     }
     await page.setViewportSize({ width: 390, height: 844 });
     await go(page, 'membership:join-form', 'en');
-    await visibleAnchor(page, 'join-form');
+    if (membershipEnabled) await visibleAnchor(page, 'join-form');
+    else {
+      assert.equal(new URL(page.url()).hash, '#home');
+      assert.equal(await page.locator('#join-form').count(), 0);
+      await page.reload();
+      assert.equal(await page.locator('#home-title').count(), 1);
+    }
 
     for (const article of articles) {
       for (const lang of ['ua', 'en']) {
@@ -255,7 +265,8 @@ const visibleAnchor = async (page, id) => {
     blockedStorage.on('pageerror', error => errors.push(error.message));
     await blockedStorage.addInitScript(() => Object.defineProperty(window, 'localStorage', { get() { throw new Error('Storage blocked'); } }));
     await go(blockedStorage, 'membership');
-    assert.equal(await blockedStorage.locator('.membership-card').count(), 4);
+    assert.equal(await blockedStorage.locator('.membership-card').count(), membershipEnabled ? 4 : 0);
+    if (!membershipEnabled) assert.equal(await blockedStorage.locator('#home-title').count(), 1);
     assert.equal(postCount, 0, 'Tests must never submit a real application');
     assert.equal(mockedDeliveries, 4);
     assert.deepEqual(errors, []);

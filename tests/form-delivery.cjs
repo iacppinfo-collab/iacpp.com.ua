@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const { pathToFileURL } = require('node:url');
@@ -6,6 +7,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const endpoint = 'https://formsubmit.co/ajax/iacpp.info@gmail.com';
 const base = pathToFileURL(path.resolve(__dirname, '../index.html')).href;
+const membershipEnabled = /const MEMBERSHIP_ENABLED = true;/.test(fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8'));
 
 (async () => {
   const browser = await chromium.launch({ headless: true, channel: process.env.BROWSER_CHANNEL || 'msedge' });
@@ -74,7 +76,7 @@ const base = pathToFileURL(path.resolve(__dirname, '../index.html')).href;
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       for (const lang of ['ua', 'en']) {
-        for (const route of ['contacts', 'membership', 'partnership']) {
+        for (const route of ['contacts', 'membership', 'partnership'].filter(route => membershipEnabled || route !== 'membership')) {
           await go(route, lang);
           await fill();
           if (route === 'membership') await page.locator('#membership-level').selectOption('expert');
