@@ -29,7 +29,7 @@ for (const match of source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) if 
 new vm.Script(fs.readFileSync(path.join(root, 'assets/site-forms.js'), 'utf8'));
 
 const routes = ['home', 'about', 'idea-history', 'board', 'structure', 'projects', 'psychologists', 'membership', 'education', 'programs', 'supervision', 'courses', 'webinars', 'contacts', 'documents', 'certification', 'legislation', 'news', 'partnership'];
-const articles = ['july-practice-audit', 'emotion-wheel', 'child-learning-readiness', 'autumn-adaptation', 'psychologist-supervision', 'window-of-tolerance'];
+const articles = ['july-practice-audit', 'emotion-wheel', 'child-learning-readiness', 'autumn-adaptation', 'psychologist-supervision', 'window-of-tolerance', 'life-on-hold'];
 const settled = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const go = async (page, route, lang = 'ua') => {
   await page.goto(`${base}?lang=${lang}#${route}`, { waitUntil: 'domcontentloaded' });
